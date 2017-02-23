@@ -17,8 +17,17 @@
   </div>
 
   <script id="experiment-start" type="text/x-template">
+    
+    <div class="home">
+      <label> User name:
+      <input v-model="username" placeholder="edit me">
+      </label>
+      <button v-on:click="startSession">Start</button>   
+    </div>
+
   </script>
 
+  <!-- TODO: move to vue files -->
   <script id="photo-slide" type="text/x-template">
     <!-- Slider main container -->
     <div class="swiper-container">
@@ -44,6 +53,7 @@
         </ul>
     </div>
   </script>
+  
 
 <!--script id="story-slide" type="text/x-template">
   <div class="swiper-slide"><img v-bind:src="slide.images.standard_resolution.url"></div>
@@ -57,6 +67,7 @@
 <script src="node_modules/vue-router/dist/vue-router.min.js"></script>
 
 <script src="js/models.js"></script>
+<script src="js/comp.home.js"></script>
 <script src="js/comp.slider.js"></script>
 <script src="js/app.js"></script>
 

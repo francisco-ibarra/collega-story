@@ -2,9 +2,19 @@
 
 
 const routes = [
-  {path : "/", component : Story.Components.Home},
-  {path : "/session/:user", component : Story.Components.SlidePhotos},
-  {path : "/session/:user/:option", component : Story.Components.SlidePhotos}
+  {
+    path : "/", 
+    name : "home",
+    component : Story.Components.Home
+  },{
+    path : "/session/:user", 
+    name : "user",
+    component : Story.Components.SlidePhotos
+  },{
+    path : "/session/:user/:option", 
+    name : "userOption",
+    component : Story.Components.SlidePhotos
+  }
 ];
 
 const router = new VueRouter({

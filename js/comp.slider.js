@@ -1,12 +1,6 @@
-/* Components file */
-Story.Components = {}
-
-Story.Components.Home = {
-  template: '<div>Home</div>',
-  created : function(){
-    this.$router.push({path : 'session/mbaezpy'})
-  }
-}
+/* SlidePhoto component. 
+ * It allows users to browse and annotate pictures
+ */
 
 Vue.component('story-slide', {
   props : ['slide'],
