@@ -1,0 +1,60 @@
+html, body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+.swiper-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.swiper-container .swiper-slide {
+  min-width: 100%;
+  min-height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.photo-controls {
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  background: rgba(0,0,0,0.7);
+  margin:0;
+  padding:0;
+}
+
+.photo-controls li {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom:10px;
+}
+
+.icon {
+  display : inline-block;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 64px;
+  padding-top: 70px;
+  text-align: center;
+  color: white;
+}
+
+.icon-tag {
+  background-image: url(../img/tag.png);
+}
+.icon-story {
+  background-image: url(../img/story.png);
+}
