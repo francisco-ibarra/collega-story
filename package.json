@@ -12,11 +12,12 @@
       "node": "5.9.1"
     },
   
-    "main" : "main.js",
+    "main" : "./server/main.js",
   
     "scripts" : {
-      "start" : "node main.js",
-      "postinstall" : "webpack --config ./config/webpack.config.js -p && npm run cp-js-css",
+      "start" : "node ./server/main.js",
+      "postinstall" : "npm run webpack && npm run cp-js-css",
+      "webpack" : "webpack --config ./config/webpack.config.js -p",
       "cp-js-css" : "./build.sh"
     },
   
