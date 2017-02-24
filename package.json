@@ -16,8 +16,8 @@
   
     "scripts" : {
       "start" : "node main.js",
-      "postinstall" : "webpack --config webpack.config.js -p && npm run cp-js",
-      "cp-js" : "./build.sh"
+      "postinstall" : "webpack --config ./config/webpack.config.js -p && npm run cp-js-css",
+      "cp-js-css" : "./build.sh",
     },
   
     "dependencies": {
