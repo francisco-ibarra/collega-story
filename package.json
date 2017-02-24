@@ -18,6 +18,7 @@
       "start" : "node ./server/main.js",
       "postinstall" : "npm run webpack && npm run cp-js-css",
       "webpack" : "webpack --config ./config/webpack.config.js -p",
+      "webpack-dev" : "webpack --config ./config/webpack.config.js",
       "cp-js-css" : "./build.sh"
     },
   

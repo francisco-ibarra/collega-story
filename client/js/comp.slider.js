@@ -4,7 +4,7 @@
 
 var Models = require("./models");
 var Swiper = require("swiper");
-//var Vue = require("vue");
+var Vue = require("vue");
 
 Vue.component('story-slide', {
   props : ['slide'],
