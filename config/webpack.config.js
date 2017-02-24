@@ -1,6 +1,6 @@
 module.exports = {
     entry: {
-      "bundle" : "./src/app.js"
+      "bundle" : "./client/js/app.js"
     },
     output: {
         path: "./public/js/",
