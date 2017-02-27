@@ -31,6 +31,7 @@ exports.Component = {
     // methods of the component, accessbile via this.xxxx()
     methods : {
       initSlider : function(){
+        /*
         var mySwiper = new Swiper('.swiper-container', {
             // Optional parameters
             direction: 'horizontal',
@@ -45,6 +46,12 @@ exports.Component = {
 
             // And if we need scrollbar
             scrollbar: '.swiper-scrollbar',
+        });
+        */
+        document
+        .querySelector('#photoSlider')
+        .addEventListener('slide', function(){
+          console.log("slide moved");
         });
       },
 

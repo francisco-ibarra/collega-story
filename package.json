@@ -26,10 +26,10 @@
         "vue" : "2.1.10",
         "vue-router" : "2.2.1",
         "swiper": "3.4.1",
-        "inobounce": "0.1.4",
         "axios" : "0.15.3",
         "express": "~4.10.2",
-        "webpack": "^1.13.0"
+        "webpack": "^1.13.0",
+        "ratchet" : "git://github.com/twbs/ratchet.git"
     },
   
     "license" : "GPL 2.0"

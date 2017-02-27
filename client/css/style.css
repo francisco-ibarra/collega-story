@@ -6,6 +6,21 @@ html, body {
 body {
   margin: 0;
 }
+
+.slider, .slide-group {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.slide > img {
+    max-height: 100%;
+    max-width: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+/*
 .swiper-container {
     width: 100%;
     height: 100%;
@@ -19,6 +34,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
+*/
 
 .photo-controls {
   z-index: 100;
@@ -40,7 +56,7 @@ body {
   padding-top: 10px;
   padding-bottom:10px;
 }
-
+/*
 .icon {
   display : inline-block;
   background-position: top center;
@@ -58,3 +74,4 @@ body {
 .icon-story {
   background-image: url(../img/story.png);
 }
+*/

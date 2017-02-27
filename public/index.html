@@ -6,31 +6,66 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-touch-fullscreen" content="yes">
 
-  <link rel="stylesheet" href="/css/swiper.min.css">
-  <link rel="stylesheet" href="css/style.css">
+  <!--link rel="stylesheet" href="/css/swiper.min.css"-->
+  <link rel="stylesheet" href="css/style.css"-->
+  
+  <link href="css/ratchet.min.css" rel="stylesheet">
+  <script src="js/ratchet.min.js"></script>  
 </head>
 
 <body>
-
-  <div id="app">
+  <div id="app"> 
     <router-view></router-view>
   </div>
+   
 
-  <script id="experiment-start" type="text/x-template">
-    
-    <div class="home">
-      <label> User name:
-      <input v-model="username" placeholder="edit me">
-      </label>
-      <button v-on:click="startSession">Start</button>   
+  <script id="experiment-start" type="text/x-template"> 
+    <div class="content"> 
+      <header class="bar bar-nav">
+        <h1 class="title">Storygram</h1>
+      </header>
+      <div class="content"> 
+        <!-- CARD.BEGIN -->
+        <div class="card">
+          <div class="content-padded">
+            <form class="home">
+              <p> Insert a public instagram account</p>
+              <input type="text" v-model="username" placeholder="Instagram username">
+
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="startSession">Start session</button>        
+            </form>
+          </div>
+        </div>
+        <!-- CARD.END -->
+      </div>
     </div>
-
   </script>
-
+  
   <!-- TODO: move to vue files -->
   <script id="photo-slide" type="text/x-template">
+     
+      <div class="slider" id="photoSlider">
+        <div class="slide-group">
+          
+          <div class="slide" v-for="post in posts">
+            <img v-bind:src="post.images.standard_resolution.url">
+          </div>
+          
+        </div>
+        <ul class="photo-controls">
+          <li><a href=""><span class="icon icon-person"></span> </li>
+           <li><a href=""><span class="icon icon-edit"></span></li> 
+        </ul>
+      </div>  
+   
+  </script>
+  
+
+  <!-- TODO: move to vue files -->
+  <script id="photo-slidexxx" type="text/x-template">
+     
     <!-- Slider main container -->
-    <div class="swiper-container">
+    <div class="swiper-container modal">
         <!-- Additional required wrapper -->
         <div class="swiper-wrapper">
             <!-- Slides -->
@@ -54,21 +89,6 @@
     </div>
   </script>
   
-
-<!--script id="story-slide" type="text/x-template">
-  <div class="swiper-slide"><img v-bind:src="slide.images.standard_resolution.url"></div>
-</script-->
-
-
-<!--script src="node_modules/swiper/dist/js/swiper.min.js"></script>
-
-<script src="node_modules/axios/dist/axios.min.js"></script>
-<script src="node_modules/vue/dist/vue.min.js"></script>
-<script src="node_modules/vue-router/dist/vue-router.min.js"></script>
-
-<script src="js/models.js"></script>
-<script src="js/comp.home.js"></script>
-<script src="js/comp.slider.js"></script-->
 
 <script src="js/swiper.min.js"></script>
 <script src="js/axios.min.js"></script>
