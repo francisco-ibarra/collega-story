@@ -3,7 +3,6 @@
  */
 
 var Models = require("./models");
-var Swiper = require("swiper");
 var Vue = require("vue");
 
 Vue.component('story-slide', {
@@ -31,23 +30,6 @@ exports.Component = {
     // methods of the component, accessbile via this.xxxx()
     methods : {
       initSlider : function(){
-        /*
-        var mySwiper = new Swiper('.swiper-container', {
-            // Optional parameters
-            direction: 'horizontal',
-            loop: false,
-
-            // If we need pagination
-            pagination: '.swiper-pagination',
-
-            // Navigation arrows
-            nextButton: '.swiper-button-next',
-            prevButton: '.swiper-button-prev',
-
-            // And if we need scrollbar
-            scrollbar: '.swiper-scrollbar',
-        });
-        */
         document
         .querySelector('#photoSlider')
         .addEventListener('slide', function(){
