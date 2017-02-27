@@ -6,6 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-touch-fullscreen" content="yes">
   
+  <link rel="stylesheet" href="/css/swiper.min.css">
   <link href="css/ratchet.min.css" rel="stylesheet">
   <script src="js/ratchet.min.js"></script>  
   
@@ -46,7 +47,7 @@
       <div class="slider" id="photoSlider">
         <div class="slide-group">
           
-          <div class="slide" v-for="post in posts">
+          <div class="slide" v-for="post in posts" v-on:click="toggleControls">
             <img v-bind:src="post.images.standard_resolution.url">
           </div>
           
@@ -55,10 +56,57 @@
           <li><a href=""><span class="icon icon-person"></span> </li>
            <li><a href=""><span class="icon icon-edit"></span></li> 
         </ul>
+        
+        <div class="photo-cards modal" v-bind:class="{active : showControls}">
+            
+            <!-- slider begin -->
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="card">
+                    <div class="content-padded">
+                      <form>
+                        <h2>Where was this photo taken?</h2>
+                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                        <button class="btn btn-block">Does not remember</button>
+                         <button class="btn btn-primary btn-block">Save</button
+                      </form>
+                    </div>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <div class="card">
+                    <div class="content-padded">
+                      <form>
+                        <h2>When was this photo taken?</h2>
+                        <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
+                        <button class="btn btn-block">Does not remember</button>
+                         <button class="btn btn-primary btn-block">Save</button
+                      </form>
+                    </div>
+                </div> 
+              </div>  
+              <div class="swiper-slide">
+                <div class="card">
+                    <div class="content-padded">
+                      <form>
+                        <h2>Who's in the photo?</h2>
+                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                        <button class="btn btn-block">Does not remember</button>
+                         <button class="btn btn-primary btn-block">Save</button
+                      </form>
+                    </div>
+                </div>
+              </div>
+            </div>  
+            <!-- slider end -->      
+        </div>
+        
+        
       </div>  
    
   </script>
   
+<script src="js/swiper.min.js"></script>  
 <script src="js/axios.min.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="js/vue-router.min.js"></script>

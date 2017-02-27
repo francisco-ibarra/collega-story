@@ -3,6 +3,7 @@
  */
 
 var Models = require("./models");
+var Swiper = require("swiper");
 var Vue = require("vue");
 
 Vue.component('story-slide', {
@@ -15,6 +16,10 @@ Vue.component('story-option', {
   template : '<div class="swiper-slide" v-bind:style="{backgroundImage: \'url(\'+ slide.images.standard_resolution.url + \')\'}"></div>',
 });
 
+var describePicture = {
+  template : '<h1>Hello world</h1>'
+};
+
 exports.Component = {
 
     template : "#photo-slide",
@@ -23,18 +28,34 @@ exports.Component = {
     // automatically setting the values of this.xxxx
     data: function(){
       return {
-        posts : []
+        posts : [],
+        showControls : false
       };
     },
 
     // methods of the component, accessbile via this.xxxx()
     methods : {
       initSlider : function(){
+        if (this.isSliderOn) return;
+        this.isSliderOn = true;
+        console.log('reloaded');
+        
         document
         .querySelector('#photoSlider')
         .addEventListener('slide', function(){
           console.log("slide moved");
+          //self.showControls = false;
         });
+        
+        var swiper = new Swiper('.photo-cards', {
+         // pagination: '.swiper-pagination',
+          slidesPerView: 3,
+          centeredSlides: true,
+          paginationClickable: true,
+         // spaceBetween: 30
+        });
+        
+        
       },
 
       loadPosts : function (user){
@@ -42,6 +63,11 @@ exports.Component = {
         Models.User.loadPosts(user, function(posts){
           self.posts = posts;
         });
+      },
+      
+      toggleControls : function(event){
+        console.log('toggle event');
+        this.showControls = !this.showControls;
       }
     },
 
@@ -67,6 +93,6 @@ exports.Component = {
     },
 
     updated : function(){
-      this.initSlider(); // let's do it only the first time.
+      this.initSlider(); // let's do it only the first time.      
     }
 };
