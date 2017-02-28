@@ -82,6 +82,12 @@ body {
 }
 .swiper-slide .card{
     transform: scale(0.9);
+    min-height: 18em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+  
 }
 
 .swiper-slide .card h2{
@@ -93,5 +99,18 @@ body {
   transition: transform .2s;
 }
 .swiper-slide-active .card h2 {
-  font-size: 2em;
+  font-size: 1.5em;
 }
+
+.swiper-slide .card form, 
+.swiper-slide.swiper-slide-active .card .summary{
+  display: none;
+}
+.swiper-slide .card .summary,
+.swiper-slide.swiper-slide-active .card form{
+  display : inherit;
+}
+.card .summary{
+  text-align: center;
+}
+

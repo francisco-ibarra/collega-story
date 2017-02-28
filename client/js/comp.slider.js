@@ -47,12 +47,13 @@ exports.Component = {
           //self.showControls = false;
         });
         
-        var swiper = new Swiper('.photo-cards', {
+        this.cards = new Swiper('.photo-cards', {
          // pagination: '.swiper-pagination',
           slidesPerView: 3,
           centeredSlides: true,
           paginationClickable: true,
-         // spaceBetween: 30
+         // spaceBetween: 30,
+          //onlyExternal : true
         });
         
         
@@ -68,6 +69,26 @@ exports.Component = {
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
+      },
+      
+      nextCard : function(){
+        // stop propagation is done using vue properties
+        
+        if (this.cards.isEnd){
+          this.toggleControls();
+          return;
+        }
+        
+        console.log('next card');
+        this.cards.slideNext();
+      },
+      
+      activateCard : function(){        
+        if (this.cards.activeIndex == this.cards.clickedIndex)
+          return;
+        
+        console.log('activate card : ' + this.cards.clickedIndex);
+        this.cards.slideTo(this.cards.clickedIndex);
       }
     },
 

@@ -62,37 +62,48 @@
             <!-- slider begin -->
             <div class="swiper-wrapper">
               <div class="swiper-slide">
-                <div class="card">
+                <div class="card" v-on:click="activateCard">
                     <div class="content-padded">
-                      <form>
+                      <!-- summary shown only when not active -->
+                      <div class="summary">
+                        <h2>Where was this photo taken?</h2>
+                      </div>
+                      <!-- form shown only when active -->
+                      <form>                        
                         <h2>Where was this photo taken?</h2>
                         <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
                         <button class="btn btn-block">Does not remember</button>
-                         <button class="btn btn-primary btn-block">Save</button
+                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
                       </form>
                     </div>
                 </div>
               </div>
               <div class="swiper-slide">
-                <div class="card">
-                    <div class="content-padded">
-                      <form>
+                <div class="card" v-on:click="activateCard">
+                    <div class="content-padded">                      
+                      <div class="summary">
                         <h2>When was this photo taken?</h2>
+                      </div>                      
+                      <form>  
+                        <h2>When was this photo taken?</h2>      
                         <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
                         <button class="btn btn-block">Does not remember</button>
-                         <button class="btn btn-primary btn-block">Save</button
+                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
                       </form>
                     </div>
                 </div> 
               </div>  
               <div class="swiper-slide">
-                <div class="card">
+                <div class="card" v-on:click="activateCard">
                     <div class="content-padded">
-                      <form>
+                      <div class="summary">
                         <h2>Who's in the photo?</h2>
+                      </div>
+                      <form>
+                        <h2>Who's in the photo?</h2>                       
                         <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
                         <button class="btn btn-block">Does not remember</button>
-                         <button class="btn btn-primary btn-block">Save</button
+                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
                       </form>
                     </div>
                 </div>
