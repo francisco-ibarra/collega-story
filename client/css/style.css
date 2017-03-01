@@ -7,6 +7,7 @@ body {
   margin: 0;
 }
 
+/* slideshow photo swiping */
 .slider, .slide-group {
     width: 100%;
     height: 100%;
@@ -36,6 +37,7 @@ body {
 }
 */
 
+/* slideshow option controls */
 .photo-controls {
   z-index: 100;
   position: absolute;
@@ -57,6 +59,7 @@ body {
   padding-bottom:10px;
 }
 
+/* slideshow input forms */
 .photo-cards {
   position: absolute;
   width: 100%;
@@ -64,16 +67,9 @@ body {
   align-items: center;
   justify-content: center;
   display: flex;
-  /*overflow-x: scroll;*/
   font-size: 0.8em;
 }
-/*
-.photo-cards > .card {
-  width: 30em;
-  height: 250px;
-  display: table;
-}
-*/
+
 .photo-cards.modal {
   background: transparent;
   height: auto;
@@ -83,11 +79,9 @@ body {
 .swiper-slide .card{
     transform: scale(0.9);
     min-height: 18em;
-
     display: flex;
     flex-direction: column;
-    justify-content: center;  
-  
+    justify-content: center;   
 }
 
 .swiper-slide .card h2{
