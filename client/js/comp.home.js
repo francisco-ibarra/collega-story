@@ -12,11 +12,16 @@ exports.Component = {
   },
   
   methods : {
-    startSession: function(){
+    openPhotos: function(){
       console.log(this.username)
-      this.$router.push({name : 'user', 
+      this.$router.push({name : 'photos', 
                          params : {user : this.username}});
-    }
+    },
+    openStories: function(){
+      console.log(this.username)
+      this.$router.push({name : 'stories', 
+                         params : {user : this.username}});
+    }    
   }
 };
 

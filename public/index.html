@@ -15,7 +15,9 @@
 
 <body>
   <div id="app"> 
+    <transition name="slide-fade">
     <router-view></router-view>
+    </transition>
   </div>
    
 
@@ -32,7 +34,9 @@
               <p> Insert a public instagram account</p>
               <input type="text" v-model="username" placeholder="Instagram username">
 
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="startSession">Start session</button>        
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="openPhotos">Photos</button>      
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="openStories">Stories</button>  
+   
             </form>
           </div>
         </div>
@@ -115,6 +119,56 @@
         
       </div>  
    
+  </script>
+  
+  <script id="photo-grid" type="text/x-template">
+    <div class="content"> 
+      <header class="bar bar-nav">
+        <button v-on:click="goBack" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          Home
+        </button>
+        <button class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-plus"></span>
+          Add photos
+        </button>
+        <button class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-play"></span>
+          Tag photos
+        </button>
+        <h1 class="title">Photos</h1>                        
+      </header>
+      
+      <nav class="bar bar-standard bar-header-secondary">
+        <div class="segmented-control">
+          <a class="control-item active">Last imported</a>
+          <a class="control-item">Timeline</a>
+          <a class="control-item">Collaborator</a>
+        </div>
+      </nav>      
+      
+      <div class="content">
+          <div class="grid">
+            <div class="grid-item" v-for="post in posts">
+              <div class="tile">
+                <img v-bind:src="post.images.standard_resolution.url">
+                <!--div class="tile-caption">
+                {{post.caption.text}}
+                </div-->
+                <div class="tile-meta content-padded">
+                  <span class="pull-left">Tags:</span>
+                  <span class="icon icon-person tag-true pull-right"></span>
+                  <span class="icon icon-stop tag-false pull-right"></span>
+                  <span class="icon icon-info tag-false pull-right"></span>
+                </div>
+              </div>
+            </div>  
+          </div>
+      </div>
+      
+    </div>
+    
+  
   </script>
   
 <script src="js/swiper.min.js"></script>  
