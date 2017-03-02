@@ -3,19 +3,29 @@
  * @author: Marcos baez
  */
 
+var Models = require("./models");
+var Vue = require("vue");
+
+
 exports.Component = {
 
     template : "#photo-grid",
-    props : ['session'],
-  
-    data : function(){
+
+    data: function(){
       return {
-        photos : []
-      }
+        posts : []
+      };
     },
 
     // methods of the component
     methods : {
+
+      loadPosts : function (user){
+        var self = this;
+        Models.User.loadPosts(user, function(posts){
+          self.posts = posts;
+        });
+      },
       goBack : function(){
         this.$router.push({name : 'home'});
       }
@@ -23,15 +33,19 @@ exports.Component = {
 
     // we watch the changes to the components' data / events
     watch : {
+
       '$route' : function(to, from){
-        //this.loadPosts()
+        this.loadPosts(this.$route.params.user)
       }
     },
 
     // events of the component lifecycle
 
-    created : function(){      
-      this.photos = this.session.getProfile().photos;
-      console.log(this.session);
+    created : function(){
+      this.loadPosts(this.$route.params.user);
+    },
+
+    updated : function(){
+      // when the component is updated do...
     }
 };

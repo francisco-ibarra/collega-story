@@ -2,27 +2,35 @@
    It prompts the instagram account to the user 
 */
 
+var Models = require("./models");
 
 exports.Component = {
-  template: "#experiment-start",
+
+  template: "#page-home",
+  props : ['session'],
   data : function(){
     return {
-      username : ""
+      profile : {}
     };
   },
   
   methods : {
-    openPhotos: function(){
-      console.log(this.username)
-      this.$router.push({name : 'photos', 
-                         params : {user : this.username}});
+    
+    loadProfile : function (user){
+      var self = this;
+      Models.User.loadProfile(user, function(profile){
+        self.profile = profile;
+        console.log(profile)
+      });
     },
-    openStories: function(){
-      console.log(this.username)
-      this.$router.push({name : 'stories', 
-                         params : {user : this.username}});
-    }    
-  }
+    
+    goTo : function(page){
+      this.$router.push({ name: page});
+    }
+  },
+  
+  created : function(){
+    var account = this.session.getCurrentAccount()
+    this.loadProfile(account.username);
+  }  
 };
-
-

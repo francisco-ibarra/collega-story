@@ -16,26 +16,29 @@
 <body>
   <div id="app"> 
     <transition name="slide-fade">
-    <router-view></router-view>
+    <router-view v-bind:session="session"></router-view>
     </transition>
   </div>
    
 
-  <script id="experiment-start" type="text/x-template"> 
+  <script id="page-home" type="text/x-template"> 
     <div class="content"> 
       <header class="bar bar-nav">
         <h1 class="title">Storygram</h1>
+        <button v-on:click="goTo('logout')" class="btn btn-link btn-nav pull-right">
+          Logout
+        </button>        
+        
       </header>
       <div class="content"> 
         <!-- CARD.BEGIN -->
         <div class="card">
           <div class="content-padded">
             <form class="home">
-              <p> Insert a public instagram account</p>
-              <input type="text" v-model="username" placeholder="Instagram username">
+              <h1>{{profile.id}}</h1>
 
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="openPhotos">Photos</button>      
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="openStories">Stories</button>  
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goto('stories')">Stories</button>  
    
             </form>
           </div>
@@ -43,6 +46,30 @@
         <!-- CARD.END -->
       </div>
     </div>
+  </script>
+  
+  <script id="page-login" type="text/x-template">
+      <div class="content"> 
+        <header class="bar bar-nav">
+          <h1 class="title">Storygram</h1>
+        </header>
+        <div class="content"> 
+          <!-- CARD.BEGIN -->
+          <div class="card">
+            <div class="content-padded">
+              <form class="home">
+                <p> Login</p>
+                <input type="text" v-model="username" placeholder="Instagram username">
+                <input type="password" v-model="password" placeholder="Fake password, doens't matter">
+
+                <button class="btn btn-primary btn-outlined btn-block" v-on:click.stop="login">Sign in</button>       
+
+              </form>
+            </div>
+          </div>
+          <!-- CARD.END -->
+        </div>
+      </div>    
   </script>
   
   <!-- TODO: move to vue files -->
@@ -122,7 +149,7 @@
   </script>
   
   <script id="photo-grid" type="text/x-template">
-    <div class="content"> 
+    <div class="content" v-bind:session="session"> 
       <header class="bar bar-nav">
         <button v-on:click="goBack" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
@@ -149,26 +176,29 @@
       
       <div class="content">
           <div class="grid">
-            <div class="grid-item" v-for="post in posts">
+            <div class="grid-item" v-for="photo in photos">
               <div class="tile">
-                <img v-bind:src="post.images.standard_resolution.url">
+                <img v-bind:src="photo.images.standard">
                 <!--div class="tile-caption">
-                {{post.caption.text}}
+                photo.caption.text
                 </div-->
                 <div class="tile-meta content-padded">
                   <span class="pull-left">Tags:</span>
-                  <span class="icon icon-person tag-true pull-right"></span>
-                  <span class="icon icon-stop tag-false pull-right"></span>
-                  <span class="icon icon-info tag-false pull-right"></span>
+                  <span class="icon icon-person pull-right" 
+                  v-bind:class="{ 'tag-false': photo.tags.people.length === 0 }"></span>
+                  <span class="icon icon-stop pull-right"
+                  v-bind:class="{ 'tag-false': photo.tags.date == '' }" 
+                  ></span>
+                  <span class="icon icon-info pull-right"
+                  v-bind:class="{ 'tag-false': photo.tags.place == '' }"
+                  ></span>
                 </div>
               </div>
             </div>  
           </div>
       </div>
       
-    </div>
-    
-  
+    </div>   
   </script>
   
 <script src="js/swiper.min.js"></script>  

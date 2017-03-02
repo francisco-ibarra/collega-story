@@ -4,10 +4,21 @@
  */
 
 var express = require('express');
+var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var app = express();
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(session({
+  secret: 'secret.demo',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
 // set as static folder "public" on the root
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 // Initialising the APIs
 var apis = require("./apis");

@@ -27,9 +27,12 @@
         "vue-router" : "2.2.1",
         "swiper": "3.4.1",
         "axios" : "0.15.3",
+        "ratchet" : "git://github.com/twbs/ratchet.git#v2.0.2",
+      
         "express": "~4.10.2",
-        "webpack": "^1.13.0",
-        "ratchet" : "git://github.com/twbs/ratchet.git"
+        "express-session" : "1.15.1",
+        "body-parser" : "1.16.1",
+        "webpack": "^1.13.0"        
     },
   
     "license" : "GPL 2.0"
