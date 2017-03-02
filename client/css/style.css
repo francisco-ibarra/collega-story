@@ -129,6 +129,10 @@ body {
   overflow: hidden;
 }
 
+.grid-big .grid-item{
+    width: 50%;
+}
+
 .tile {
   border: 1px solid #efefef;
   height: 100%;
@@ -162,6 +166,19 @@ body {
 
 .tile .tile-meta .tag-false {
   color : #d9534f;
+}
+
+.tile-horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.tile-horizontal .tile-item{
+  width: 50%;
+}
+
+.tile-center {
+  text-align:center;
 }
 
 /* Header options */

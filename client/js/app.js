@@ -31,6 +31,11 @@ const routes = [{
     path : "/stories", 
     name : "stories",
     component : Components.Stories
+  },{
+    path : "/social", 
+    name : "social",
+    component : Components.Social,
+    props : passQueryProp    
   }  
 ];
 

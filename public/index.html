@@ -38,11 +38,13 @@
               <h1>{{profile.id}}</h1>
 
               <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('stories')">Stories</button>  
-              <button disabled class="btn btn-outlined btn-block">
+              <button class="btn btn-primary btn-outlined btn-block" 
+              v-on:click="goTo('stories')">Stories</button>  
+              <button class="btn btn-primary btn-outlined btn-block"
+              v-on:click="goTo('social')">
               Social</button>
               <button disabled class="btn btn-outlined btn-block">
-              Discover</button>
+              Discover</button>            
    
             <!--/form-->
           </div>
@@ -208,6 +210,53 @@
       </div>
       
     </div>   
+  </script>
+  
+  <script id="social-grid" type="text/x-template">
+    <div class="content"> 
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          Home
+        </router-link>  
+        <button class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-play"></span>
+          Play updates
+        </button>
+        <h1 class="title">Social</h1>                        
+      </header>
+      
+      <div class="content">
+          <div class="grid grid-big">
+            <div class="grid-item" v-for="(item, index) in feedback">
+              <div class="tile tile-horizontal" v-on:click="openSlideShow(index)">
+                                
+                <div class="tile-item">
+                  <img v-bind:src="item.story.photo.images.standard">  
+                </div>
+                
+                <div class="tile-item tile-center">
+                  
+                  <div v-if="item.type == 'comment'">
+                    <img v-bind:src="item.data.from.profile_picture">
+                    <div>{{ item.data.text }}</div>
+                  </div>
+                  
+                  <div v-if="item.type == 'like'">
+                    <img v-bind:src="item.data.profile_picture">
+                    <div>Liked your story 
+                    <span class="icon icon-star"></span></div>
+                  </div>                  
+                  
+                </div>
+                
+              </div>
+            </div>  
+          </div>
+      </div>      
+      
+      
+    </div>  
   </script>
   
   <script id="story-grid" type="text/x-template">
