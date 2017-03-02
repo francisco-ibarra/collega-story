@@ -14,12 +14,21 @@ body {
     position: absolute;
 }
 
+.slider .slide-close {
+    position: absolute;
+    right: 1em;
+    top: 1em;
+    display: block;
+    z-index: 11;
+}
+
 .slide > img {
     max-height: 100%;
     max-width: 100%;
     width: 100%;
     object-fit: contain;
 }
+
 
 /*
 .swiper-container {

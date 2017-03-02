@@ -80,6 +80,10 @@
   <script id="photo-slide" type="text/x-template">
      
       <div class="slider" id="photoSlider">
+        
+        <router-link v-bind:to.stop="{name : 'photos'}" class="slide-close">
+          <span class="icon icon-close"></span>
+        </router-link>
         <div class="slide-group">
           
           <div class="slide" v-for="photo in photos" v-on:click="toggleControls">
@@ -89,8 +93,9 @@
         </div>
         <ul class="photo-controls">
           <li><a href=""><span class="icon icon-person"></span> </li>
-           <li><a href=""><span class="icon icon-edit"></span></li> 
+           <li><a href=""><span class="icon icon-edit"></span></li>           
         </ul>
+                
         
         <div class="photo-cards modal" v-bind:class="{active : showControls}">
             
