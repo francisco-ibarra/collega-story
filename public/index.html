@@ -82,8 +82,8 @@
       <div class="slider" id="photoSlider">
         <div class="slide-group">
           
-          <div class="slide" v-for="post in posts" v-on:click="toggleControls">
-            <img v-bind:src="post.images.standard_resolution.url">
+          <div class="slide" v-for="photo in photos" v-on:click="toggleControls">
+            <img v-bind:src="photo.images.standard">
           </div>
           
         </div>
@@ -153,12 +153,12 @@
   </script>
   
   <script id="photo-grid" type="text/x-template">
-    <div class="content" v-bind:session="session"> 
+    <div class="content"> 
       <header class="bar bar-nav">
-        <button v-on:click="goBack" class="btn btn-link btn-nav pull-left">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           Home
-        </button>
+        </router-link>  
         <button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
           Add photos
@@ -180,8 +180,8 @@
       
       <div class="content">
           <div class="grid">
-            <div class="grid-item" v-for="photo in photos">
-              <div class="tile">
+            <div class="grid-item" v-for="(photo, index) in photos">
+              <div class="tile" v-on:click="openSlideShow(index)">
                 <img v-bind:src="photo.images.standard">
                 <!--div class="tile-caption">
                 photo.caption.text

@@ -4,31 +4,15 @@
 
 var Models = require("./models");
 var Swiper = require("swiper");
-var Vue = require("vue");
 
-Vue.component('story-slide', {
-  props : ['slide'],
-  template : '<div class="swiper-slide" v-bind:style="{backgroundImage: \'url(\'+ slide.images.standard_resolution.url + \')\'}"></div>',
-});
-
-Vue.component('story-option', {
-  props : ['slide'],
-  template : '<div class="swiper-slide" v-bind:style="{backgroundImage: \'url(\'+ slide.images.standard_resolution.url + \')\'}"></div>',
-});
-
-var describePicture = {
-  template : '<h1>Hello world</h1>'
-};
 
 exports.Component = {
 
     template : "#photo-slide",
-
-    // data must be a function in components. the updates are triggered
-    // automatically setting the values of this.xxxx
+    props : ['photos', 'options'],
+    
     data: function(){
-      return {
-        posts : [],
+      return {        
         showControls : false
       };
     },
@@ -57,13 +41,6 @@ exports.Component = {
         });
         
         
-      },
-
-      loadPosts : function (user){
-        var self = this;
-        Models.User.loadPosts(user, function(posts){
-          self.posts = posts;
-        });
       },
       
       toggleControls : function(event){
@@ -94,26 +71,24 @@ exports.Component = {
 
     // we watch the changes to the components' data / events
     watch : {
-      /*
-      posts : function (val, oldVal) {
-        console.log(val);
-      }, */
-
       '$route' : function(to, from){
-        // check if only the option has changed...
-
-        this.loadPosts(this.$route.params.user)
+        console.log('route watch from slider')
+        if (to.query.slideshow === undefined) {
+          this.$router.push({name : "home"})
+        }
       }
     },
 
     // events of the component lifecycle
 
     created : function(){
-      this.loadPosts(this.$route.params.user);
       console.log("created slider");
     },
 
-    updated : function(){
-      this.initSlider(); // let's do it only the first time.      
+    updated : function(){      
+      console.log("updated slider");
+      console.log(this.options);
+      
+      this.initSlider(); // let's do it only the first time. 
     }
 };

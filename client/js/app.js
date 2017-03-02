@@ -4,6 +4,12 @@ var VueRouter = require("vue-router");
 var Components = require("./comp");
 var Models = require("./models");
 
+// passing url parameters to the 
+// components (this.options)
+var passQueryProp = function(route){
+  return { options : route.query};
+};
+
 const routes = [{
     path : "/login", 
     name : "login",
@@ -17,13 +23,10 @@ const routes = [{
     name : "home",
     component : Components.Home
   },{
-    path : "/photos", 
+    path : "/photos",
     name : "photos",
-    component : Components.Photos
-  },{
-    path : "/photos/play", 
-    name : "photos.play",
-    component : Components.SlidePhotos
+    component : Components.Photos,
+    props : passQueryProp
   },{
     path : "/stories", 
     name : "stories",
