@@ -11,6 +11,7 @@ module.exports = {
         "vue": "Vue",
         "vue-router" : "VueRouter",
         "axios" : "axios",
-        "swiper" : "Swiper"
+        "swiper" : "Swiper",
+        "moment" : "moment"
     }
 };

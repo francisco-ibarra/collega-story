@@ -27,7 +27,7 @@ const routes = [{
   },{
     path : "/stories", 
     name : "stories",
-    component : Components.Photos
+    component : Components.Stories
   }  
 ];
 

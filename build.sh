@@ -4,6 +4,7 @@ cp node_modules/vue/dist/vue.min.js public/js/
 cp node_modules/vue-router/dist/vue-router.min.js public/js/
 cp node_modules/swiper/dist/js/swiper.min.js public/js/
 cp node_modules/ratchet/dist/js/ratchet.min.js public/js/
+cp node_modules/moment/min/moment.min.js public/js/
 
 mkdir -p public/css
 cp client/css/style.css public/css/

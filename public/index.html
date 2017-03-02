@@ -34,13 +34,17 @@
         <!-- CARD.BEGIN -->
         <div class="card">
           <div class="content-padded">
-            <form class="home">
+            <!--form class="home"-->
               <h1>{{profile.id}}</h1>
 
               <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goto('stories')">Stories</button>  
+              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('stories')">Stories</button>  
+              <button disabled class="btn btn-outlined btn-block">
+              Social</button>
+              <button disabled class="btn btn-outlined btn-block">
+              Discover</button>
    
-            </form>
+            <!--/form-->
           </div>
         </div>
         <!-- CARD.END -->
@@ -62,7 +66,7 @@
                 <input type="text" v-model="username" placeholder="Instagram username">
                 <input type="password" v-model="password" placeholder="Fake password, doens't matter">
 
-                <button class="btn btn-primary btn-outlined btn-block" v-on:click.stop="login">Sign in</button>       
+                <button class="btn btn-primary btn-outlined btn-block" v-on:click.prevent="login">Sign in</button>       
 
               </form>
             </div>
@@ -201,10 +205,56 @@
     </div>   
   </script>
   
+  <script id="story-grid" type="text/x-template">
+    <div class="content" v-bind:session="session"> 
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          Home
+        </router-link>
+        <button class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-plus"></span>
+          Create story
+        </button>
+        <h1 class="title">Stories</h1>                        
+      </header>
+      
+      <div class="content">
+            <div class="grid stories">
+              <div class="grid-item" v-for="story in stories">
+                <!--[ tile -->
+                <div class="tile">
+                    <img v-bind:src="story.photo.images.standard">
+                    <div class="tile-caption">
+                      {{story.story}}
+                    </div>
+                    <div class="tile-meta content-padded">
+                      <span class="pull-left">
+                        <img class="tile-profile" v-bind:src="story.from.profile_picture">
+                        
+                      </span>
+                      <span class="pull-right"> 
+                      {{story.from.full_name}}<br>
+                      {{ago(story.created_time)}}
+                      </span>
+                    </div>  
+                </div>
+                <!-- tile ]-->
+              </div>  
+            </div>
+      </div>      
+      
+      
+    </div>
+  </script>  
+  
+  
+  
 <script src="js/swiper.min.js"></script>  
 <script src="js/axios.min.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="js/vue-router.min.js"></script>
+<script src="js/moment.min.js"></script>
 
 <script src="js/bundle.js"></script>
 

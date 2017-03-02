@@ -131,6 +131,16 @@ body {
   max-height: 100%;
 }
 
+.tile .tile-caption {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.tile .tile-profile {
+  height: 1em;
+}
+
 .tile .tile-meta {
   height: 1.5em;
   color: #333;
@@ -163,4 +173,16 @@ header .btn.pull-right {
   opacity: 0;
 }
 
+/*Stories */
+.stories.grid {
+  min-height: 20em;
+}
+
+.stories.grid .tile .tile-meta {
+  height: 2em;
+}
+
+.stories.grid .tile .tile-profile {
+  height: 2em;
+}
 

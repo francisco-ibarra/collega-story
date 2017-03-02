@@ -1,51 +1,40 @@
-/* Photo grid component. 
+/* Story grid component. 
  * It allows users to browse and annotate pictures
  * @author: Marcos baez
  */
 
-var Models = require("./models");
-var Vue = require("vue");
-
+var moment = require("moment");
 
 exports.Component = {
 
-    template : "#photo-grid",
-
-    data: function(){
+    template : "#story-grid",
+    props : ['session'],
+  
+    data : function(){
       return {
-        posts : []
-      };
+        stories : []
+      }
     },
 
     // methods of the component
     methods : {
-
-      loadPosts : function (user){
-        var self = this;
-        Models.User.loadPosts(user, function(posts){
-          self.posts = posts;
-        });
-      },
-      goBack : function(){
-        this.$router.push({name : 'home'});
+      ago : function(date){
+        return moment(date * 1000).fromNow();
       }
     },
 
     // we watch the changes to the components' data / events
     watch : {
-
       '$route' : function(to, from){
-        this.loadPosts(this.$route.params.user)
+        //this.loadPosts()
       }
     },
 
     // events of the component lifecycle
 
-    created : function(){
-      this.loadPosts(this.$route.params.user);
-    },
-
-    updated : function(){
-      // when the component is updated do...
+    created : function(){      
+      this.stories = this.session.getProfile().stories;
+      console.log(this.stories);
+      
     }
 };
