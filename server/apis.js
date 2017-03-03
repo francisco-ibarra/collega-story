@@ -27,6 +27,7 @@ exports.init = function (app) {
 
         fnProcessPosts(req.session.user, posts);
 
+        console.log(posts.items.length)
         res.send(req.session.user.profile);
       }
     });

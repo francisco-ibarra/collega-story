@@ -221,7 +221,7 @@
         </router-link>  
         <button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-play"></span>
-          Play updates
+          Play messages
         </button>
         <h1 class="title">Social</h1>                        
       </header>
@@ -229,26 +229,41 @@
       <div class="content">
           <div class="grid grid-big">
             <div class="grid-item" v-for="(item, index) in feedback">
-              <div class="tile tile-horizontal" v-on:click="openSlideShow(index)">
-                                
-                <div class="tile-item">
-                  <img v-bind:src="item.story.photo.images.standard">  
-                </div>
-                
-                <div class="tile-item tile-center">
-                  
-                  <div v-if="item.type == 'comment'">
-                    <img v-bind:src="item.data.from.profile_picture">
-                    <div>{{ item.data.text }}</div>
-                  </div>
-                  
-                  <div v-if="item.type == 'like'">
-                    <img v-bind:src="item.data.profile_picture">
-                    <div>Liked your story 
-                    <span class="icon icon-star"></span></div>
-                  </div>                  
-                  
-                </div>
+              <div class="tile tile-telegram tile-horizontal" v-on:click="openSlideShow(index)">
+ 
+                   
+                    <div class="tile-item tile-photo-wrapper">
+                      <img class="tile-photo" v-bind:src="item.story.photo.images.standard">  
+                    </div>
+
+                    <div class="tile-item tile-center">                    
+                      <div class="tile-message" v-if="item.type == 'comment'">
+                        <div><h2>Message</h2></div>
+                        <div class="msg">
+                          <span>
+                          {{ item.data.text.length > 200? 
+                            item.data.text.substring(0,200) + "...":
+                            item.data.text }}
+                          </span>
+                        </div>                      
+                        <div>
+                          <img class="img-circle tile-profile" v-bind:src="item.data.from.profile_picture">
+                          <span>{{item.data.from.full_name}}</span>
+                        </div>
+                      </div>
+
+                      <div class="tile-message" v-if="item.type == 'like'">         <div><h2>Message</h2></div>            
+                        <div class="msg">
+                          <span class="icon icon-star"></span>
+                          <span>I Liked your story! </span>                        
+                        </div>
+                        <div>
+                          <img  class="img-circle tile-profile" v-bind:src="item.data.profile_picture">
+                          <span>{{item.data.full_name}}</span>
+                        </div>
+                      </div>  
+                    </div>                
+
                 
               </div>
             </div>  
