@@ -13,8 +13,21 @@ exports.Component = {
     
     data: function(){
       return {        
-        showControls : false
+        showControls : false,
+        tagControlEnabled : false,
+        storyControlEnabled : false,
+        
+        showStory : false
       };
+    },
+  
+    computed : {
+      tagControlOn : function(){
+        return this.showControls && this.tagControlEnabled;
+      },
+      storyControlOn : function(){
+        return this.showControls && this.storyControlEnabled;
+      }
     },
 
     // methods of the component, accessbile via this.xxxx()
@@ -31,21 +44,27 @@ exports.Component = {
           //self.showControls = false;
         });
         
-        this.cards = new Swiper('.photo-cards', {
-         // pagination: '.swiper-pagination',
+        this.cards = new Swiper('.tagControls', {
           slidesPerView: 3,
           centeredSlides: true,
-          paginationClickable: true,
-         // spaceBetween: 30,
-          //onlyExternal : true
-        });
-        
-        
+          paginationClickable: true
+        });        
       },
       
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
+      },
+      
+      toggleCurrentControl : function(current){
+        this.showControls = true;
+        if (current == 'story'){                    
+          this.tagControlEnabled = false;
+          this.storyControlEnabled = true;
+        } else {          
+          this.storyControlEnabled = false;
+          this.tagControlEnabled = true;
+        }                              
       },
       
       nextCard : function(){
@@ -71,6 +90,10 @@ exports.Component = {
       goBack : function(){
         console.log(this.$route);
         this.$router.push({name : this.$route.name});        
+      },
+      
+      setupView : function(q){
+        this.showStory = q.showStory == '1';
       }
     },
 
@@ -88,6 +111,7 @@ exports.Component = {
 
     created : function(){
       console.log("created slider");
+      this.setupView(this.$route.query);
     },
 
     updated : function(){      

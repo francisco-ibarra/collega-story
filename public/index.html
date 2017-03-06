@@ -94,12 +94,16 @@
           
         </div>
         <ul class="photo-controls">
-          <li><a href=""><span class="icon icon-person"></span> </li>
-           <li><a href=""><span class="icon icon-edit"></span></li>           
+          <li v-on:click="toggleCurrentControl('tag')">
+           <a><span class="icon icon-person"></span></a> 
+           </li>
+          <li v-if="showStory" v-on:click="toggleCurrentControl('story')">
+           <a><span class="icon icon-edit"></span></a>
+           </li>           
         </ul>
                 
         
-        <div class="photo-cards modal" v-bind:class="{active : showControls}">
+        <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
             
             <!-- slider begin -->
             <div class="swiper-wrapper">
@@ -153,6 +157,29 @@
             </div>  
             <!-- slider end -->      
         </div>
+        
+         <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+
+          <!-- slider begin -->
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-slide-active">
+              <div class="card">
+                <div class="content-padded">
+                  <!-- summary shown only when not active -->
+                  <div class="summary">
+                    <h2>Tell us a story about this picture</h2>
+                  </div>
+                  <!-- form shown only when active -->
+                  <form>
+                    <h2>Tell us a story about this picture</h2>
+                    <textarea rows="5" placeholder=""></textarea>
+                    <button class="btn btn-primary btn-block">Save</button </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slider end -->
+        </div>               
         
         
       </div>  
@@ -355,7 +382,7 @@
       </div>      
       
       <div class="bar bar-standard bar-footer">
-        <router-link :to="{name: 'stories', query : {create : 'start'}}"
+        <router-link :to="{name: 'stories', query : {create : 'start', showStory : true}}"
         class="btn btn-block btn-primary btn-outlined">
         Start session</router-link>
       </div>      
