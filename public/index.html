@@ -325,9 +325,34 @@
   </script>  
   
   <script id="story-photo-select" type="text/x-template">
-     <div class="content"> 
-       <h1>Select photos</h1>
-     </div>
+    <div class="content"> 
+      <header class="bar bar-nav">
+        <router-link :to="{name: 'stories', query : {}}" class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-close"></span>
+          Cancel
+        </router-link>
+        <h1 class="title">Create story</h1>                        
+      </header>
+      <div class="content">
+        <div class="content-padded">
+          <h4>Before starting, select the photos for the reminiscing session<h4>
+        </div>
+        
+          <div class="grid">
+            <div class="grid-item" v-for="(photo, index) in photos">
+              <div class="tile">
+                <img v-bind:src="photo.images.standard">
+              </div>
+            </div>  
+          </div>        
+        
+      </div>      
+      
+      <div class="bar bar-standard bar-footer">
+        <button class="btn btn-block btn-primary btn-outlined">Start session</button>
+      </div>      
+      
+    </div>  
   </script>
   
   

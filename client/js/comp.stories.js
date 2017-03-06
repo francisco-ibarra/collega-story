@@ -13,10 +13,10 @@ var store = {
 
 var photoSelect = {
   template : "#story-photo-select",
+  props : ['photos'],
   data : function(){
     return {
-      sharedState : store.state,
-      photos : []
+      sharedState : store.state
     };
   }, 
   created : function(){
@@ -25,16 +25,21 @@ var photoSelect = {
 };
 
 var create = {
-  template : '<component v-bind:is="currentView"></component>',
-  props : ['session'],
+  template : '<component v-bind:photos="photos" v-bind:is="currentView"></component>',
+  props : ['profile'],
   data : function(){
     return {
-      sharedState : store.state,
+      photos : [],
+      sharedState : store.state,      
       currentView : 'photos'
     };
   },
   components : {
     photos : photoSelect
+  },
+  created : function(){
+    this.photos = this.profile.photos;
+    console.log(this.profile);
   }
 };
 
@@ -42,7 +47,12 @@ var create = {
 /* Story grid component */
 var grid = {
   template: "#story-grid",
-  props: ['stories'],
+  props: ['profile'],
+  data : function(){
+    return {
+      stories : []
+    };
+  },
   methods: {
     openSlideShow: function (index) {
       this.$router.push({ path : "/stories", query : { slideshow : index}});
@@ -50,17 +60,20 @@ var grid = {
     ago : function(date){
         return moment(date * 1000).fromNow();
     }
-  },  
+  }, 
+  created : function(){
+    this.stories = this.profile.stories;    
+  }  
 };
 
 exports.Component = {
-    template : '<component v-bind:stories="stories" v-bind:is="currentView"></component>',
+    template : '<component v-bind:profile="profile" v-bind:is="currentView"></component>',
     props : ['session', 'options'],
   
     data : function(){
       return {
         currentView : 'grid',
-        stories : []
+        profile : []
       }
     },
   
@@ -91,7 +104,7 @@ exports.Component = {
     // lifecycle
 
     created : function(){      
-      this.stories = this.session.getProfile().stories;
+      this.profile = this.session.getProfile();
       this.resolveView(this.options);
       
     }

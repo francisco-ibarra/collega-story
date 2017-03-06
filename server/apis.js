@@ -103,7 +103,7 @@ var fnProcessPosts = function (user, posts) {
     feedback: []
   };
 
-  // processing potst
+  // processing posts
   posts.items.forEach(function (item) {
     var photo = {
       images: {
