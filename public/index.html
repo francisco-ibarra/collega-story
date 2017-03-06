@@ -83,9 +83,9 @@
      
       <div class="slider" id="photoSlider">
         
-        <router-link v-bind:to.stop="{name : 'photos'}" class="slide-close">
+        <a v-on:click.stop="goBack" class="slide-close">
           <span class="icon icon-close"></span>
-        </router-link>
+        </a>
         <div class="slide-group">
           
           <div class="slide" v-for="photo in photos" v-on:click="toggleControls">
@@ -288,7 +288,7 @@
           <span class="icon icon-left-nav"></span>
           Home
         </router-link>
-        <router-link :to="{name: 'stories', query: {create : 1}}" class="btn btn-link btn-nav pull-right">
+        <router-link :to="{name: 'stories', query: {create : 'select'}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
           Create story
         </router-link>
@@ -331,25 +331,33 @@
           <span class="icon icon-close"></span>
           Cancel
         </router-link>
-        <h1 class="title">Create story</h1>                        
+        <h1 class="title">Create story</h1>               
       </header>
-      <div class="content">
+      
+      <div class="bar bar-standard bar-header-secondary">
         <div class="content-padded">
-          <h4>Before starting, select the photos for the reminiscing session<h4>
+          <h4>Before starting, select the photos for the
+           reminiscing session
+           </h4>
         </div>
-        
+      </div>
+      
+      <div class="content">
           <div class="grid">
             <div class="grid-item" v-for="(photo, index) in photos">
-              <div class="tile">
+              <div class="tile" v-on:click="selectCurrent(index)">
                 <img v-bind:src="photo.images.standard">
-              </div>
-            </div>  
+                <span v-if="photo.selected" class="icon icon-check"></span>
+              </div>              
+            </div>              
           </div>        
         
       </div>      
       
       <div class="bar bar-standard bar-footer">
-        <button class="btn btn-block btn-primary btn-outlined">Start session</button>
+        <router-link :to="{name: 'stories', query : {create : 'start'}}"
+        class="btn btn-block btn-primary btn-outlined">
+        Start session</router-link>
       </div>      
       
     </div>  

@@ -2,12 +2,14 @@
  * It allows users to browse and annotate pictures
  * @author: Marcos baez
  */
-
+var SlideShow = require("./comp.slider");
 var moment = require("moment");
+var Vue = require("vue");
 
 /* Story creation component */
 var store = {
   state : {
+    photos : []
   }
 };
 
@@ -19,8 +21,22 @@ var photoSelect = {
       sharedState : store.state
     };
   }, 
+  methods : {
+    selectCurrent : function(index){
+      var photo = this.photos[index];
+      photo.selected = !photo.selected;
+      
+      Vue.set(this.photos, index, photo);
+    }, 
+    resetSelection : function(){          
+      this.photos.forEach(function(item){
+        item.selected = false;
+      });
+    }
+  },
   created : function(){
     console.log('photo selection created');
+    this.resetSelection();
   }
 };
 
@@ -35,7 +51,28 @@ var create = {
     };
   },
   components : {
-    photos : photoSelect
+    photos : photoSelect,
+    slide : SlideShow.Component
+  },
+  watch : {
+    '$route' : function(to, from){
+      console.log("from create route");
+      if (to.query.create == 'select'){
+        this.currentView = 'photos';
+      } else if (to.query.create == 'start'){  
+        this.prepareSession();
+        this.currentView = 'slide';
+      }
+    }
+  },
+  
+  methods : {
+    prepareSession : function(){
+      var photos = this.photos.filter(function(item){
+        return item.selected;
+      });
+      this.photos = photos;
+    }
   },
   created : function(){
     this.photos = this.profile.photos;
@@ -98,6 +135,7 @@ exports.Component = {
     watch : {
       '$route' : function(to, from){
         this.resolveView(to.query);
+        console.log("from stories route");
       }
     },
 

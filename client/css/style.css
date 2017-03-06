@@ -139,6 +139,7 @@ body {
   border: 1px solid #efefef;
   height: 100%;
   text-align:center;
+  position: relative;
 }
 
 .tile img{
@@ -168,6 +169,15 @@ body {
 
 .tile .tile-meta .tag-false {
   color : #d9534f;
+}
+
+.tile .icon-check {
+  position: absolute;
+  border-radius: 50%;
+  background: #428bca;
+  color: white;
+  bottom: 10px;
+  right: 10px;
 }
 
 .tile-horizontal {

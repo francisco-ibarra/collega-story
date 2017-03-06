@@ -66,6 +66,11 @@ exports.Component = {
         
         console.log('activate card : ' + this.cards.clickedIndex);
         this.cards.slideTo(this.cards.clickedIndex);
+      },
+      
+      goBack : function(){
+        console.log(this.$route);
+        this.$router.push({name : this.$route.name});        
       }
     },
 
