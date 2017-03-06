@@ -30,7 +30,8 @@ const routes = [{
   },{
     path : "/stories", 
     name : "stories",
-    component : Components.Stories
+    component : Components.Stories,
+    props : passQueryProp    
   },{
     path : "/social", 
     name : "social",

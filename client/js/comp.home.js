@@ -18,9 +18,15 @@ exports.Component = {
     
     loadProfile : function (user){
       var self = this;
-      Models.User.loadProfile(user, function(profile){
-        self.profile = profile;
-        console.log(profile)
+      Models.User.loadProfile(user, {
+        success : function(profile){
+          self.profile = profile;
+          console.log(profile);
+        },
+        error : function (error){
+          console.log("session expired")
+          self.$router.push({ name: 'login'})
+        }
       });
     },
     

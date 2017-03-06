@@ -14,20 +14,17 @@ var User = {
         cb.error && cb.error(error);
       });
     },
-
-    loadPosts: function(id, callback) {
-        axios.get("/api/user/{0}/photos".replace("{0}", id))
-        .then(function(response){
-           callback(response.data.items);
-        });
-    },
   
-    loadProfile: function(id, callback) {
+    loadProfile: function(id, cb) {
         axios.get("/api/accounts/{0}".replace("{0}", id))
         .then(function(response){
           Session.setProfile(response.data);
-          callback(response.data);
-        });
+          cb.success(response.data);
+        })
+      .catch(function(error){
+        Session.invalidate();
+        if(cb.error) cb.error(error);
+      });        
     }  
 
 };

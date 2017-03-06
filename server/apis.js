@@ -27,7 +27,7 @@ exports.init = function (app) {
 
         fnProcessPosts(req.session.user, posts);
 
-        console.log(posts.items.length)
+        console.log(posts.items.length);
         res.send(req.session.user.profile);
       }
     });
@@ -85,7 +85,7 @@ var fnLoadPosts = function (id, cb) {
     });
 
   }).on('error', function (e) {
-    cb.error && cb.error(e);
+    if (cb.error) cb.error(e);
   });
 };
 

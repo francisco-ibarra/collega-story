@@ -226,6 +226,13 @@
         <h1 class="title">Social</h1>                        
       </header>
       
+      <nav class="bar bar-standard bar-header-secondary">
+        <div class="segmented-control">
+          <a class="control-item active">Your updates</a>
+          <a class="control-item">Updates from friends</a>
+        </div>
+      </nav>   
+      
       <div class="content">
           <div class="grid grid-big">
             <div class="grid-item" v-for="(item, index) in feedback">
@@ -275,16 +282,16 @@
   </script>
   
   <script id="story-grid" type="text/x-template">
-    <div class="content" v-bind:session="session"> 
+    <div class="content"> 
       <header class="bar bar-nav">
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           Home
         </router-link>
-        <button class="btn btn-link btn-nav pull-right">
+        <router-link :to="{name: 'stories', query: {create : 1}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
           Create story
-        </button>
+        </router-link>
         <h1 class="title">Stories</h1>                        
       </header>
       
@@ -317,6 +324,11 @@
     </div>
   </script>  
   
+  <script id="story-photo-select" type="text/x-template">
+     <div class="content"> 
+       <h1>Select photos</h1>
+     </div>
+  </script>
   
   
 <script src="js/swiper.min.js"></script>  
