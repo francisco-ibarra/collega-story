@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-touch-fullscreen" content="yes">
   
-  <link rel="stylesheet" href="/css/swiper.min.css">
+  <link rel="stylesheet" href="css/swiper.min.css">
   <link href="css/ratchet.min.css" rel="stylesheet">
   <script src="js/ratchet.min.js"></script>  
   
@@ -107,18 +107,20 @@
   <!-- TODO: move to vue files -->
   <script id="photo-slide" type="text/x-template">
      
-      <div class="slider" id="photoSlider">
         
+    <div class="slideshow swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" v-for="photo in photos" v-on:click="toggleControls">
+          <img v-bind:src="photo.images.standard">
+          </div>            
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+
         <a v-on:click.stop="goBack" class="slide-close">
           <span class="icon icon-close"></span>
         </a>
-        <div class="slide-group">
-          
-          <div class="slide" v-for="photo in photos" v-on:click="toggleControls">
-            <img v-bind:src="photo.images.standard">
-          </div>
-          
-        </div>
+
         <ul class="photo-controls">
           <li v-on:click="toggleCurrentControl('tag')">
            <a><span class="icon icon-person"></span></a> 
@@ -126,65 +128,61 @@
           <li v-if="showStory" v-on:click="toggleCurrentControl('story')">
            <a><span class="icon icon-edit"></span></a>
            </li>           
-        </ul>
-                
-        
+        </ul>   
+
         <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
-            
-            <!-- slider begin -->
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <div class="card" v-on:click="activateCard">
-                    <div class="content-padded">
-                      <!-- summary shown only when not active -->
-                      <div class="summary">
-                        <h2>Where was this photo taken?</h2>
-                      </div>
-                      <!-- form shown only when active -->
-                      <form>                        
-                        <h2>Where was this photo taken?</h2>
-                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
-                      </form>
-                    </div>
+
+          <!-- slider begin -->
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="card" v-on:click="activateCard">
+                <div class="content-padded">
+                  <!-- summary shown only when not active -->
+                  <div class="summary">
+                    <h2>Where was this photo taken?</h2>
+                  </div>
+                  <!-- form shown only when active -->
+                  <form>
+                    <h2>Where was this photo taken?</h2>
+                    <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                    <button class="btn btn-block">Does not remember</button>
+                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
-              <div class="swiper-slide">
-                <div class="card" v-on:click="activateCard">
-                    <div class="content-padded">                      
-                      <div class="summary">
-                        <h2>When was this photo taken?</h2>
-                      </div>                      
-                      <form>  
-                        <h2>When was this photo taken?</h2>      
-                        <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
-                      </form>
-                    </div>
-                </div> 
-              </div>  
-              <div class="swiper-slide">
-                <div class="card" v-on:click="activateCard">
-                    <div class="content-padded">
-                      <div class="summary">
-                        <h2>Who's in the photo?</h2>
-                      </div>
-                      <form>
-                        <h2>Who's in the photo?</h2>                       
-                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
-                      </form>
-                    </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="card" v-on:click="activateCard">
+                <div class="content-padded">
+                  <div class="summary">
+                    <h2>When was this photo taken?</h2>
+                  </div>
+                  <form>
+                    <h2>When was this photo taken?</h2>
+                    <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
+                    <button class="btn btn-block">Does not remember</button>
+                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
-            </div>  
-            <!-- slider end -->      
+            </div>
+            <div class="swiper-slide">
+              <div class="card" v-on:click="activateCard">
+                <div class="content-padded">
+                  <div class="summary">
+                    <h2>Who's in the photo?</h2>
+                  </div>
+                  <form>
+                    <h2>Who's in the photo?</h2>
+                    <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                    <button class="btn btn-block">Does not remember</button>
+                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slider end -->
         </div>
-        
-         <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+
+        <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
 
           <!-- slider begin -->
           <div class="swiper-wrapper">
@@ -205,10 +203,11 @@
             </div>
           </div>
           <!-- slider end -->
-        </div>               
+        </div>                                                                
+
+    </div>        
         
-        
-      </div>  
+ 
    
   </script>
   
@@ -415,7 +414,7 @@
       
     </div>  
   </script>
-  
+   
   
 <script src="js/swiper.min.js"></script>  
 <script src="js/axios.min.js"></script>

@@ -36,12 +36,11 @@ exports.Component = {
         if (this.isSliderOn) return;
         this.isSliderOn = true;
         console.log('reloaded');
+      
         
-        document
-        .querySelector('#photoSlider')
-        .addEventListener('slide', function(){
-          console.log("slide moved");
-          //self.showControls = false;
+        this.slides = new Swiper('.slideshow',{
+          paginationClickable: true,
+          pagination: '.swiper-pagination'
         });
         
         this.cards = new Swiper('.tagControls', {
@@ -114,7 +113,7 @@ exports.Component = {
       this.setupView(this.$route.query);
     },
 
-    updated : function(){      
+    mounted : function(){      
       console.log("updated slider");
       console.log(this.options);
       
