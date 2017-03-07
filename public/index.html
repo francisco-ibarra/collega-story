@@ -30,21 +30,51 @@
         </button>        
         
       </header>
-      <div class="content"> 
+      <div class="content home"> 
         <!-- CARD.BEGIN -->
-        <div class="card">
-          <div class="content-padded">
-            <!--form class="home"-->
-              <h1>{{profile.id}}</h1>
-
-              <button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
+        
+        <div class="card profile">
+          
+          <img v-bind:src="profile.profile_picture">
+          <h2>{{profile.full_name}}</h2>
+          
+        </div>
+        <div class="card spring">
+          <div class="grid grid-big">
+            <!--form class="home"-->              
+              
+              <div class="grid-item grid-item-center">
+                <div v-on:click="goTo('photos')" class="img-circle"><img src="img/photos.png">
+                </div>
+                <span>Photos</span>
+              </div>
+              
+              <div class="grid-item grid-item-center">
+                <div v-on:click="goTo('stories')" class="img-circle"><img src="img/stories.png">
+                </div>
+                <span>Stories</span>
+              </div>      
+              
+              <div class="grid-item grid-item-center">
+                <div v-on:click="goTo('social')" class="img-circle"><img src="img/social.png">
+                </div>
+                <span>Social</span>
+              </div>    
+                                        
+              <div class="grid-item grid-item-center">
+                <div class="img-circle"><img src="img/discover.png">
+                </div>
+                <span>Discover</span>
+              </div>    
+              
+              <!--button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
               <button class="btn btn-primary btn-outlined btn-block" 
               v-on:click="goTo('stories')">Stories</button>  
               <button class="btn btn-primary btn-outlined btn-block"
               v-on:click="goTo('social')">
               Social</button>
               <button disabled class="btn btn-outlined btn-block">
-              Discover</button>            
+              Discover</button-->            
    
             <!--/form-->
           </div>
@@ -61,7 +91,7 @@
           <img class="logo" src="img/logo_big.png">
           <div class="card">
             <div class="content-padded">
-              <form class="home">
+              <form>
                 <input type="text" v-model="username" placeholder="Instagram username">
                 <input type="password" v-model="password" placeholder="Fake password, doens't matter">
 

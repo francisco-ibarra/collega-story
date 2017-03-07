@@ -131,6 +131,13 @@ body {
   overflow: hidden;
 }
 
+.grid-item-center {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .grid-big .grid-item{
     width: 50%;
 }
@@ -274,5 +281,34 @@ header .btn.pull-right {
 }
 .logo {
   width: 80%;
+}
+
+/* Home */
+.home {
+  display: flex;
+}
+
+.home .profile {
+  width: 30%;
+  text-align: center;
+  padding: .8em;
+}
+.home .spring {
+  width: 70%;
+}
+
+.home .grid-item .img-circle {  
+  width : 8em;
+  height: 8em;  
+  padding: 2em;
+  overflow: hidden;
+  border: 1px solid #428bca;
+  margin-bottom: .8em;
+}
+.home .grid-item img{
+  width: 100%;
+}
+.home .profile h2{
+  font-weight: 400;
 }
 

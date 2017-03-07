@@ -153,12 +153,17 @@ var fnProcessPosts = function (user, posts) {
 
   });
 
-
+  // basic profile of the person
+  var profile = person.photos[0].contributor;
+  person.username = profile.username;
+  person.full_name = profile.full_name;
+  person.profile_picture = profile.profile_picture;
+  
   // The user can manage more than one account
   user.accounts.push(person);
 
   // Profile of the user that manages the acounts
-  user.profile = person.photos[0].contributor;
+  user.profile = profile;
   user.profile.accounts = [{
     username: user.profile.username,
     full_name: user.profile.full_name
