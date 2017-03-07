@@ -266,3 +266,13 @@ header .btn.pull-right {
   height: 2em;
 }
 
+
+/* Login */
+.login {
+  padding: 10em;
+  text-align: center;
+}
+.logo {
+  width: 80%;
+}
+

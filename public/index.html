@@ -55,16 +55,13 @@
   </script>
   
   <script id="page-login" type="text/x-template">
-      <div class="content"> 
-        <header class="bar bar-nav">
-          <h1 class="title">Storygram</h1>
-        </header>
-        <div class="content"> 
+
+        <div class="content login"> 
           <!-- CARD.BEGIN -->
+          <img class="logo" src="img/logo_big.png">
           <div class="card">
             <div class="content-padded">
               <form class="home">
-                <p> Login</p>
                 <input type="text" v-model="username" placeholder="Instagram username">
                 <input type="password" v-model="password" placeholder="Fake password, doens't matter">
 
@@ -74,8 +71,7 @@
             </div>
           </div>
           <!-- CARD.END -->
-        </div>
-      </div>    
+        </div>  
   </script>
   
   <!-- TODO: move to vue files -->
