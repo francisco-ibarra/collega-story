@@ -72,7 +72,7 @@ exports.init = function (app) {
     // update tags
     photo.tags.place = tags.place ? tags.place : photo.tags.place;
     photo.tags.date = tags.date ? tags.date : photo.tags.place;
-    photo.tags.people = tags.people ? tags.people : photo.tags.place;
+    photo.tags.people = tags.people ? tags.people : photo.tags.people;
     
     res.send(photo);
 
