@@ -48,5 +48,6 @@ exports.Component = {
   created: function () {
     this.photos = this.session.getProfile().photos;
     this.resolveView(this.options);
+    console.log("photos component created");
   }
 };

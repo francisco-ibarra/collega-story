@@ -48,9 +48,29 @@ exports.init = function (app) {
   });
 
   app.post('/api/stories', function (req, res) {
-    var story = req.body;
+    var data = req.body;
+    
+    var photo = fnGetPhoto(req.session.user, data.photo.id);
+    var account = fnGetAccount(req.session.user, data.from.id);
+    
+    var person = {
+      id : account.id,
+      username : account.username,
+      full_name : account.full_name,
+      profile_picture : account.profile_picture
+    };
+    
+    var story = {
+      id: 'S' + Math.round(Math.random() * 100) + '_' + photo.id, 
+      photo: photo,
+      story: data.story,
+      from: person,
+      created_time: Math.round(Date.now() / 1000),
+      feedback: []
+    };    
+    
+    account.stories.push(story);
 
-    console.log(story);
     res.status(200).send();
 
   });
@@ -132,7 +152,6 @@ var fnProcessPosts = function (user, posts) {
   user.profile = {};
 
   var person = {
-    id: user.username,
     photos: [],
     stories: [],
     friends: [],
@@ -193,6 +212,7 @@ var fnProcessPosts = function (user, posts) {
 
   // basic profile of the person
   var profile = person.photos[0].contributor;
+  person.id = profile.id;
   person.username = profile.username;
   person.full_name = profile.full_name;
   person.profile_picture = profile.profile_picture;
@@ -203,6 +223,7 @@ var fnProcessPosts = function (user, posts) {
   // Profile of the user that manages the acounts
   user.profile = profile;
   user.profile.accounts = [{
+    id : user.profile.id,
     username: user.profile.username,
     full_name: user.profile.full_name
   }];

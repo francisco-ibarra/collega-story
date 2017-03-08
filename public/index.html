@@ -140,13 +140,14 @@
                   <!-- summary shown only when not active -->
                   <div class="summary">
                     <h2>Where was this photo taken?</h2>
+                    <p>{{activePhoto.place}}</p>
                   </div>
                   <!-- form shown only when active -->
                   <form>
                     <h2>Where was this photo taken?</h2>
-                    <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button class="btn btn-block">Does not remember</button>
-                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
+                    <textarea v-model="activePhoto.place" rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
             </div>
@@ -155,12 +156,13 @@
                 <div class="content-padded">
                   <div class="summary">
                     <h2>When was this photo taken?</h2>
+                    <p>{{activePhoto.date}}</p>
                   </div>
                   <form>
                     <h2>When was this photo taken?</h2>
-                    <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
-                    <button class="btn btn-block">Does not remember</button>
-                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
+                    <textarea v-model="activePhoto.date" rows="5" placeholder="Insert exact or approximate date"></textarea>
+                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
             </div>
@@ -169,12 +171,13 @@
                 <div class="content-padded">
                   <div class="summary">
                     <h2>Who's in the photo?</h2>
+                    <p>{{activePhoto.people}}</p>
                   </div>
                   <form>
                     <h2>Who's in the photo?</h2>
-                    <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button class="btn btn-block">Does not remember</button>
-                    <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button </form>
+                    <textarea v-model="activePhoto.people" rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                    <button v-on:click.stop="nextCard" class="btn btn-block">Does not remember</button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
             </div>
@@ -196,8 +199,8 @@
                   <!-- form shown only when active -->
                   <form>
                     <h2>Tell us a story about this picture</h2>
-                    <textarea rows="5" placeholder=""></textarea>
-                    <button class="btn btn-primary btn-block">Save</button </form>
+                    <textarea v-model="activePhoto.story" rows="5" placeholder=""></textarea>
+                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block">Save</button </form>
                 </div>
               </div>
             </div>

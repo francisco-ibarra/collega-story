@@ -9,15 +9,23 @@ var Swiper = require("swiper");
 exports.Component = {
 
     template : "#photo-slide",
-    props : ['photos', 'options'],
+    props : ['photos', 'options', 'account'],
     
     data: function(){
-      return {        
+      return {  
+        initialPhoto : 0,
         showControls : false,
-        tagControlEnabled : false,
-        storyControlEnabled : false,
+        showStory : false,
         
-        showStory : false
+        tagControlEnabled : false,
+        storyControlEnabled : false,        
+        
+        activePhoto : {
+          date : '',
+          people : '',
+          place : '',
+          story : ''
+        }
       };
     },
   
@@ -37,17 +45,29 @@ exports.Component = {
         this.isSliderOn = true;
         console.log('reloaded');
       
+        var self = this;
         
         this.slides = new Swiper('.slideshow',{
           paginationClickable: true,
-          pagination: '.swiper-pagination'
+          pagination: '.swiper-pagination',
+          //initialSlide : self.initialPhoto,
+          onSlideChangeEnd : function(){
+            self.onPhotoChange();
+          }
         });
         
         this.cards = new Swiper('.tagControls', {
           slidesPerView: 3,
           centeredSlides: true,
           paginationClickable: true
-        });        
+        }); 
+        
+        if (this.initialPhoto > 0) {
+          this.slides.slideTo(this.initialPhoto,0);
+        } else {
+          this.onPhotoChange();
+        }
+        
       },
       
       toggleControls : function(event){
@@ -67,8 +87,6 @@ exports.Component = {
       },
       
       nextCard : function(){
-        // stop propagation is done using vue properties
-        
         if (this.cards.isEnd){
           this.toggleControls();
           return;
@@ -86,13 +104,73 @@ exports.Component = {
         this.cards.slideTo(this.cards.clickedIndex);
       },
       
+      onPhotoChange : function(){
+        var photo = this.photos[this.slides.activeIndex];
+        console.log("slide changed to : " + this.slides.activeIndex);
+        
+        this.cards.slideTo(0);
+ 
+        this.activePhoto.place = photo.tags.place;
+        this.activePhoto.date = photo.tags.date;
+        this.activePhoto.people = photo.tags.people;
+        
+        // this is only cached during the session.
+        this.activePhoto.story = photo.tags.story;
+      },    
+      
       goBack : function(){
         console.log(this.$route);
         this.$router.push({name : this.$route.name});        
       },
       
       setupView : function(q){
-        this.showStory = q.showStory == '1';
+        this.showStory = q.showStory == '1';        
+        this.initialPhoto = q.slideshow;
+      },
+      
+      onTagSave : function(){
+        var photo = this.photos[this.slides.activeIndex];
+        photo.tags = {
+          place : this.activePhoto.place,
+          date  : this.activePhoto.date,
+          people : this.activePhoto.people
+        };
+        
+        Models.Photo.tag(photo.id, photo.tags, {
+          success : function(){
+            console.log("tagsave: saved tag");
+          },
+          error : function(){
+            console.log("tagsave: error tagging");
+          }
+        });
+        this.nextCard();        
+      },
+      
+      onStorySave: function () {
+        var photo = this.photos[this.slides.activeIndex];
+        var story = {
+          photo: { 
+            id : photo.id
+          },
+          story: this.activePhoto.story,
+          from: {
+            id : this.account.id
+          }
+        };
+        
+        Models.Photo.createStory(story, {
+          success : function(){
+            console.log("storysave: saved story");
+          },
+          error : function(){
+            console.log("storysave: error saving");
+          }
+        });
+        
+        // TODO: add story to photo?>>>
+        photo.tags.story = story.story;
+        this.toggleControls();        
       }
     },
 

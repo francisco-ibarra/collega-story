@@ -29,10 +29,39 @@ var User = {
 
 };
 
+var Photo = {
+    tag: function(photoId, tags, cb){
+      axios.post("/api/photos/{0}/tags".replace("{0}", photoId), tags)
+      .then(function(response){
+        Session.dirtify();
+        console.log(response.status < 300 );
+        cb.success(response.data);        
+      })
+      .catch(function(error){
+        cb.error && cb.error(error);
+      });
+    },  
+  
+    createStory: function(story, cb){
+      axios.post("/api/stories", story)
+      .then(function(response){
+        Session.dirtify();
+        console.log(response.status < 300 );
+        cb.success(response.data);        
+      })
+      .catch(function(error){
+        cb.error && cb.error(error);
+      });
+    }  
+};
+
+
+
 var Session = {
   currentUser : null,
   currentAccount : null,  
   profile : null,
+  dirty : true,
   
   start : function(user){    
     this._store('currentUser', user);
@@ -50,6 +79,13 @@ var Session = {
     return true;
     
   },
+  isCacheDirty : function(){
+    return this.dirty;
+  },
+  dirtify : function(){
+    this.dirty = true;
+  },
+  
   invalidate : function() {
     this._rm('currentUser');
     this._rm('currentAccount');
@@ -86,4 +122,5 @@ var Session = {
 };
 
 exports.User = User;
+exports.Photo = Photo;
 exports.Session = Session;

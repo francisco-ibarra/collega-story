@@ -34,9 +34,15 @@ exports.Component = {
       this.$router.push({ name: page});
     }
   },
+  watch : {
+    session : function(){
+      console.log("session changed");
+    }
+  },
   
   created : function(){
     var account = this.session.getCurrentAccount()
-    this.loadProfile(account.username);
+    console.log("Reloading account");
+    this.loadProfile(account.id);
   }  
 };

@@ -7,20 +7,11 @@ var moment = require("moment");
 var Vue = require("vue");
 
 /* Story creation component */
-var store = {
-  state : {
-    photos : []
-  }
-};
 
 var photoSelect = {
   template : "#story-photo-select",
   props : ['photos'],
-  data : function(){
-    return {
-      sharedState : store.state
-    };
-  }, 
+ 
   methods : {
     selectCurrent : function(index){
       var photo = this.photos[index];
@@ -41,12 +32,14 @@ var photoSelect = {
 };
 
 var create = {
-  template : '<component v-bind:photos="photos" v-bind:is="currentView"></component>',
+  template : '<component v-bind:photos="photos" v-bind:account="account" v-bind:is="currentView"></component>',
   props : ['profile'],
   data : function(){
     return {
-      photos : [],
-      sharedState : store.state,      
+      photos : [],     
+      account : {
+        id : ''
+      },
       currentView : 'photos'
     };
   },
@@ -76,6 +69,7 @@ var create = {
   },
   created : function(){
     this.photos = this.profile.photos;
+    this.account.id = this.profile.id;
     console.log(this.profile);
   }
 };
