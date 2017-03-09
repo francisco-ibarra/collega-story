@@ -174,16 +174,6 @@ exports.Component = {
       }
     },
 
-    // we watch the changes to the components' data / events
-    watch : {
-      '$route' : function(to, from){
-        console.log('route watch from slider')
-        if (to.query.slideshow === undefined) {
-          this.$router.push({name : "home"})
-        }
-      }
-    },
-
     // events of the component lifecycle
 
     created : function(){

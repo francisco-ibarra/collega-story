@@ -93,14 +93,15 @@ var Session = {
   },
   
   setCurrentAccount : function(account){
-    this._store('currentAccount', account);
+    this._store('currentAccount', account);    
   },
   getCurrentAccount : function(){
     return this.currentAccount;
   },
   
   setProfile : function(profile){    
-    this._store('profile', profile);    
+    this.dirty = false;
+    this._store('profile', profile);      
   },
   getProfile : function(){
     return this.profile;
