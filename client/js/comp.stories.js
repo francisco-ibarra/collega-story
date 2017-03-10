@@ -2,10 +2,15 @@
  * It allows users to browse and annotate pictures
  * @author: Marcos baez
  */
-var SlideShow = require("./comp.slider");
-var Models = require("./models");
-var moment = require("moment");
+
 var Vue = require("vue");
+var moment = require("moment");
+
+var Models = require("./models");
+
+var slideMixin = require("./mixin.slider");
+var SlideShow = require("./comp.slider");
+
 
 /* Story creation component */
 
@@ -75,6 +80,44 @@ var create = {
   }
 };
 
+/* Story slideshow */
+
+var slide = {
+  template : '#story-slide',
+  props: ['profile'],
+  mixins : [slideMixin.mixin],
+  
+  data : function(){
+    return {
+      photos : [],
+      account : {}
+    };
+  },
+  
+  methods : {
+    storyToPhoto : function(stories){
+      return stories.map(function(story){
+        var photo = story.photo;
+        photo.tags.story = story.story;
+        return photo;
+      });
+    }
+  },
+  
+  created : function(){
+    console.log("created slider");
+    this.setupView(this.$route.query); // setup in data...
+    
+    this.photos = this.storyToPhoto(this.profile.stories);
+    this.account.id = this.profile.id;        
+  },
+
+  mounted : function(){      
+    console.log("updated slider");
+    this.initSlider(); // let's do it only the first time. 
+  }  
+};
+
 
 /* Story grid component */
 var grid = {
@@ -116,7 +159,8 @@ exports.Component = {
 
   components: {
     grid: grid,
-    create: create
+    create: create,
+    slide : slide
   },
 
   // methods of the component
