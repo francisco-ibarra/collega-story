@@ -81,16 +81,14 @@ var create = {
 };
 
 /* Story slideshow */
-
 var slide = {
   template : '#story-slide',
   props: ['profile'],
-  mixins : [slideMixin.mixin],
+  mixins : [slideMixin.slider.mixin, slideMixin.cards.mixin],
   
   data : function(){
     return {
-      photos : [],
-      account : {}
+      photos : []
     };
   },
   
@@ -101,19 +99,37 @@ var slide = {
         photo.tags.story = story.story;
         return photo;
       });
+    },
+    
+    onPhotoChange : function(currIndex){
+      console.log(currIndex);
+      var photo = this.photos[currIndex];
+      this.prepareCardSet({
+        id : photo.id,
+        tags : photo.tags,    
+      });
     }
   },
   
   created : function(){
     console.log("created slider");
-    this.setupView(this.$route.query); // setup in data...
     
+    this.setupSlider({
+      showStory : false,
+      initialPhoto : this.$route.query.slideshow
+    }); // setup in data...
+  
+    this.setupCards({
+      accountId : this.profile.id
+    });
+
+    // move this to stories...
     this.photos = this.storyToPhoto(this.profile.stories);
-    this.account.id = this.profile.id;        
+    
   },
 
   mounted : function(){      
-    console.log("updated slider");
+    this.initCards();
     this.initSlider(); // let's do it only the first time. 
   }  
 };
@@ -154,7 +170,7 @@ exports.Component = {
     return {
       currentView: 'grid',
       profile: []
-    }
+    };
   },
 
   components: {
@@ -167,11 +183,11 @@ exports.Component = {
   methods: {
     resolveView: function (query) {
       if (query.slideshow != undefined) {
-        this.currentView = 'slide'
+        this.currentView = 'slide';
       } else if (query.create != undefined) {
-        this.currentView = 'create'
+        this.currentView = 'create';
       } else {
-        this.currentView = 'grid'
+        this.currentView = 'grid';
       }
     },
     // this should be only loadStories
@@ -184,10 +200,10 @@ exports.Component = {
           done();
         },
         error: function (error) {
-          console.log("session expired")
+          console.log("session expired");
           self.$router.push({
             name: 'login'
-          })
+          });
         }
       });
     }

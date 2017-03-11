@@ -3,8 +3,27 @@
  * @author: Marcos baez
  */
 
-var SlideShow = require("./comp.slider");
+var slideMixin = require("./mixin.slider");
 
+/* Social slideshow */
+var slide = {
+  template : '#social-slide',
+  props: ['feedback'],
+  mixins : [slideMixin.slider.mixin],
+  created : function(){
+    console.log("created"); 
+  },
+  methods : {
+    onPhotoChange(){
+      console.log("photo changed");
+    }
+  },
+  mounted : function(){
+    this.initSlider();
+  }
+};
+
+/* Social grid component */
 var grid = {
   template: "#social-grid",
   props: ['feedback'],
@@ -26,7 +45,7 @@ exports.Component = {
   },
   components: {
     grid: grid,
-    //slide: SlideShow.Component
+    slide: slide
   },
   
   methods : {

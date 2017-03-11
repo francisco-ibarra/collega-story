@@ -32,9 +32,9 @@ exports.Component = {
   methods : {
     resolveView : function(query){
       if (query.slideshow != undefined) {
-        this.currentView = 'slide'
+        this.currentView = 'slide';
       } else {
-        this.currentView = 'grid'
+        this.currentView = 'grid';
       }      
     }
   },

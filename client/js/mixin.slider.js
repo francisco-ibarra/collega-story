@@ -8,13 +8,58 @@ var Models = require("./models");
 var Swiper = require("swiper");
 
 
-exports.mixin = {
-
-    //props : ['photos', 'account'],
+exports.slider = {};
+exports.slider.mixin = {
     
     data: function(){
       return {  
-        initialPhoto : 0,
+        initialPhoto : 0
+      };
+    },
+
+    methods : {
+      initSlider : function(){
+        if (this.isSliderOn) return;
+        this.isSliderOn = true;
+        var self = this;
+        
+        this.slides = new Swiper('.slideshow',{
+          paginationClickable: true,
+          pagination: '.swiper-pagination',
+          //initialSlide : self.initialPhoto,
+          onSlideChangeEnd : function(){            
+            self.onPhotoChange(self.slides.activeIndex);
+          }
+        });
+        
+        
+        if (this.initialPhoto > 0) {
+          this.slides.slideTo(this.initialPhoto,0);
+        } else {
+          this.onPhotoChange(this.slides.activeIndex);
+        }
+        
+      },   
+      
+      goBack : function(){
+        console.log(this.$route);
+        this.$router.push({name : this.$route.name});        
+      },
+      
+      setupSlider : function(q){
+        this.showStory = q.showStory == '1';        
+        this.initialPhoto = q.slideshow;
+      }
+    }
+
+};
+
+
+exports.cards = {};
+exports.cards.mixin = {
+    
+    data: function(){
+      return {  
         showControls : false,
         showStory : false,
         
@@ -26,7 +71,8 @@ exports.mixin = {
           people : '',
           place : '',
           story : ''
-        }
+        },
+        accountId : null
       };
     },
   
@@ -39,42 +85,24 @@ exports.mixin = {
       }
     },
 
-    // methods of the component, accessbile via this.xxxx()
+    // methods of the component, accessbile via 
     methods : {
-      initSlider : function(){
-        if (this.isSliderOn) return;
-        this.isSliderOn = true;
-        console.log('reloaded');
-      
-        var self = this;
-        
-        this.slides = new Swiper('.slideshow',{
-          paginationClickable: true,
-          pagination: '.swiper-pagination',
-          //initialSlide : self.initialPhoto,
-          onSlideChangeEnd : function(){
-            self.onPhotoChange();
-          }
-        });
+      initCards : function(){
+        if (this.isCardOn) return;
+        this.isCardOn = true;
         
         this.cards = new Swiper('.tagControls', {
           slidesPerView: 3,
           centeredSlides: true,
           paginationClickable: true
-        }); 
-        
-        if (this.initialPhoto > 0) {
-          this.slides.slideTo(this.initialPhoto,0);
-        } else {
-          this.onPhotoChange();
-        }
-        
+        });                 
       },
       
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
-      },
+      },      
+      
       
       toggleCurrentControl : function(current){
         this.showControls = true;
@@ -91,8 +119,7 @@ exports.mixin = {
         if (this.cards.isEnd){
           this.toggleControls();
           return;
-        }
-        
+        }        
         console.log('next card');
         this.cards.slideNext();
       },
@@ -105,12 +132,11 @@ exports.mixin = {
         this.cards.slideTo(this.cards.clickedIndex);
       },
       
-      onPhotoChange : function(){
-        var photo = this.photos[this.slides.activeIndex];
-        console.log("slide changed to : " + this.slides.activeIndex);
+      prepareCardSet : function(photo){
         
         this.cards.slideTo(0);
  
+        this.activePhoto.id = photo.id;
         this.activePhoto.place = photo.tags.place;
         this.activePhoto.date = photo.tags.date;
         this.activePhoto.people = photo.tags.people;
@@ -119,25 +145,14 @@ exports.mixin = {
         this.activePhoto.story = photo.tags.story;
       },    
       
-      goBack : function(){
-        console.log(this.$route);
-        this.$router.push({name : this.$route.name});        
-      },
-      
-      setupView : function(q){
-        this.showStory = q.showStory == '1';        
-        this.initialPhoto = q.slideshow;
-      },
-      
       onTagSave : function(){
-        var photo = this.photos[this.slides.activeIndex];
-        photo.tags = {
+        var tags = {
           place : this.activePhoto.place,
           date  : this.activePhoto.date,
           people : this.activePhoto.people
         };
         
-        Models.Photo.tag(photo.id, photo.tags, {
+        Models.Photo.tag(this.activePhoto.id, tags, {
           success : function(){
             console.log("tagsave: saved tag");
           },
@@ -149,14 +164,14 @@ exports.mixin = {
       },
       
       onStorySave: function () {
-        var photo = this.photos[this.slides.activeIndex];
+        
         var story = {
           photo: { 
-            id : photo.id
+            id : this.activePhoto.id
           },
           story: this.activePhoto.story,
           from: {
-            id : this.account.id
+            id : this.accountId
           }
         };
         
@@ -172,10 +187,10 @@ exports.mixin = {
         // TODO: add story to photo?>>>
         photo.tags.story = story.story;
         this.toggleControls();        
+      },
+      
+      setupCards : function(q){
+        this.accountId = q.accountId
       }
-    },
-
-    // events of the component lifecycle
-
-
+    }
 };

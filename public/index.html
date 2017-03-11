@@ -263,76 +263,7 @@
       
     </div>   
   </script>
-  
-  <script id="social-grid" type="text/x-template">
-    <div class="content"> 
-      <header class="bar bar-nav">
-        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
-          <span class="icon icon-left-nav"></span>
-          Home
-        </router-link>  
-        <button class="btn btn-link btn-nav pull-right">
-          <span class="icon icon-play"></span>
-          Play messages
-        </button>
-        <h1 class="title">Social</h1>                        
-      </header>
-      
-      <nav class="bar bar-standard bar-header-secondary">
-        <div class="segmented-control">
-          <a class="control-item active">Your updates</a>
-          <a class="control-item">Updates from friends</a>
-        </div>
-      </nav>   
-      
-      <div class="content">
-          <div class="grid grid-big">
-            <div class="grid-item" v-for="(item, index) in feedback">
-              <div class="tile tile-telegram tile-horizontal" v-on:click="openSlideShow(index)">
  
-                   
-                    <div class="tile-item tile-photo-wrapper">
-                      <img class="tile-photo" v-bind:src="item.story.photo.images.standard">  
-                    </div>
-
-                    <div class="tile-item tile-center">                    
-                      <div class="tile-message" v-if="item.type == 'comment'">
-                        <div><h2>Message</h2></div>
-                        <div class="msg">
-                          <span>
-                          {{ item.data.text.length > 200? 
-                            item.data.text.substring(0,200) + "...":
-                            item.data.text }}
-                          </span>
-                        </div>                      
-                        <div>
-                          <img class="img-circle tile-profile" v-bind:src="item.data.from.profile_picture">
-                          <span>{{item.data.from.full_name}}</span>
-                        </div>
-                      </div>
-
-                      <div class="tile-message" v-if="item.type == 'like'">         <div><h2>Message</h2></div>            
-                        <div class="msg">
-                          <span class="icon icon-star"></span>
-                          <span>I Liked your story! </span>                        
-                        </div>
-                        <div>
-                          <img  class="img-circle tile-profile" v-bind:src="item.data.profile_picture">
-                          <span>{{item.data.full_name}}</span>
-                        </div>
-                      </div>  
-                    </div>                
-
-                
-              </div>
-            </div>  
-          </div>
-      </div>      
-      
-      
-    </div>  
-  </script>
-  
   <script id="story-grid" type="text/x-template">
     <div class="content"> 
       <header class="bar bar-nav">
@@ -525,7 +456,121 @@
    
   </script>   
    
+ 
+  <script id="social-grid" type="text/x-template">
+    <div class="content"> 
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          Home
+        </router-link>  
+        <button class="btn btn-link btn-nav pull-right">
+          <span class="icon icon-play"></span>
+          Play messages
+        </button>
+        <h1 class="title">Social</h1>                        
+      </header>
+      
+      <nav class="bar bar-standard bar-header-secondary">
+        <div class="segmented-control">
+          <a class="control-item active">Your updates</a>
+          <a class="control-item">Updates from friends</a>
+        </div>
+      </nav>   
+      
+      <div class="content">
+          <div class="grid grid-big">
+            <div class="grid-item" v-for="(item, index) in feedback">
+              <div class="tile tile-telegram tile-horizontal" v-on:click="openSlideShow(index)">
+ 
+                   
+                    <div class="tile-item tile-photo-wrapper">
+                      <img class="tile-photo" v-bind:src="item.story.photo.images.standard">  
+                    </div>
+
+                    <div class="tile-item tile-center">                    
+                      <div class="tile-message" v-if="item.type == 'comment'">
+                        <div><h2>Message</h2></div>
+                        <div class="msg">
+                          <span>
+                          {{ item.data.text.length > 200? 
+                            item.data.text.substring(0,200) + "...":
+                            item.data.text }}
+                          </span>
+                        </div>                      
+                        <div>
+                          <img class="img-circle tile-profile" v-bind:src="item.data.from.profile_picture">
+                          <span>{{item.data.from.full_name}}</span>
+                        </div>
+                      </div>
+
+                      <div class="tile-message" v-if="item.type == 'like'">         <div><h2>Message</h2></div>            
+                        <div class="msg">
+                          <span class="icon icon-star"></span>
+                          <span>I Liked your story! </span>                        
+                        </div>
+                        <div>
+                          <img  class="img-circle tile-profile" v-bind:src="item.data.profile_picture">
+                          <span>{{item.data.full_name}}</span>
+                        </div>
+                      </div>  
+                    </div>                
+
+                
+              </div>
+            </div>  
+          </div>
+      </div>      
+      
+      
+    </div>  
+  </script>
+     
    
+<script id="social-slide" type="text/x-template">
+             
+<div class="slideshow swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" v-for="item in feedback">
+      <img v-bind:src="item.story.photo.images.standard">
+      <!--p>{{item.story.story}} </p-->
+
+        <p class="msg" v-if="item.type == 'comment'">
+          From {{item.data.from.full_name}}: 
+                <span>
+                {{ item.data.text.length > 200? 
+                  item.data.text.substring(0,200) + "...":
+                  item.data.text }}
+                </span>
+              
+        </p>
+
+      <p class="msg" v-if="item.type == 'like'">       
+          <span>{{item.data.full_name}} really liked it!</span>
+      </p>
+      
+
+    </div>
+
+
+  </div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination"></div>
+
+
+
+  <a v-on:click.stop="goBack" class="slide-close">
+    <span class="icon icon-close"></span>
+  </a>
+
+
+</div> 
+                  
+   
+  </script>      
+   
+   
+
   
 <script src="js/swiper.min.js"></script>  
 <script src="js/axios.min.js"></script>
