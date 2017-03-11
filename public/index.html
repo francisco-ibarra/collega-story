@@ -43,21 +43,28 @@
   
   <!-- TODO: move to vue files -->
   <script id="photo-slide" type="text/x-template">
-     
-      <div class="slider" id="photoSlider">
-        <div class="slide-group">
-          
-          <div class="slide" v-for="post in posts" v-on:click="toggleControls">
+
+      <div class="slideshow swiper-container">
+        <div class="swiper-wrapper">
+          <!--div class="swiper-slide" v-for="post in posts" v-on:click="toggleControls"-->
+          <div class="swiper-slide" v-for="post in posts">
             <img v-bind:src="post.images.standard_resolution.url">
           </div>
-          
         </div>
+
         <ul class="photo-controls">
-          <li><a href=""><span class="icon icon-person"></span> </li>
-           <li><a href=""><span class="icon icon-edit"></span></li> 
+          <li v-on:click="toggleCurrentControl('tag')">
+            <a><span class="icon icon-person"></span></a>
+          </li>
+          <li v-on:click="toggleCurrentControl('story')">
+            <a><span class="icon icon-edit"></span></a>
+          </li>
+          <li v-on:click="toggleDone()">
+            <a><span class="icon icon-check"></span></a>
+          </li>
         </ul>
-        
-        <div class="photo-cards modal" v-bind:class="{active : showControls}">
+
+        <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
             
             <!-- slider begin -->
             <div class="swiper-wrapper">
@@ -67,13 +74,14 @@
                       <!-- summary shown only when not active -->
                       <div class="summary">
                         <h2>Where was this photo taken?</h2>
+                        <p>{{whereNotes}}</p>
                       </div>
                       <!-- form shown only when active -->
                       <form>                        
                         <h2>Where was this photo taken?</h2>
-                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
+                        <textarea id="where-notes" v-model="whereNotes" rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                        <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whereUnknown" >Does not remember</button>
+                        <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whereSave">Save</button>
                       </form>
                     </div>
                 </div>
@@ -83,12 +91,13 @@
                     <div class="content-padded">                      
                       <div class="summary">
                         <h2>When was this photo taken?</h2>
+                        <p>{{whenNotes}}</p>
                       </div>                      
                       <form>  
                         <h2>When was this photo taken?</h2>      
-                        <textarea rows="5" placeholder="Insert exact or approximate date"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
+                        <textarea id="when-notes"  v-model="whenNotes" rows="5" placeholder="Insert exact or approximate date"></textarea>
+                        <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whenUnknown">Does not remember</button>
+                        <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whenSave">Save</button>
                       </form>
                     </div>
                 </div> 
@@ -98,12 +107,13 @@
                     <div class="content-padded">
                       <div class="summary">
                         <h2>Who's in the photo?</h2>
+                        <p>{{whoNotes}}</p>
                       </div>
                       <form>
                         <h2>Who's in the photo?</h2>                       
-                        <textarea rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                        <button class="btn btn-block">Does not remember</button>
-                         <button v-on:click.stop="nextCard" class="btn btn-primary btn-block">Save</button
+                        <textarea id="who-notes" v-model="whoNotes" rows="5" placeholder="e.g., Mario Rossi, Chiara Bianchi"></textarea>
+                        <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whoUnknown">Does not remember</button>
+                        <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whoSave">Save</button>
                       </form>
                     </div>
                 </div>
@@ -111,9 +121,33 @@
             </div>  
             <!-- slider end -->      
         </div>
-        
-        
-      </div>  
+
+        <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+
+          <!-- slider begin -->
+          <div class="swiper-wrapper">
+            <div class="swiper-slide swiper-slide-active">
+              <div class="card">
+                <div class="content-padded">
+                  <!-- summary shown only when not active -->
+                  <div class="summary">
+                    <h2>Tell us a story about this picture</h2>
+                  </div>
+                  <!-- form shown only when active -->
+                  <form>
+                    <h2>Tell us a story about this picture</h2>
+                    <textarea v-model="story" rows="5" placeholder=""></textarea>
+                    <button class="btn btn-primary btn-block" v-on:click="storySave">Save</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- slider end -->
+        </div>
+
+
+      </div>
    
   </script>
   

@@ -13,15 +13,15 @@ const routes = [
     name : "user",
     component : Components.SlidePhotos
   },{
-    path : "/session/:user/:option", 
-    name : "userOption",
+    path : "/session/:user/info",
+    name : "info",
     component : Components.SlidePhotos
   }
 ];
 
 const router = new VueRouter({
   routes : routes 
-})
+});
 
 var app = new Vue({
   router : router

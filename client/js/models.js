@@ -1,4 +1,4 @@
-var axios = require("axios")
+var axios = require("axios");
 
 var User = {
 
@@ -6,6 +6,17 @@ var User = {
         axios.get("/api/user/{0}/photos".replace("{0}", id))
         .then(function(response){
            callback(response.data.items)
+        });
+    },
+
+    SavePostInfo: function(id,info,callback){
+        axios.post("/api/user/{0}/info".replace("{0}", id),info)
+        .then(function(response){
+            console.log(response.status < 300 );
+            callback.success(response)
+        })
+        .catch(function(error){
+            console.log(error);
         });
     }
 

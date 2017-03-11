@@ -1,36 +1,32 @@
 {
-    "name": "storygram",
-    "version": "0.0.1",
-
-    "repository" : {
-      "type" : "git",
-      "url"  : "https://github.com/mbaezpy/collega-story.git"
-    },
-    "description": "Storygram front-end application",
-  
-    "engines": {
-      "node": "5.9.1"
-    },
-  
-    "main" : "./server/main.js",
-  
-    "scripts" : {
-      "start" : "node ./server/main.js",
-      "postinstall" : "npm run webpack && npm run cp-js-css",
-      "webpack" : "webpack --config ./config/webpack.config.js -p",
-      "webpack-dev" : "webpack --config ./config/webpack.config.js",
-      "cp-js-css" : "./build.sh"
-    },
-  
-    "dependencies": {
-        "vue" : "2.1.10",
-        "vue-router" : "2.2.1",
-        "swiper": "3.4.1",
-        "axios" : "0.15.3",
-        "express": "~4.10.2",
-        "webpack": "^1.13.0",
-        "ratchet" : "git://github.com/twbs/ratchet.git"
-    },
-  
-    "license" : "GPL 2.0"
+  "name": "storygram",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbaezpy/collega-story.git"
+  },
+  "description": "Storygram front-end application",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "./server/main.js",
+  "scripts": {
+    "start": "node ./server/main.js",
+    "postinstall": "npm run webpack && npm run cp-js-css",
+    "webpack": "webpack --config ./config/webpack.config.js -p",
+    "webpack-dev": "webpack --config ./config/webpack.config.js",
+    "cp-js-css": "./build.sh"
+  },
+  "dependencies": {
+    "axios": "0.15.3",
+    "body-parser": "^1.17.1",
+    "express": "~4.10.2",
+    "pg-promise": "^5.6.3",
+    "ratchet": "git://github.com/twbs/ratchet.git",
+    "swiper": "3.4.1",
+    "vue": "2.1.10",
+    "vue-router": "2.2.1",
+    "webpack": "^1.13.0"
+  },
+  "license": "GPL 2.0"
 }
