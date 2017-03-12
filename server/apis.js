@@ -41,8 +41,8 @@ exports.init = function (app) {
     app.post('/api/user/:id/info', function(req,res){
       var body = req.body;
 
+      //CREATE TABLE answers ( id serial primary key, username varchar(35) NOT NULL, url text NOT NULL, when_notes text, where_notes text, who_notes text, knows_when boolean, knows_where boolean, knows_who boolean, what text);
       var sqlData = [body.user,body.url,body.whenNotes,body.whereNotes,body.whoNotes,body.whenKnown,body.whereKnown,body.whoKnown,body.story];
-      //console.log(sqlData);
         db.none("insert into answers(username,url,when_notes,where_notes,who_notes,knows_when,knows_where,knows_who,what) values($1,$2,$3,$4,$5,$6,$7,$8,$9)", sqlData)
       .then(function() {
             // success;

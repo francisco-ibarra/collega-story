@@ -87,9 +87,12 @@ exports.Component = {
               story : this.story
           };
 
+          var self = this;
+
           Models.User.SavePostInfo(this.username, post, {
              success: function(){
                  console.log('information saved');
+                 self.clearPostData();
              },
               error: function(){
                  console.log('error');
@@ -139,7 +142,6 @@ exports.Component = {
                 console.log('No more slides');
             } else {
                 console.log('Move to next slide');
-                this.clearPostData();
                 this.cards.slideTo(0);
                 this.slides.slideNext();
                 this.sendPostInfo();
