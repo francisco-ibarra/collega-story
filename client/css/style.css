@@ -8,41 +8,34 @@ body {
 }
 
 /* slideshow photo swiping */
-.slider, .slide-group {
+.slideshow {
     width: 100%;
     height: 100%;
     position: absolute;
+    background: black;
 }
 
-.slide > img {
+.slideshow .swiper-slide > img {
     max-height: 100%;
     max-width: 100%;
     width: 100%;
     object-fit: contain;
 }
 
-/*
-.swiper-container {
-    width: 100%;
-    height: 100%;
+.slideshow .slide-close {
     position: absolute;
+    right: 1em;
+    top: 1em;
+    display: block;
+    z-index: 11;
 }
-
-.swiper-container .swiper-slide {
-  min-width: 100%;
-  min-height: 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-*/
 
 /* slideshow option controls */
 .photo-controls {
   z-index: 100;
   position: absolute;
   width: 100%;
-  bottom: 0px;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
