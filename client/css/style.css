@@ -316,10 +316,12 @@ header .btn.pull-right {
 
 .home .cover {
   width: 50%;
+  height: 100%;
   overflow: hidden;
 }
 .home .cover > img {
-  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
 }
 
 .home .spring {
