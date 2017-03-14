@@ -14,7 +14,7 @@ var slide = {
     console.log("created"); 
   },
   methods : {
-    onPhotoChange(){
+    onPhotoChange : function(){
       console.log("photo changed");
     }
   },
@@ -50,10 +50,10 @@ exports.Component = {
   
   methods : {
     resolveView : function(query){
-      if (query.slideshow != undefined) {
-        this.currentView = 'slide'
+      if (query.slideshow !== undefined) {
+        this.currentView = 'slide';
       } else {
-        this.currentView = 'grid'
+        this.currentView = 'grid';
       }      
     }
   },

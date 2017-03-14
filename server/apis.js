@@ -245,7 +245,7 @@ var fnGetPhoto = function (user, photoId) {
       return photo.id == photoId;
     });
 
-    return photo != undefined;
+    return photo !== undefined;
   });
   return photo;
 };
