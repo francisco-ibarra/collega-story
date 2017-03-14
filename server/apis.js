@@ -216,6 +216,7 @@ var fnProcessPosts = function (user, posts) {
   person.username = profile.username;
   person.full_name = profile.full_name;
   person.profile_picture = profile.profile_picture;
+  person.cover_picture = person.photos[Math.round(person.photos.length* Math.random())].images.standard;
 
   // The user can manage more than one account
   user.accounts.push(person);

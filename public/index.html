@@ -35,13 +35,19 @@
       <div class="content home"> 
         <!-- CARD.BEGIN -->
         
-        <div class="card profile">
-          
-          <img v-bind:src="profile.profile_picture">
-          <h2>{{profile.full_name}}</h2>
+        <div class="cover">
+          <img v-bind:src="profile.cover_picture">
           
         </div>
-        <div class="card spring">
+        <div class="spring">
+          <div class="profile">
+            <img class="img-circle" v-bind:src="profile.profile_picture">
+            <h2>{{profile.full_name}}</h2>
+            <p> Last session yesterday 4pm </p>
+          </div>
+          
+          
+          
           <div class="grid grid-big">
             <!--form class="home"-->              
               
@@ -66,7 +72,7 @@
               <div class="grid-item grid-item-center">
                 <div class="img-circle"><img src="img/discover.png">
                 </div>
-                <span>Discover</span>
+                <span>Collegamenti</span>
               </div>    
               
               <!--button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      

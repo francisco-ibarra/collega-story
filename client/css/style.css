@@ -314,18 +314,21 @@ header .btn.pull-right {
   display: flex;
 }
 
-.home .profile {
-  width: 30%;
-  text-align: center;
-  padding: .8em;
+.home .cover {
+  width: 50%;
+  overflow: hidden;
 }
+.home .cover > img {
+  height: 100%;
+}
+
 .home .spring {
-  width: 70%;
+  width: 50%;
 }
 
 .home .grid-item .img-circle {  
-  width : 8em;
-  height: 8em;  
+  width : 6em;
+  height: 6em;  
   padding: 2em;
   overflow: hidden;
   border: 1px solid #428bca;
@@ -334,7 +337,13 @@ header .btn.pull-right {
 .home .grid-item img{
   width: 100%;
 }
+.home .grid-item {
+  min-height: 12em;
+}
+.home .profile {
+  text-align:center;
+  padding : 1em;
+}
 .home .profile h2{
   font-weight: 400;
 }
-
