@@ -38,6 +38,6 @@ jspm_packages
 
 public/js/*.js
 public/css/*.css
-public/fonts/*.css
+public/fonts/*
 
 
