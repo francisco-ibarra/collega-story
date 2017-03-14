@@ -10,6 +10,8 @@
   <link href="css/ratchet.min.css" rel="stylesheet">
   <script src="js/ratchet.min.js"></script>  
   
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -222,10 +224,10 @@
           <span class="icon icon-plus"></span>
           Add photos
         </button>
-        <button class="btn btn-link btn-nav pull-right">
+        <!--button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-play"></span>
           Tag photos
-        </button>
+        </button-->
         <h1 class="title">Photos</h1>                        
       </header>
       
@@ -245,16 +247,29 @@
                 <!--div class="tile-caption">
                 photo.caption.text
                 </div-->
+                <div class="tile-contributor">
+                    <img class="img-circle" v-bind:src="photo.contributor.profile_picture">                                        
+                    <span>Posted by {{photo.contributor.full_name.split(" ")[0]}}</span>
+                </div>
                 <div class="tile-meta content-padded">
-                  <span class="pull-left">Tags:</span>
-                  <span class="icon icon-person pull-right" 
-                  v-bind:class="{ 'tag-false': photo.tags.people.length === 0 }"></span>
-                  <span class="icon icon-stop pull-right"
-                  v-bind:class="{ 'tag-false': photo.tags.date == '' }" 
-                  ></span>
-                  <span class="icon icon-info pull-right"
-                  v-bind:class="{ 'tag-false': photo.tags.place == '' }"
-                  ></span>
+
+                    
+                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.place == '' }">
+                      <i class="fa fa-map-o"></i>
+                      <span class="item-label">PLACE</span>
+                    </a>  
+                  
+                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.date == '' }">
+                      <i class="fa fa-calendar-check-o"></i>
+                      <span class="item-label">DATE</span>
+                    </a>                    
+                    
+                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.people.length === 0 }">
+                      <i class="fa fa-user-o"></i>
+                      <span class="item-label">PEOPLE</span>
+                    </a>
+
+
                 </div>
               </div>
             </div>  
