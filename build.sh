@@ -10,7 +10,9 @@ mkdir -p public/css
 cp client/css/style.css public/css/
 cp node_modules/swiper/dist/css/swiper.min.css public/css/
 cp node_modules/ratchet/dist/css/ratchet.min.css public/css/
+cp node_modules/font-awesome/css/font-awesome.min.css public/css/
 
 mkdir -p public/fonts/
 cp node_modules/ratchet/dist/fonts/ratchicons.* public/fonts/
+cp node_modules/font-awesome/fonts/* public/fonts/
 
