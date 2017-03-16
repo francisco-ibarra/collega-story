@@ -46,25 +46,25 @@
 
       <div class="slideshow swiper-container">
         <div class="swiper-wrapper">
-          <!--div class="swiper-slide" v-for="post in posts" v-on:click="toggleControls"-->
-          <div class="swiper-slide" v-for="post in posts">
+          <div class="swiper-slide" v-for="post in posts" v-on:click="toggleControls">
             <img v-bind:src="post.images.standard_resolution.url">
           </div>
         </div>
 
         <ul class="photo-controls">
-          <li v-on:click="toggleCurrentControl('tag')">
-            <a><span class="icon icon-person"></span></a>
-          </li>
-          <li v-on:click="toggleCurrentControl('story')">
-            <a><span class="icon icon-edit"></span></a>
-          </li>
-          <li v-on:click="toggleDone()">
-            <a><span class="icon icon-check"></span></a>
-          </li>
+          <template v-if="sessionEnd">
+            <li v-if="" v-on:click="submitData">
+              <a><span class="icon icon-share"></span> Submit data </a>
+            </li>
+          </template>
+          <template v-else>
+            <li v-on:click="toggleControls">
+              <a><span class="icon icon-compose"></span> Add picture data </a>
+            </li>
+          </template>
         </ul>
 
-        <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
+        <div class="tagControls photo-cards modal" v-bind:class="{active : showControls}">
             
             <!-- slider begin -->
             <div class="swiper-wrapper">
@@ -118,37 +118,26 @@
                     </div>
                 </div>
               </div>
+              <div class="swiper-slide">
+                <div class="card" v-on:click="activateCard">
+                  <div class="content-padded">
+                    <div class="summary">
+                      <h2>What is the picture's story?</h2>
+                      <p>{{story}}</p>
+                    </div>
+                    <form>
+                      <h2>What is the picture's story?</h2>
+                      <textarea id="story-notes" v-model="story" rows="8" placeholder="Tell us a story"></textarea>
+                      <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="storySave">Save</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>  
             <!-- slider end -->      
         </div>
 
-        <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
-
-          <!-- slider begin -->
-          <div class="swiper-wrapper">
-            <div class="swiper-slide swiper-slide-active">
-              <div class="card">
-                <div class="content-padded">
-                  <!-- summary shown only when not active -->
-                  <div class="summary">
-                    <h2>Tell us a story about this picture</h2>
-                  </div>
-                  <!-- form shown only when active -->
-                  <form>
-                    <h2>Tell us a story about this picture</h2>
-                    <textarea v-model="story" rows="5" placeholder=""></textarea>
-                    <button class="btn btn-primary btn-block" v-on:click="storySave">Save</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- slider end -->
-        </div>
-
-
       </div>
-   
   </script>
   
 <script src="js/swiper.min.js"></script>  

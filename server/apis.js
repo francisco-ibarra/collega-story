@@ -41,9 +41,42 @@ exports.init = function (app) {
     app.post('/api/user/:id/info', function(req,res){
       var body = req.body;
 
+      //Table Structure as reference
       //CREATE TABLE answers ( id serial primary key, username varchar(35) NOT NULL, url text NOT NULL, when_notes text, where_notes text, who_notes text, knows_when boolean, knows_where boolean, knows_who boolean, what text);
-      var sqlData = [body.user,body.url,body.whenNotes,body.whereNotes,body.whoNotes,body.whenKnown,body.whereKnown,body.whoKnown,body.story];
-        db.none("insert into answers(username,url,when_notes,where_notes,who_notes,knows_when,knows_where,knows_who,what) values($1,$2,$3,$4,$5,$6,$7,$8,$9)", sqlData)
+
+      //Column and table names
+      var columns = new pgp.helpers.ColumnSet(
+          ['username','url','when_notes','where_notes','who_notes','knows_when','knows_where','knows_who','what'],
+          {table: 'answers'}
+      );
+      console.log('post done');
+
+      //Array with insert values
+      var values = [];
+      //Iterate body of request
+      body.forEach(function(element){
+          //initialize post information
+          var post = {
+              username : element.user,
+              url : element.url,
+              when_notes : element.whenNotes,
+              where_notes : element.whereNotes,
+              who_notes : element.whoNotes,
+              knows_when : element.whenKnown,
+              knows_where : element.whereKnown,
+              knows_who : element.whoKnown,
+              what : element.story
+          };
+          //load post array for slideshow
+          values.push(post);
+      });
+
+      // generating a multi-row insert query:
+      // INSERT INTO "answers"(<columns>) VALUES <values>
+      var query = pgp.helpers.insert(values, columns);
+
+      //feed query into insert instruction
+      db.none(query)
       .then(function() {
             // success;
           console.log('success');
