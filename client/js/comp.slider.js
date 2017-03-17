@@ -67,7 +67,7 @@ exports.Component = {
             '<div class="swiper-slide" style="background:white">' +
                 '<div class="content-padded">' +
                     '<h4>Well done! That was your last picture</h4>' +
-                    '<div style="margin-bottom:10px">Please tap on Submit data at the bottom to finish the session</div>' +
+                    '<div style="margin-bottom:10px">Please tap on Submit data at the bottom of the page to finish the session</div>' +
                     '<div style="margin-bottom:10px">Thanks for participating!</div>' +
                 '</div>' +
             '</div>'
@@ -111,10 +111,11 @@ exports.Component = {
       },
 
         submitData: function(){
-
+            var self = this;
             Models.User.SavePostInfo(this.username, this.posts, {
                 success: function(){
                     console.log('information saved');
+                    self.$router.push({name : 'home'});
                 },
                 error: function(){
                     console.log('error');
@@ -189,6 +190,7 @@ exports.Component = {
     // events of the component lifecycle
     created : function(){
       this.loadPosts(this.$route.params.user);
+      console.log(this);
       console.log("slider created");
     },
 
