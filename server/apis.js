@@ -29,6 +29,9 @@ exports.init = function (app) {
 
         console.log(posts.items.length);
         res.send(req.session.user.profile);
+      }, 
+      error : function(){
+        console.log("Login: problem with credentials");
       }
     });
   });
@@ -43,6 +46,10 @@ exports.init = function (app) {
     }
 
     var account = fnGetAccount(req.session.user, id);
+    if (!account) {
+      res.status(403).send();
+      return;
+    }
     res.send(account);
 
   });
@@ -232,6 +239,8 @@ var fnProcessPosts = function (user, posts) {
 };
 
 var fnGetAccount = function (user, accountId) {
+  if (! user || !user.accounts) return null;
+  
   return user.accounts.find(function (person) {
     return person.id === accountId;
   });
