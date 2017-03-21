@@ -153,6 +153,11 @@ var grid = {
         }
       });
     },
+    flipCard : function(index){
+      var story = this.stories[index];
+      story.flipped = ! story.flipped ;
+      Vue.set(this.stories, index, story);
+    },
     ago: function (date) {
       return moment(date * 1000).fromNow();
     }

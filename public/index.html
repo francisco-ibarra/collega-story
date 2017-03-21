@@ -300,26 +300,35 @@
       </header>
       
       <div class="content">
-            <div class="grid stories">
-              <div class="grid-item" v-for="(story, index) in stories">
-                <!--[ tile -->
-                <div class="tile" v-on:click="openSlideShow(index)">
-                    <img v-bind:src="story.photo.images.standard">
-                    <div class="tile-caption">
-                      {{story.story}}
-                    </div>
-                    <div class="tile-meta content-padded">
-                      <span class="pull-left">
-                        <img class="tile-profile" v-bind:src="story.from.profile_picture">
-                        
-                      </span>
-                      <span class="pull-right"> 
-                      {{story.from.full_name}}<br>
-                      {{ago(story.created_time)}}
-                      </span>
-                    </div>  
-                </div>
-                <!-- tile ]-->
+            <div class="grid grid-big stories">
+              <div class="grid-item postcard flip-container"                 
+                v-for="(story, index) in stories">
+                <a v-on:click.stop="flipCard(index)">
+                  <i class="fa fa-refresh btn-flip" aria-hidden="true"></i></a>
+                <div class="flipper" v-bind:class="{hover : story.flipped}">                
+                  <!--[ tile -->                                
+                  <div class="tile front" v-on:click="openSlideShow(index)">
+                      <img v-bind:src="story.photo.images.standard">
+                      <div class="tile-caption">
+                        <span>{{story.story}}</span>
+                      </div>
+                      <div class="tile-meta content-padded">
+                        <span class="pull-left">
+                          <img class="tile-profile" v-bind:src="story.from.profile_picture">
+
+                        </span>
+                        <span class="pull-right"> 
+                        {{story.from.full_name}}<br>
+                        {{ago(story.created_time)}}
+                        </span>
+                      </div>  
+                  </div>
+                  <!-- tile ]-->
+                  <div class="tile back" v-on:click="openSlideShow(index)">
+                      <div class="tile-story">
+                       <span>{{story.story}}</span>
+                      </div>  
+                  </div>
               </div>  
             </div>
       </div>      
