@@ -5,7 +5,11 @@ var User = {
     loadPosts: function(id, callback) {
         axios.get("/api/user/{0}/photos".replace("{0}", id))
         .then(function(response){
-           callback(response.data.items)
+           callback.success(response.data.items);
+        })
+        .catch(function(error){
+            callback.error && callback.error(error);
+
         });
     },
 

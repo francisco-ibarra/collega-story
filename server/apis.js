@@ -19,24 +19,45 @@ exports.init = function (app) {
       return;
     }
 
-    var options = {
-      hostname: "www.instagram.com",
-      path: "/{0}/media/".replace("{0}", id)
-    };
-
-    https.get(options, function(response){
-      var body = '';
-      response.on('data', function (d) {
-        body += d;
-      });
-      response.on('end', function () {
-        var parsed = JSON.parse(body);
-        res.send(parsed);
-      });
-
-    });
+    loadPosts(id, {
+        success: function(posts){
+            if (posts.items.length === 0) {
+                res.status(404).send();
+                return;
+            }
+            res.send(posts);
+        },
+        error: function(){
+            console.log("Invalid username");
+        }
+    })
 
   });
+
+  var loadPosts = function(id, callback){
+      var options = {
+          hostname: "www.instagram.com",
+          path: "/{0}/media/".replace("{0}", id)
+      };
+
+      https.get(options, function(response){
+          var body = '';
+          response.on('data', function (d) {
+              body += d;
+          });
+          response.on('end', function () {
+              try {
+                  var parsed = JSON.parse(body);
+                  callback.success(parsed);
+              } catch(e){
+                  console.log(e.message);
+              }
+          });
+      })
+      .on('error', function(e){
+          if (callback.error) callback.error(e);
+      });
+  };
 
     app.post('/api/user/:id/info', function(req,res){
       var body = req.body;

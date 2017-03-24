@@ -83,25 +83,32 @@ exports.Component = {
 
       loadPosts : function (user){
         var self = this;
-        Models.User.loadPosts(user, function(posts){
-            posts.forEach(function(element){
-                //initialize post information
-                var post = {
-                    user : element.user.username,
-                    url : element.link,
-                    images: element.images,
-                    whereKnown : null,
-                    whereNotes : null,
-                    whenKnown : null,
-                    whenNotes : null,
-                    whoKnown : null,
-                    whoNotes : null,
-                    story : null
-                };
-                //load post array for slideshow
-                self.posts.push(post);
-            });
-          self.username = user;
+        Models.User.loadPosts(user, {
+            success: function(posts){
+                posts.forEach(function(element){
+                    //initialize post information
+                    var post = {
+                        user : element.user.username,
+                        url : element.link,
+                        images: element.images,
+                        whereKnown : null,
+                        whereNotes : null,
+                        whenKnown : null,
+                        whenNotes : null,
+                        whoKnown : null,
+                        whoNotes : null,
+                        story : null
+                    };
+                    //load post array for slideshow
+                    self.posts.push(post);
+                });
+                self.username = user;
+            },
+            error: function(e){
+                console.log("Invalid username");
+                alert("Invalid username");
+                self.$router.push({name : 'home'});
+            }
         });
       },
       
@@ -115,6 +122,7 @@ exports.Component = {
             Models.User.SavePostInfo(this.username, this.posts, {
                 success: function(){
                     console.log('information saved');
+                    alert('Post information has been saved');
                     self.$router.push({name : 'home'});
                 },
                 error: function(){
