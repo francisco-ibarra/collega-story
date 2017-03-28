@@ -18,7 +18,7 @@
 <body>
   <div id="app"> 
     <transition name="slide-fade">
-    <router-view v-bind:session="session"></router-view>
+    <router-view v-bind:session="session" v-bind:MSG="MSG"></router-view>
     </transition>
   </div>
    
@@ -28,7 +28,7 @@
       <header class="bar bar-nav">
         <h1 class="title">Storygram</h1>
         <button v-on:click="goTo('logout')" class="btn btn-link btn-nav pull-right">
-          Logout
+          <lang msg="NAV_LOGOUT"></lang>
         </button>        
         
       </header>
@@ -54,25 +54,25 @@
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('photos')" class="img-circle"><img src="img/photos.png">
                 </div>
-                <span>Photos</span>
+                <span is="lang" msg="MENU_PHOTOS"></span>
               </div>
               
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('stories')" class="img-circle"><img src="img/stories.png">
                 </div>
-                <span>Stories</span>
+                <span is="lang" msg="MENU_STORIES"></span>
               </div>      
               
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('social')" class="img-circle"><img src="img/social.png">
                 </div>
-                <span>Social</span>
+                <span is="lang" msg="MENU_SOCIAL"></span>
               </div>    
                                         
               <div class="grid-item grid-item-center">
                 <div class="img-circle"><img src="img/discover.png">
                 </div>
-                <span>Collegamenti</span>
+                <span is="lang" msg="MENU_DISCOVER"></span>
               </div>    
               
               <!--button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
@@ -103,7 +103,7 @@
                 <input type="text" v-model="username" placeholder="Instagram username">
                 <input type="password" v-model="password" placeholder="Fake password, doens't matter">
 
-                <button class="btn btn-primary btn-outlined btn-block" v-on:click.prevent="login">Sign in</button>       
+                <button class="btn btn-primary btn-outlined btn-block" v-on:click.prevent="login"><lang msg="LAND_LOGIN"></lang></button>       
 
               </form>
             </div>
@@ -146,15 +146,15 @@
                 <div class="content-padded">
                   <!-- summary shown only when not active -->
                   <div class="summary">
-                    <h2>Where was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                     <p>{{activePhoto.place}}</p>
                   </div>
                   <!-- form shown only when active -->
                   <form>
-                    <h2>Where was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                     <textarea v-model="activePhoto.place" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -162,14 +162,14 @@
               <div class="card" v-on:click="activateCard">
                 <div class="content-padded">
                   <div class="summary">
-                    <h2>When was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                     <p>{{activePhoto.date}}</p>
                   </div>
                   <form>
-                    <h2>When was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                     <textarea v-model="activePhoto.date" rows="5" placeholder="Insert exact or approximate date"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -177,14 +177,14 @@
               <div class="card" v-on:click="activateCard">
                 <div class="content-padded">
                   <div class="summary">
-                    <h2>Who's in the photo?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
                     <p>{{activePhoto.people}}</p>
                   </div>
                   <form>
-                    <h2>Who's in the photo?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
                     <textarea v-model="activePhoto.people" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Does not remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -201,13 +201,13 @@
                 <div class="content-padded">
                   <!-- summary shown only when not active -->
                   <div class="summary">
-                    <h2>Tell us a story about this picture</h2>
+                    <h2><lang msg="PHOTO_TAG_STORY"></lang></h2>
                   </div>
                   <!-- form shown only when active -->
                   <form>
                     <h2>Tell us a story about this picture</h2>
                     <textarea v-model="activePhoto.story" rows="5" placeholder=""></textarea>
-                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -224,24 +224,24 @@
       <header class="bar bar-nav">
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
-          Home
+          <lang msg="NAV_HOME"></lang>
         </router-link>  
         <button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
-          Add photos
+          <lang msg="OPT_ADD_PHOTO"></lang>
         </button>
         <!--button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-play"></span>
           Tag photos
         </button-->
-        <h1 class="title">Photos</h1>                        
+        <h1 class="title"><lang msg="MENU_PHOTOS"></lang></h1>                        
       </header>
       
       <nav class="bar bar-standard bar-header-secondary">
         <div class="segmented-control">
-          <a class="control-item active">Last imported</a>
-          <a class="control-item">Timeline</a>
-          <a class="control-item">Collaborator</a>
+          <a class="control-item active"><lang msg="PHOTO_TAB_IMPORTED"</lang></a>
+          <a class="control-item"><lang msg="PHOTO_TAB_TIMELINE"></lang></a>
+          <a class="control-item"><lang msg="PHOTO_TAB_COLLABORATOR"></lang></a>
         </div>
       </nav>      
       
@@ -255,24 +255,25 @@
                 </div-->
                 <div class="tile-contributor">
                     <img class="img-circle" v-bind:src="photo.contributor.profile_picture">                                        
-                    <span>Posted by {{photo.contributor.full_name.split(" ")[0]}}</span>
+                    <lang msg="PHOTO_BY"></lang> 
+                    <span>{{photo.contributor.full_name.split(" ")[0]}}</span>
                 </div>
                 <div class="tile-meta content-padded">
 
                     
                     <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.place == '' }">
                       <i class="fa fa-map-o"></i>
-                      <span class="item-label">PLACE</span>
+                      <span is="lang" msg="TAG_PLACE" class="item-label"></span>
                     </a>  
                   
                     <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.date == '' }">
                       <i class="fa fa-calendar-check-o"></i>
-                      <span class="item-label">DATE</span>
+                      <span is="lang" msg="TAG_DATE" class="item-label"></span>
                     </a>                    
                     
                     <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.people.length === 0 }">
                       <i class="fa fa-user-o"></i>
-                      <span class="item-label">PEOPLE</span>
+                      <span is="lang" msg="TAG_PEOPLE" class="item-label"></span>
                     </a>
 
 
@@ -290,13 +291,13 @@
       <header class="bar bar-nav">
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
-          Home
+          <lang msg="NAV_HOME"></lang>
         </router-link>
         <router-link :to="{name: 'stories', query: {create : 'select'}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
-          Create story
+          <lang msg="OPT_CREATE_STORY"></lang>
         </router-link>
-        <h1 class="title">Stories</h1>                        
+        <h1 class="title"><lang msg="MENU_STORIES"></lang></h1>                        
       </header>
       
       <div class="content">
@@ -342,15 +343,14 @@
       <header class="bar bar-nav">
         <router-link :to="{name: 'stories', query : {}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-close"></span>
-          Cancel
+          <lang msg="OPT_CANCEL_STORY"></lang>
         </router-link>
-        <h1 class="title">Create story</h1>               
+        <h1 class="title"><lang msg="STORY_CREATE_TITLE"></lang></h1>               
       </header>
       
       <div class="bar bar-standard bar-header-secondary">
         <div class="content-padded">
-          <h4>Before starting, select the photos for the
-           reminiscing session
+          <h4><lang msg="STORY_CREATE_SUBTITLE"></lang>
            </h4>
         </div>
       </div>
@@ -370,7 +370,8 @@
       <div class="bar bar-standard bar-footer">
         <router-link :to="{name: 'stories', query : {create : 'start', showStory : true}}"
         class="btn btn-block btn-primary btn-outlined">
-        Start session</router-link>
+        <lang msg="STORY_CREATE_BTN"></lang>
+        </router-link>
       </div>      
       
     </div>  
@@ -413,15 +414,15 @@
                 <div class="content-padded">
                   <!-- summary shown only when not active -->
                   <div class="summary">
-                    <h2>Where was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                     <p>{{activePhoto.place}}</p>
                   </div>
                   <!-- form shown only when active -->
                   <form>
-                    <h2>Where was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                     <textarea v-model="activePhoto.place" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -429,14 +430,14 @@
               <div class="card" v-on:click="activateCard">
                 <div class="content-padded">
                   <div class="summary">
-                    <h2>When was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                     <p>{{activePhoto.date}}</p>
                   </div>
                   <form>
-                    <h2>When was this photo taken?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                     <textarea v-model="activePhoto.date" rows="5" placeholder="Insert exact or approximate date"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Don't remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -444,14 +445,14 @@
               <div class="card" v-on:click="activateCard">
                 <div class="content-padded">
                   <div class="summary">
-                    <h2>Who's in the photo?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
                     <p>{{activePhoto.people}}</p>
                   </div>
                   <form>
-                    <h2>Who's in the photo?</h2>
+                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
                     <textarea v-model="activePhoto.people" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block">Does not remember</button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -472,9 +473,9 @@
                   </div>
                   <!-- form shown only when active -->
                   <form>
-                    <h2>Tell us a story about this picture</h2>
+                    <h2><lang msg="PHOTO_TAG_STORY"></h2>
                     <textarea v-model="activePhoto.story" rows="5" placeholder=""></textarea>
-                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block">Save</button </form>
+                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
@@ -492,19 +493,19 @@
       <header class="bar bar-nav">
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
-          Home
+          <lang msg="NAV_HOME"></lang>
         </router-link>  
-        <button class="btn btn-link btn-nav pull-right">
+        <!--button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-play"></span>
           Play messages
-        </button>
-        <h1 class="title">Social</h1>                        
+        </button-->
+        <h1 class="title"><lang msg="MENU_SOCIAL"></lang></h1>                        
       </header>
       
       <nav class="bar bar-standard bar-header-secondary">
         <div class="segmented-control">
-          <a class="control-item active">Your updates</a>
-          <a class="control-item">Updates from friends</a>
+          <a class="control-item active"><lang msg="SOCIAL_TAB_YOU"></lang></a>
+          <a class="control-item"><lang msg="SOCIAL_TAB_FRIENDS"></lang></a>
         </div>
       </nav>   
       

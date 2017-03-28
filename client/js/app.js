@@ -3,6 +3,7 @@ var Vue = require("vue");
 var VueRouter = require("vue-router");
 var Components = require("./comp");
 var Models = require("./models");
+var Lang = require("./lang");
 
 // passing url parameters to the 
 // components (this.options)
@@ -54,7 +55,11 @@ router.beforeEach(function(to, from, next){
     }
 });  
 
+
 var Story = new Vue({
+  data : {
+    MSG : Lang.MSG
+  },
   computed : {
     session : function(){
       return Models.Session
