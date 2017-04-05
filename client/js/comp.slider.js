@@ -133,7 +133,7 @@ exports.Component = {
       
       nextCard : function(){
         if (this.cards.isEnd){
-          this.toggleControls();
+          //this.toggleControls();
           return;
         }
         
@@ -176,8 +176,16 @@ exports.Component = {
       whoUnknown: function(e){
           e.preventDefault();
           this.posts[this.slides.activeIndex].whoKnown = false;
+          this.whoNotes="";
           this.posts[this.slides.activeIndex].whoNotes = "";
       },
+
+        whoIsNone: function(e){
+            e.preventDefault();
+            this.whoNotes = "None";
+            this.posts[this.slides.activeIndex].whoNotes = this.whoNotes;
+            this.posts[this.slides.activeIndex].whoKnown = true;
+        },
 
       whoSave: function(e){
           e.preventDefault();
@@ -188,9 +196,7 @@ exports.Component = {
         storySave: function(e){
             e.preventDefault();
             this.posts[this.slides.activeIndex].story = this.story;
-            //reposition cards and go to next slide
-            this.cards.slideTo(0);
-            this.slides.slideNext();
+            this.toggleControls();
         }
 
     },

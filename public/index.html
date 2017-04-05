@@ -53,14 +53,16 @@
 
         <ul class="photo-controls">
           <template v-if="sessionEnd">
-            <li v-if="" v-on:click="submitData">
-              <a><span class="icon icon-share"></span> Submit data </a>
-            </li>
+            <button class="btn btn-primary btn-block" v-on:click="submitData">
+              <span class="icon icon-share"></span>
+              Submit data
+            </button>
           </template>
           <template v-else>
-            <li v-on:click="toggleControls">
-              <a><span class="icon icon-compose"></span> Add picture data </a>
-            </li>
+            <button class="btn btn-primary btn-block" v-on:click="toggleControls">
+              <span class="icon icon-compose"></span>
+              Add picture data
+            </button>
           </template>
         </ul>
 
@@ -79,7 +81,7 @@
                       <!-- form shown only when active -->
                       <form>                        
                         <h2>Where was this photo taken?</h2>
-                        <textarea id="where-notes" v-model="whereNotes" rows="5" placeholder="e.g., Trento, Italy"></textarea>
+                        <textarea id="where-notes" v-model="whereNotes" rows="6" placeholder="e.g., Trento, Italy"></textarea>
                         <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whereUnknown" >Does not remember</button>
                         <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whereSave">Save</button>
                       </form>
@@ -95,7 +97,7 @@
                       </div>                      
                       <form>  
                         <h2>When was this photo taken?</h2>      
-                        <textarea id="when-notes"  v-model="whenNotes" rows="5" placeholder="Insert exact or approximate date"></textarea>
+                        <textarea id="when-notes"  v-model="whenNotes" rows="6" placeholder="Insert exact or approximate date"></textarea>
                         <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whenUnknown">Does not remember</button>
                         <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whenSave">Save</button>
                       </form>
@@ -111,8 +113,9 @@
                       </div>
                       <form>
                         <h2>Who's in the photo?</h2>                       
-                        <textarea id="who-notes" v-model="whoNotes" rows="5" placeholder="e.g., Mario Rossi, Chiara Bianchi"></textarea>
+                        <textarea id="who-notes" v-model="whoNotes" rows="3" placeholder="e.g., Mario Rossi, Chiara Bianchi"></textarea>
                         <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whoUnknown">Does not remember</button>
+                        <button class="btn btn-block" v-on:click.stop="nextCard" v-on:click="whoIsNone">No people in the picture</button>
                         <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="whoSave">Save</button>
                       </form>
                     </div>
@@ -127,7 +130,7 @@
                     </div>
                     <form>
                       <h2>What is the picture's story?</h2>
-                      <textarea id="story-notes" v-model="story" rows="8" placeholder="Tell us a story"></textarea>
+                      <textarea id="story-notes" v-model="story" rows="9" placeholder="Tell us a story"></textarea>
                       <button class="btn btn-primary btn-block" v-on:click.stop="nextCard" v-on:click="storySave">Save</button>
                     </form>
                   </div>
