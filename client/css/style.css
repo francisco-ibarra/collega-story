@@ -30,6 +30,17 @@ body {
     z-index: 11;
 }
 
+.swiper-slide > p {
+    bottom: 2em;
+    position: absolute;
+    background: black;
+    font-size: 1.5em;
+    color: white;
+    line-height: normal;
+    right: 2em;
+    left: 1em;
+}
+
 /* slideshow option controls */
 .photo-controls {
   z-index: 100;
@@ -67,7 +78,7 @@ body {
 .photo-cards.modal {
   background: transparent;
   height: auto;
-  min-height: auto;
+  min-height: inherit;
   top: initial;
 }
 .swiper-slide .card{
