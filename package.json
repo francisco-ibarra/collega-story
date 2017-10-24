@@ -7,7 +7,7 @@
   },
   "description": "Storygram front-end application",
   "engines": {
-    "node": "5.9.1"
+    "node": "6.11.4"
   },
   "main": "./server/main.js",
   "scripts": {
