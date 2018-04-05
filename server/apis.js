@@ -14,9 +14,9 @@ exports.init = function (app) {
       return;
     }
 
-    fnLoadPosts(cred.username, {
-      success: function (posts) {
-        if (posts.items.length === 0) {
+    fnGetUserData(cred.username, {
+      success: function (user) {
+          if (user.edge_owner_to_timeline_media.edges.length === 0) {
           res.status(404).send();
           return;
         }
@@ -25,9 +25,9 @@ exports.init = function (app) {
           username: cred.username
         };
 
-        fnProcessPosts(req.session.user, posts);
+        fnProcessUserData(req.session.user, user);
 
-        console.log(posts.items.length);
+        //console.log(posts.items.length);
         res.send(req.session.user.profile);
       }, 
       error : function(){
@@ -114,9 +114,9 @@ exports.init = function (app) {
       return;
     }
 
-    fnLoadPosts(id, {
-      success: function (posts) {
-        res.send(posts);
+    fnGetUserData(id, {
+      success: function (user) {
+        res.send(user);
       }
     });
   });
@@ -126,11 +126,11 @@ exports.init = function (app) {
 /**
  * Generates demo data from Instagram account
  */
-var fnLoadPosts = function (id, cb) {
+var fnGetUserData = function (id, cb) {
 
   var options = {
     hostname: "www.instagram.com",
-    path: "/{0}/media/".replace("{0}", id)
+    path: "/{0}/?__a=1".replace("{0}", id)
   };
 
   https.get(options, function (response) {
@@ -140,7 +140,8 @@ var fnLoadPosts = function (id, cb) {
     });
     response.on('end', function () {
       var parsed = JSON.parse(body);
-      cb.success(parsed);
+      var user = parsed.graphql.user;
+      cb.success(user);
     });
 
   }).on('error', function (e) {
@@ -152,7 +153,7 @@ var fnLoadPosts = function (id, cb) {
 /**
  * Generates demo data from Instagram account
  */
-var fnProcessPosts = function (user, posts) {
+var fnProcessUserData = function (user, data) {
 
   // accounts the user is managing
   user.accounts = [];
@@ -165,22 +166,24 @@ var fnProcessPosts = function (user, posts) {
     feedback: []
   };
 
-  // processing posts
-  posts.items.forEach(function (item) {
+  // processing data
+  //get posts from user data
+  var posts = data.edge_owner_to_timeline_media.edges;
+  posts.forEach(function (item) {
     var photo = {
-      id: item.id,
+      id: item.node.id,
       images: {
-        thumbnail: item.images.thumbnail.url,
-        standard: item.images.standard_resolution.url
+          thumbnail:item.node.thumbnail_src,
+          standard:item.node.display_url
       },
-      contributor: item.user,
+      contributor: data,
       tags: {
         people: '',
         date: '',
-        place: item.location? item.location.name : null
+        place: ''
       },
       stories: [],
-      created_time: item.created_time,
+      created_time: item.node.taken_at_timestamp,
       visibility: ''
     };
     person.photos.push(photo);
@@ -189,14 +192,14 @@ var fnProcessPosts = function (user, posts) {
       var story = {
         id: 'S' + photo.id,
         photo: photo,
-        story: item.caption.text,
-        from: item.caption.from,
-        created_time: item.caption.created_time,
+        story: item.node.edge_media_to_caption.edges[0].node.text,
+        from: data,
+        created_time: item.node.taken_at_timestamp,
         feedback: []
       };
       person.stories.push(story);
 
-      item.comments.data.forEach(function (c) {
+      /*item.comments.data.forEach(function (c) {
         var feedback = {
           story: story,
           type: 'comment',
@@ -212,17 +215,17 @@ var fnProcessPosts = function (user, posts) {
           data: l
         };
         person.feedback.push(feedback);
-      });
+      });*/
     }
 
   });
 
   // basic profile of the person
-  var profile = person.photos[0].contributor;
-  person.id = profile.id;
-  person.username = profile.username;
-  person.full_name = profile.full_name;
-  person.profile_picture = profile.profile_picture;
+  var profile = data;
+  person.id = data.id;
+  person.username = data.username;
+  person.full_name = data.full_name;
+  person.profile_picture = data.profile_pic_url_hd;
   person.cover_picture = person.photos[Math.round(person.photos.length* Math.random())].images.standard;
 
   // The user can manage more than one account

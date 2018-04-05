@@ -13,7 +13,8 @@ var userLang = window.navigator.languages?
 
 var lang = langOptions[userLang];
 if (!lang){
-  lang = langEN;
+  //make italian the default language
+  lang = langIT;
 }
 
 Vue.component('lang', {
