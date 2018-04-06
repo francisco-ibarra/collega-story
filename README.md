@@ -1,4 +1,4 @@
-# Storygram experiment 
+# Pilot prototype 
 
 ## Installation
 
