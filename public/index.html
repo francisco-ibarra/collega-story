@@ -35,10 +35,6 @@
       <div class="content home"> 
         <!-- CARD.BEGIN -->
         
-        <div class="cover">
-          <img v-bind:src="profile.cover_picture">
-          
-        </div>
         <div class="spring">
           <div class="profile">
             <img class="img-circle" v-bind:src="profile.profile_picture">
@@ -54,25 +50,37 @@
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('photos')" class="img-circle"><img src="img/photos.png">
                 </div>
-                <span is="lang" msg="MENU_PHOTOS"></span>
+                <span class="grid-item-text">
+                  <div is="lang" msg="MENU_PHOTOS" class="grid-item-title"></div>
+                  <div is="lang" msg="MENU_PHOTOS_DESC"></div>
+                </span>
               </div>
               
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('stories')" class="img-circle"><img src="img/stories.png">
                 </div>
-                <span is="lang" msg="MENU_STORIES"></span>
+                <span class="grid-item-text">
+                  <div is="lang" msg="MENU_STORIES" class="grid-item-title"></div>
+                  <div is="lang" msg="MENU_STORIES_DESC"></div>
+                </span>
               </div>      
               
               <div class="grid-item grid-item-center">
                 <div v-on:click="goTo('social')" class="img-circle"><img src="img/social.png">
                 </div>
-                <span is="lang" msg="MENU_SOCIAL"></span>
+                <span class="grid-item-text">
+                  <div is="lang" msg="MENU_SOCIAL" class="grid-item-title"></div>
+                  <div is="lang" msg="MENU_SOCIAL_DESC"></div>
+                </span>
               </div>    
                                         
               <div class="grid-item grid-item-center">
                 <div class="img-circle"><img src="img/discover.png">
                 </div>
-                <span is="lang" msg="MENU_DISCOVER"></span>
+                <span class="grid-item-text">
+                  <div is="lang" msg="MENU_DISCOVER" class="grid-item-title"></div>
+                  <div is="lang" msg="MENU_DISCOVER_DESC"></div>
+                </span>
               </div>    
               
               <!--button class="btn btn-primary btn-outlined btn-block" v-on:click="goTo('photos')">Photos</button>      
@@ -249,7 +257,7 @@
           <div class="grid">
             <div class="grid-item" v-for="(photo, index) in photos">
               <div class="tile" v-on:click="openSlideShow(index)">
-                <img v-bind:src="photo.images.standard">
+                <img v-bind:src="photo.images.thumbnail">
                 <!--div class="tile-caption">
                 photo.caption.text
                 </div-->

@@ -118,19 +118,29 @@ body {
 .grid {
   width: 100%;
 }
+
 .grid-item {
   float : left;
   width: 25%;
-  min-height: 18em;
-  padding: 1.5em;
+  min-height: 15em;
+  padding: 1em;
   overflow: hidden;
 }
 
 .grid-item-center {
   align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+}
+
+.grid-item-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-item-title {
+  font-weight: bold;
 }
 
 .grid-big .grid-item{
@@ -231,6 +241,7 @@ body {
   border:1px solid #021a40;
   padding: .5em;
 }
+
 .img-circle {
   border-radius: 50%;
   box-shadow: 0px 0px 1px black;
@@ -395,7 +406,7 @@ header .btn.pull-right {
 }
 
 .home .spring {
-  width: 50%;
+  width: 100%;
 }
 
 .home .grid-item .img-circle {  
@@ -404,6 +415,7 @@ header .btn.pull-right {
   padding: 2em;
   overflow: hidden;
   border: 1px solid #428bca;
+  margin-right: .8em;
   margin-bottom: .8em;
 }
 .home .grid-item img{
@@ -418,4 +430,9 @@ header .btn.pull-right {
 }
 .home .profile h2{
   font-weight: 400;
+}
+
+.profile .img-circle {
+  width: 175px;
+  height: 175px;
 }

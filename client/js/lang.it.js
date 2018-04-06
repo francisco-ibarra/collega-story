@@ -2,10 +2,17 @@ var Messages = {
 
   LAND_LOGIN: "Accedi",
 
-  MENU_PHOTOS: "Foto",
-  MENU_STORIES: "Storie",
-  MENU_SOCIAL:  "Social",
-  MENU_DISCOVER:  "Scopri",
+    MENU_PHOTOS: "Organizzare foto",
+    MENU_PHOTOS_DESC: "Aggiungi foto o metti dell'informazioni che ricordi sulle foto",
+
+    MENU_STORIES: "Ricordare insieme",
+    MENU_STORIES_DESC: "Rivisita vecchie foto, raccogli delle storie e condividi i racconti",
+
+    MENU_SOCIAL:  "Messaggi e novità",
+    MENU_SOCIAL_DESC:  "Guarda cosa dicono delle tue storie ed scopri altre storie di residenti e amici",
+
+    MENU_DISCOVER:  "Scoprire amici",
+    MENU_DISCOVER_DESC:  "Scopri persone interessanti e suggerimenti amici, basati su punti in comune",
 
   NAV_LOGOUT:  "Esci",
   NAV_HOME:  "Home",
