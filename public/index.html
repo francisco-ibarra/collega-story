@@ -34,7 +34,7 @@
       </header>
       <div class="content home"> 
         <!-- CARD.BEGIN -->
-        
+
         <div class="spring">
           <div class="profile">
             <img class="img-circle" v-bind:src="profile.profile_picture">
@@ -137,7 +137,8 @@
         </a>
 
         <ul class="photo-controls">
-          <li v-on:click="toggleCurrentControl('tag')">
+          <!--li v-on:click="toggleCurrentControl('tag')"-->
+          <li v-on:click="onShowForm">
            <a><span class="icon icon-person"></span></a> 
            </li>
           <li v-if="showStory" v-on:click="toggleCurrentControl('story')">
@@ -226,6 +227,24 @@
     </div>                
    
   </script>
+
+  <script id="photo-form" type="text/x-template">
+    <div class="content">
+      <div class="grid">
+        <div class="grid-item">
+          <div class="tile" v-on:click="backToSlideshow">
+            <img v-bind:src="photo.images.thumbnail">
+          </div>
+        </div>
+        <div class="grid-item grid-form">
+          <div photo-cards modal>
+            Add cards or wizard-like form here to add information on where, when, people.
+            Also something similar to <a href="http://idangero.us/swiper/demos/300-thumbs-gallery.html">swiper thumbnails</a> can work.
+          </div>
+        </div>
+      </div>
+    </div>
+  </script>
   
   <script id="photo-grid" type="text/x-template">
     <div class="content"> 
@@ -247,7 +266,7 @@
       
       <nav class="bar bar-standard bar-header-secondary">
         <div class="segmented-control">
-          <a class="control-item active"><lang msg="PHOTO_TAB_IMPORTED"</lang></a>
+          <a class="control-item active"><lang msg="PHOTO_TAB_IMPORTED"></lang></a>
           <a class="control-item"><lang msg="PHOTO_TAB_TIMELINE"></lang></a>
           <a class="control-item"><lang msg="PHOTO_TAB_COLLABORATOR"></lang></a>
         </div>
@@ -258,34 +277,6 @@
             <div class="grid-item" v-for="(photo, index) in photos">
               <div class="tile" v-on:click="openSlideShow(index)">
                 <img v-bind:src="photo.images.thumbnail">
-                <!--div class="tile-caption">
-                photo.caption.text
-                </div-->
-                <div class="tile-contributor">
-                    <img class="img-circle" v-bind:src="photo.contributor.profile_picture">                                        
-                    <lang msg="PHOTO_BY"></lang> 
-                    <span>{{photo.contributor.full_name.split(" ")[0]}}</span>
-                </div>
-                <div class="tile-meta content-padded">
-
-                    
-                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.place == '' }">
-                      <i class="fa fa-map-o"></i>
-                      <span is="lang" msg="TAG_PLACE" class="item-label"></span>
-                    </a>  
-                  
-                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.date == '' }">
-                      <i class="fa fa-calendar-check-o"></i>
-                      <span is="lang" msg="TAG_DATE" class="item-label"></span>
-                    </a>                    
-                    
-                    <a class="meta-item" v-bind:class="{ 'tag-false': photo.tags.people.length === 0 }">
-                      <i class="fa fa-user-o"></i>
-                      <span is="lang" msg="TAG_PEOPLE" class="item-label"></span>
-                    </a>
-
-
-                </div>
               </div>
             </div>  
           </div>
@@ -293,7 +284,58 @@
       
     </div>   
   </script>
- 
+
+
+  <script id="story-menu" type="text/x-template">
+    <div class="content">
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          <lang msg="NAV_HOME"></lang>
+        </router-link>
+        <h1 class="title"><lang msg="MENU_STORIES"></lang></h1>
+      </header>
+      <div class="content home">
+        <!-- CARD.BEGIN -->
+
+        <div class="spring">
+
+          <div class="grid grid-big">
+
+            <div class="grid-item grid-item-center">
+              <div v-on:click="goTo('stories','choice','0')" class="img-circle"><img src="img/photos.png">
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_REMINISCE" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_REMINISCE_DESC"></div>
+              </span>
+            </div>
+
+            <div class="grid-item grid-item-center">
+              <div v-on:click="goTo('stories','choice','0')" class="img-circle"><img src="img/stories.png">
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_REVISIT" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_REVISIT_DESC"></div>
+              </span>
+            </div>
+
+            <div class="grid-item grid-item-center">
+              <div v-on:click="goTo('stories','create','select')" class="img-circle"><img src="img/social.png">
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_CHOOSE" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_CHOOSE_DESC"></div>
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </script>
+
   <script id="story-grid" type="text/x-template">
     <div class="content"> 
       <header class="bar bar-nav">
@@ -367,7 +409,7 @@
           <div class="grid">
             <div class="grid-item" v-for="(photo, index) in photos">
               <div class="tile" v-on:click="selectCurrent(index)">
-                <img v-bind:src="photo.images.standard">
+                <img v-bind:src="photo.images.thumbnail">
                 <span v-if="photo.selected" class="icon icon-check"></span>
               </div>              
             </div>              

@@ -58,6 +58,9 @@ exports.Component = {
         
         this.cards = new Swiper('.tagControls', {
           slidesPerView: 3,
+          //slidesPerView: 2,
+          //spaceBetween: 30,
+          //loop: true,
           centeredSlides: true,
           paginationClickable: true
         }); 
@@ -171,6 +174,10 @@ exports.Component = {
         // TODO: add story to photo?>>>
         photo.tags.story = story.story;
         this.toggleControls();        
+      },
+
+      onShowForm: function () {
+          this.$router.push({name:'photos', query : {slideshow : this.slides.activeIndex, showForm : true}});
       }
     },
 

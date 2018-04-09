@@ -134,7 +134,6 @@ var slide = {
   }  
 };
 
-
 /* Story grid component */
 var grid = {
   template: "#story-grid",
@@ -167,18 +166,33 @@ var grid = {
   }
 };
 
+var choices = {
+    template: "#story-menu",
+    props: ['profile'],
+
+    methods: {
+        goTo : function(page,option,param){
+          var query = {};
+          query[option] = param;
+          this.$router.push({name:page, query: query});
+        }
+    }
+};
+
 exports.Component = {
   template: '<component v-bind:profile="profile" v-bind:is="currentView"></component>',
   props: ['session', 'options'],
 
   data: function () {
     return {
-      currentView: 'grid',
+      //currentView: 'grid',
+      currentView: 'choices',
       profile: []
     };
   },
 
   components: {
+    choices: choices,
     grid: grid,
     create: create,
     slide : slide
@@ -191,8 +205,10 @@ exports.Component = {
         this.currentView = 'slide';
       } else if (query.create != undefined) {
         this.currentView = 'create';
-      } else {
+      } else if (query.choice != undefined){
         this.currentView = 'grid';
+      } else {
+        this.currentView = 'choices';
       }
     },
     // this should be only loadStories
