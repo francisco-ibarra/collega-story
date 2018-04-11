@@ -32,6 +32,12 @@ body {
     z-index: 11;
 }
 
+.slide-close .icon-close{
+  background: #000;
+  border-radius: 50px;
+  padding: 5px;
+}
+
 .swiper-slide > p {
   bottom: 2em;
   position: absolute;
