@@ -7,6 +7,17 @@ var Messages = {
 
     MENU_PHOTOS: "Organizzare foto",
     MENU_PHOTOS_DESC: "Aggiungi foto o metti dell'informazioni che ricordi sulle foto",
+    /*form*/
+      PHOTO_TAG_WHERE: "Dove è stata scattata la foto?",
+      TAG_WHERE: "DOVE",
+      PHOTO_TAG_WHEN: "Quando è stata scattata la foto?",
+      TAG_WHEN: "QUANDO",
+      PHOTO_TAG_WHO: "Chi c'è nella foto?",
+      TAG_WHO: "CHI",
+      PHOTO_TAG_STORY: "Raccontaci una storia sulla foto",
+
+      PHOTO_BTN_DONTKNOW: "Non mi ricordo",
+      PHOTO_BTN_SAVE: "Salva",
 
     MENU_STORIES: "Ricordare insieme",
     MENU_STORIES_DESC: "Rivisita vecchie foto, raccogli delle storie e condividi i racconti",
@@ -38,14 +49,6 @@ var Messages = {
   PHOTO_TAB_IMPORTED: "Più recenti",
   PHOTO_TAB_TIMELINE: "Timeline", 
   PHOTO_TAB_COLLABORATOR: "Collaboratore",
-
-  PHOTO_TAG_WHERE: "Dove è stata scattata la foto?",
-  PHOTO_TAG_WHEN: "Quando è stata scattata la foto?",
-  PHOTO_TAG_WHO: "Chi c'è nella foto?",
-  PHOTO_TAG_STORY: "Raccontaci una storia sulla foto",
-
-  PHOTO_BTN_DONTKNOW: "Non mi ricordo",
-  PHOTO_BTN_SAVE: "Salva",
 
   STORY_CREATE_TITLE: "Crea una storia",
   STORY_CREATE_SUBTITLE: "Per cominciare, scegli le foto da utilizzare",

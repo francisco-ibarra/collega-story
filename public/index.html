@@ -237,9 +237,46 @@
           </div>
         </div>
         <div class="grid-item grid-form">
-          <div photo-cards modal>
-            Add cards or wizard-like form here to add information on where, when, people.
-            Also something similar to <a href="http://idangero.us/swiper/demos/300-thumbs-gallery.html">swiper thumbnails</a> can work.
+          <div class="swiper-container gallery-top">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <form>
+                  <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
+                  <textarea v-model="photo.tags.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
+                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                </form>
+              </div>
+              <div class="swiper-slide">
+                <form>
+                  <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
+                  <textarea v-model="photo.tags.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
+                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                </form>
+              </div>
+              <div class="swiper-slide">
+                <form>
+                  <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
+                  <textarea v-model="photo.tags.people" rows="4" placeholder="Inserisci i nomi separati da virgola, ad es. Mario Crispi, Lucia"></textarea>
+                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-container gallery-thumbs">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <lang msg="TAG_WHERE"></lang>
+              </div>
+              <div class="swiper-slide">
+                <lang msg="TAG_WHEN"></lang>
+              </div>
+              <div class="swiper-slide">
+                <lang msg="TAG_WHO"></lang>
+              </div>
+            </div>
           </div>
         </div>
       </div>

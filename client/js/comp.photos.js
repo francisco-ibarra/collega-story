@@ -4,6 +4,7 @@
  */
 
 var SlideShow = require("./comp.slider");
+var Swiper = require("swiper");
 
 var grid = {
   template: "#photo-grid",
@@ -15,7 +16,7 @@ var grid = {
   },  
 };
 
-var pform = {
+var formPanel = {
     template: "#photo-form",
     props: ['photos'],
 
@@ -29,12 +30,50 @@ var pform = {
     methods: {
         backToSlideshow: function (index) {
             this.$router.push({ path : "/photos", query : { slideshow : this.currentPhoto}});
-        }
+        },
+
+        initForm: function() {
+            var self = this;
+
+            this.galleryTop = new Swiper('.gallery-top', {
+                spaceBetween: 10,
+            });
+
+            this.galleryThumbs = new Swiper('.gallery-thumbs', {
+                spaceBetween: 10,
+                centeredSlides: true,
+                slidesPerView: 6,
+                touchRatio: 0.2,
+                slideToClickedSlide: true,
+            });
+
+            this.galleryTop.params.control = this.galleryThumbs;
+            this.galleryThumbs.params.control = this.galleryTop;
+        },
+
+        nextCard : function(){
+            //check if there are no more form elements
+            if (this.galleryTop.isEnd){
+                return;
+            }
+            //there are more, go to the next
+            this.galleryTop.slideNext();
+        },
+
+        onTagSave : function(){
+            alert('Dati salvati con successo');
+            console.log(this.photo);
+            this.nextCard();
+        },
     },
 
     created: function () {
         this.currentPhoto = this.$route.query.slideshow;
         this.photo = this.photos[this.currentPhoto];
+    },
+
+    mounted: function () {
+        this.initForm();
     }
 
 };
@@ -51,14 +90,14 @@ exports.Component = {
   components: {
     grid: grid,
     slide: SlideShow.Component,
-    pform: pform
+    formPanel: formPanel
   },
   
   methods : {
     resolveView : function(query){
       if (query.slideshow != undefined) {
         if(query.showForm){
-          this.currentView = 'pform';
+          this.currentView = 'formPanel';
         } else {
           this.currentView = 'slide';
         }
