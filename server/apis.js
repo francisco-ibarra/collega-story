@@ -130,17 +130,22 @@ var fnGetUserData = function (id, cb) {
 
   var options = {
     hostname: "www.instagram.com",
-    path: "/{0}/?__a=1".replace("{0}", id)
+    path: "/{0}/".replace("{0}", id)
   };
 
   https.get(options, function (response) {
     var body = '';
+    //body comes in chunks of data
     response.on('data', function (d) {
       body += d;
     });
+    //when end event is fired, no more parts are missing
     response.on('end', function () {
-      var parsed = JSON.parse(body);
-      var user = parsed.graphql.user;
+      //get data from HTML
+      var data = body.split("window._sharedData = ")[1].split(";</script>")[0];
+      var parsed = JSON.parse(data);
+      //get user part from JSON
+      var user = parsed.entry_data.ProfilePage[0].graphql.user;
       cb.success(user);
     });
 
