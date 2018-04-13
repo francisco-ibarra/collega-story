@@ -4,6 +4,7 @@
  */
 
 var SlideShow = require("./comp.slider");
+var Models = require("./models");
 var Swiper = require("swiper");
 
 var grid = {
@@ -63,19 +64,36 @@ var formPanel = {
         //item indicates which of the forms fields was not remembered, set as a param in the html
         onDontKnow : function(item){
             this.photo.tags[item] = 'Non mi ricordo';
+            this.saveTag(this.photo);
             this.nextCard();
         },
 
         onNoOne : function(){
             this.photo.tags.people = 'Nessuno';
+            this.saveTag(this.photo);
             this.nextCard();
         },
 
         onTagSave : function(){
             alert('Dati salvati con successo');
             console.log(this.photo);
+            this.saveTag(this.photo);
             this.nextCard();
         },
+
+        saveTag: function(photo){
+            var id = this.photo.id;
+            var tags = this.photo.tags;
+            console.log(photo);
+            Models.Photo.tag(id, tags, {
+                success : function(){
+                    console.log("tagsave: saved tag");
+                },
+                error : function(){
+                    console.log("tagsave: error tagging");
+                }
+            });
+        }
     },
 
     created: function () {

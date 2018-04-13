@@ -6,6 +6,11 @@ var https = require("https");
 
 exports.init = function (app) {
 
+  //Postgres
+  var pgp = require('pg-promise')();
+  var connectionString = process.env.DATABASE_URL || '<username>://localhost:5432/<database>';
+  var db = pgp(connectionString);
+
   app.post('/api/login', function (req, res) {
     var cred = req.body;
 
@@ -86,20 +91,56 @@ exports.init = function (app) {
     var id = req.params.id;
     var tags = req.body;
 
+    var user = req.session.user;
+
     console.log(id);
     console.log(tags);
 
-    var photo = fnGetPhoto(req.session.user, id);
-    
+    var photo = fnGetPhoto(user, id);
+
     if (!photo) {
       res.status(404).send();
       return;
     }
     
-    // update tags
+    // update local tags
     photo.tags.place = tags.place ? tags.place : photo.tags.place;
     photo.tags.date = tags.date ? tags.date : photo.tags.place;
     photo.tags.people = tags.people ? tags.people : photo.tags.people;
+    //photo.tags.story = tags.story ? tags.story : photo.tags.story;
+
+    console.log(this.photo);
+
+    var data = {
+      username : user.username,
+      user_id : user.profile.id,
+      photo_url : photo.images.standard,
+      photo_id : id,
+      date : tags.date,
+      place : tags.place,
+      people : tags.people,
+      //story : tags.story
+    };
+
+    console.log(data);
+
+    // we can check if all data is present and send only then
+    // but will fail if users leave fields blank
+
+    //format query (data: data to insert; columns: null, taken from data object; table name: photos)
+    var query = pgp.helpers.insert(data, null, 'photos');
+
+    //feed query into insert instruction
+    db.none(query)
+        .then(function() {
+            // success;
+            console.log('success');
+            res.status(200).send();
+        })
+        .catch(function(error){
+            // error;
+            console.log('ERROR:'+error);
+        });
     
     res.send(photo);
 
