@@ -243,24 +243,41 @@
                 <form>
                   <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                   <textarea v-model="photo.tags.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
-                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                  <div class="form-buttons">
+                    <ul>
+                      <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                      <li class="separator"></li>
+                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                    </ul>
+                  </div>
                 </form>
               </div>
               <div class="swiper-slide">
                 <form>
                   <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                   <textarea v-model="photo.tags.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
-                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                  <div class="form-buttons">
+                    <ul>
+                      <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                      <li class="separator"></li>
+                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                    </ul>
+                  </div>
                 </form>
               </div>
               <div class="swiper-slide">
                 <form>
                   <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
                   <textarea v-model="photo.tags.people" rows="4" placeholder="Inserisci i nomi separati da virgola, ad es. Mario Crispi, Lucia"></textarea>
-                  <button v-on:click.prevent="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                  <button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                  <div class="form-buttons">
+                    <ul>
+                      <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                      <li class="separator"></li>
+                      <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
+                      <li class="separator"></li>
+                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                    </ul>
+                  </div>
                 </form>
               </div>
             </div>

@@ -122,37 +122,41 @@ body {
 
 /* Gallery view */
 
-.grid-form .swiper-container {
-  width: 100%;
-  height: 300px;
-  margin-left: auto;
-  margin-right: auto;
-}
 .grid-form .swiper-slide {
   background-size: cover;
   background-position: center;
 }
-.grid-form .gallery-top {
-  height: 80%;
+
+.grid-form .swiper-slide .form-buttons{
   width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+.grid-form .swiper-slide .form-buttons ul{
+  display: table-row;
+}
+.form-buttons .separator {
+  width: 10px
 }
 
-.grid-form .gallery-top .btn {
-  display: inline-block;
-  width: 48%;
+.grid-form .swiper-slide .form-buttons ul li{
+  display: table-cell;
 }
 
 .grid-form .gallery-thumbs {
   height: 20%;
+  font-size: 18pt;
   box-sizing: border-box;
   padding: 10px 0;
 }
+
 .grid-form .gallery-thumbs .swiper-slide {
   width: 25%;
   height: 100%;
   opacity: 0.4;
   text-align: center;
 }
+
 .grid-form .gallery-thumbs .swiper-slide-active {
   opacity: 1;
 }

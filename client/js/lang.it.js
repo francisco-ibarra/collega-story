@@ -17,6 +17,7 @@ var Messages = {
       PHOTO_TAG_STORY: "Raccontaci una storia sulla foto",
 
       PHOTO_BTN_DONTKNOW: "Non mi ricordo",
+      PHOTO_BTN_NOONE: "Nessuno",
       PHOTO_BTN_SAVE: "Salva",
 
     MENU_STORIES: "Ricordare insieme",

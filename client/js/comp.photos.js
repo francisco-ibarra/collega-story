@@ -60,6 +60,17 @@ var formPanel = {
             this.galleryTop.slideNext();
         },
 
+        //item indicates which of the forms fields was not remembered, set as a param in the html
+        onDontKnow : function(item){
+            this.photo.tags[item] = 'Non mi ricordo';
+            this.nextCard();
+        },
+
+        onNoOne : function(){
+            this.photo.tags.people = 'Nessuno';
+            this.nextCard();
+        },
+
         onTagSave : function(){
             alert('Dati salvati con successo');
             console.log(this.photo);
