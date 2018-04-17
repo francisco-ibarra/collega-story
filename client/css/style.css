@@ -38,6 +38,12 @@ body {
   padding: 5px;
 }
 
+.slide-close .icon-search{
+  background: #000;
+  border-radius: 50px;
+  padding: 10px;
+}
+
 .swiper-slide > p {
   bottom: 2em;
   position: absolute;
@@ -86,7 +92,6 @@ body {
   background: transparent;
   height: auto;
   min-height: auto;
-  top: initial;
 }
 .swiper-slide .card{
     transform: scale(0.9);
@@ -121,6 +126,9 @@ body {
 }
 
 /* Gallery view */
+.grid-form textarea {
+  margin-bottom: 10px;
+}
 
 .grid-form .swiper-slide {
   background-size: cover;
@@ -312,6 +320,9 @@ body {
 }
 .postcard .btn-flip {
   position: absolute;
+  background: #000;
+  border-radius: 50px;
+  padding: 8px;
   top: 2em;
   left: 2em;
   z-index: 111;

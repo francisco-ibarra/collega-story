@@ -88,44 +88,54 @@ var slide = {
   
   data : function(){
     return {
-      photos : []
+      photos : [],
+      //useStory: false
     };
   },
   
   methods : {
-    storyToPhoto : function(stories){
-      return stories.map(function(story){
-        var photo = story.photo;
-        photo.tags.story = story.story;
-        return photo;
-      });
-    },
     
     onPhotoChange : function(currIndex){
       console.log(currIndex);
       var photo = this.photos[currIndex];
-      this.prepareCardSet({
+        this.prepareCardSet({
         id : photo.id,
-        tags : photo.tags,    
+        tags : photo.tags,
+        images: photo.images
       });
+    },
+
+    prepareSlides: function(useStory){
+      var photos = [];
+      if(useStory){
+          photos = this.photos.filter(function (item) {
+              return item.tags.story !== '';
+          });
+      } else{
+          photos = this.photos.filter(function (item) {
+              return item.tags.story === '';
+          });
+      }
+      this.photos = photos;
     }
   },
   
   created : function(){
-    console.log("created slider");
-    
+    console.log("created stories slider");
+    var useStory = this.$route.query.useStory;
     this.setupSlider({
-      showStory : false,
+      //showStory : false,
       initialPhoto : this.$route.query.slideshow
     }); // setup in data...
   
     this.setupCards({
-      accountId : this.profile.id
+      accountId : this.profile.id,
+      useStory: useStory,
     });
 
-    // move this to stories...
-    this.photos = this.storyToPhoto(this.profile.stories);
-    
+    this.photos = this.profile.photos;
+
+    this.prepareSlides(useStory);
   },
 
   mounted : function(){      
@@ -148,7 +158,8 @@ var grid = {
       this.$router.push({
         path: "/stories",
         query: {
-          slideshow: index
+          slideshow: index,
+          useStory: true
         }
       });
     },
@@ -166,6 +177,39 @@ var grid = {
   }
 };
 
+/* Story grid component */
+var photoGrid = {
+    template: "#no-story-grid",
+    props: ['profile'],
+    data: function () {
+        return {
+            photos: []
+        };
+    },
+    methods: {
+        openSlideShow: function (index) {
+          this.$router.push({
+                path: "/stories",
+                query: {
+                    slideshow: index,
+                    useStory: false
+                }
+            });
+        },
+        preparePhotos: function(){
+            var photos = this.photos.filter(function (item) {
+                return item.tags.story === '';
+            });
+            this.photos = photos;
+        }
+    },
+    created: function () {
+      this.photos = this.profile.photos;
+      this.preparePhotos();
+    }
+
+};
+
 var choices = {
     template: "#story-menu",
     props: ['profile'],
@@ -180,19 +224,21 @@ var choices = {
 };
 
 exports.Component = {
-  template: '<component v-bind:profile="profile" v-bind:is="currentView"></component>',
+  template: '<component v-bind:profile="profile" v-bind:photos="photos" v-bind:is="currentView"></component>',
   props: ['session', 'options'],
 
   data: function () {
     return {
       //currentView: 'grid',
       currentView: 'choices',
-      profile: []
+      profile: [],
+        photos: []
     };
   },
 
   components: {
     choices: choices,
+    photoGrid: photoGrid,
     grid: grid,
     create: create,
     slide : slide
@@ -206,7 +252,11 @@ exports.Component = {
       } else if (query.create != undefined) {
         this.currentView = 'create';
       } else if (query.choice != undefined){
-        this.currentView = 'grid';
+        if(query.choice == 0)
+          this.currentView = 'photoGrid';
+        else if(query.choice == 1){
+          this.currentView = 'grid';
+        }
       } else {
         this.currentView = 'choices';
       }
@@ -250,6 +300,7 @@ exports.Component = {
 
   created: function () {
     this.profile = this.session.getProfile();
+    this.photos = this.profile.photos;
     this.resolveView(this.options);
     console.log("story component created");
   }

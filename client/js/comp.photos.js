@@ -17,95 +17,6 @@ var grid = {
   },  
 };
 
-var formPanel = {
-    template: "#photo-form",
-    props: ['photos'],
-
-    data: function(){
-        return {
-            currentPhoto: 0,
-            photo : null
-        };
-    },
-
-    methods: {
-        backToSlideshow: function (index) {
-            this.$router.push({ path : "/photos", query : { slideshow : this.currentPhoto}});
-        },
-
-        initForm: function() {
-            var self = this;
-
-            this.galleryTop = new Swiper('.gallery-top', {
-                spaceBetween: 10,
-            });
-
-            this.galleryThumbs = new Swiper('.gallery-thumbs', {
-                spaceBetween: 10,
-                centeredSlides: true,
-                slidesPerView: 6,
-                touchRatio: 0.2,
-                slideToClickedSlide: true,
-            });
-
-            this.galleryTop.params.control = this.galleryThumbs;
-            this.galleryThumbs.params.control = this.galleryTop;
-        },
-
-        nextCard : function(){
-            //check if there are no more form elements
-            if (this.galleryTop.isEnd){
-                return;
-            }
-            //there are more, go to the next
-            this.galleryTop.slideNext();
-        },
-
-        //item indicates which of the forms fields was not remembered, set as a param in the html
-        onDontKnow : function(item){
-            this.photo.tags[item] = 'Non mi ricordo';
-            this.saveTag(this.photo);
-            this.nextCard();
-        },
-
-        onNoOne : function(){
-            this.photo.tags.people = 'Nessuno';
-            this.saveTag(this.photo);
-            this.nextCard();
-        },
-
-        onTagSave : function(){
-            alert('Dati salvati con successo');
-            console.log(this.photo);
-            this.saveTag(this.photo);
-            this.nextCard();
-        },
-
-        saveTag: function(photo){
-            var id = this.photo.id;
-            var tags = this.photo.tags;
-            console.log(photo);
-            Models.Photo.tag(id, tags, {
-                success : function(){
-                    console.log("tagsave: saved tag");
-                },
-                error : function(){
-                    console.log("tagsave: error tagging");
-                }
-            });
-        }
-    },
-
-    created: function () {
-        this.currentPhoto = this.$route.query.slideshow;
-        this.photo = this.photos[this.currentPhoto];
-    },
-
-    mounted: function () {
-        this.initForm();
-    }
-
-};
 
 exports.Component = {
   template: '<component v-bind:photos="photos" v-bind:is="currentView"></component>',
@@ -118,18 +29,13 @@ exports.Component = {
   },
   components: {
     grid: grid,
-    slide: SlideShow.Component,
-    formPanel: formPanel
+    slide: SlideShow.Component
   },
   
   methods : {
     resolveView : function(query){
       if (query.slideshow != undefined) {
-        if(query.showForm){
-          this.currentView = 'formPanel';
-        } else {
-          this.currentView = 'slide';
-        }
+        this.currentView = 'slide';
       } else {
         this.currentView = 'grid';
       }      

@@ -107,9 +107,9 @@ exports.init = function (app) {
     photo.tags.place = tags.place ? tags.place : photo.tags.place;
     photo.tags.date = tags.date ? tags.date : photo.tags.place;
     photo.tags.people = tags.people ? tags.people : photo.tags.people;
-    //photo.tags.story = tags.story ? tags.story : photo.tags.story;
+    photo.tags.story = tags.story ? tags.story : photo.tags.story;
 
-    console.log(this.photo);
+    //console.log(this.photo);
 
     var data = {
       username : user.username,
@@ -119,7 +119,7 @@ exports.init = function (app) {
       date : tags.date,
       place : tags.place,
       people : tags.people,
-      //story : tags.story
+      story : tags.story
     };
 
     console.log(data);
@@ -131,7 +131,7 @@ exports.init = function (app) {
     var query = pgp.helpers.insert(data, null, 'photos');
 
     //feed query into insert instruction
-    db.none(query)
+    /*db.none(query)
         .then(function() {
             // success;
             console.log('success');
@@ -140,7 +140,7 @@ exports.init = function (app) {
         .catch(function(error){
             // error;
             console.log('ERROR:'+error);
-        });
+        });*/
     
     res.send(photo);
 
@@ -215,7 +215,7 @@ var fnProcessUserData = function (user, data) {
   // processing data
   //get posts from user data
   var posts = data.edge_owner_to_timeline_media.edges;
-  posts.forEach(function (item) {
+  posts.forEach(function (item,index) {
     var photo = {
       id: item.node.id,
       images: {
@@ -226,7 +226,8 @@ var fnProcessUserData = function (user, data) {
       tags: {
         people: '',
         date: '',
-        place: ''
+        place: '',
+        story: ''
       },
       stories: [],
       created_time: item.node.taken_at_timestamp,
@@ -234,11 +235,14 @@ var fnProcessUserData = function (user, data) {
     };
     person.photos.push(photo);
 
+    var storyText = item.node.edge_media_to_caption.edges[0].node.text;
+
     if (Math.random() > 0.75) {
+      photo.tags.story = storyText;
       var story = {
         id: 'S' + photo.id,
         photo: photo,
-        story: item.node.edge_media_to_caption.edges[0].node.text,
+        story: storyText,
         from: data,
         created_time: item.node.taken_at_timestamp,
         feedback: []
@@ -272,7 +276,7 @@ var fnProcessUserData = function (user, data) {
   person.username = data.username;
   person.full_name = data.full_name;
   person.profile_picture = data.profile_pic_url_hd;
-  person.cover_picture = person.photos[Math.round(person.photos.length* Math.random())].images.standard;
+  person.cover_picture = person.photos[Math.round((person.photos.length-1)* Math.random())].images.standard;
 
   // The user can manage more than one account
   user.accounts.push(person);

@@ -20,6 +20,7 @@ var Messages = {
       PHOTO_BTN_NOONE: "Nessuno",
       PHOTO_BTN_SAVE: "Salva",
 
+    STORIES: "Storie",
     MENU_STORIES: "Ricordare insieme",
     MENU_STORIES_DESC: "Rivisita vecchie foto, raccogli delle storie e condividi i racconti",
     /*stories sub menu*/

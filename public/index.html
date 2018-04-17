@@ -137,168 +137,145 @@
         </a>
 
         <ul class="photo-controls">
-          <!--li v-on:click="toggleCurrentControl('tag')"-->
-          <li v-on:click="onShowForm">
+          <li v-on:click="toggleCurrentControl('tag')">
            <a><span class="icon icon-person"></span></a> 
            </li>
           <li v-if="showStory" v-on:click="toggleCurrentControl('story')">
            <a><span class="icon icon-edit"></span></a>
-           </li>           
-        </ul>   
+           </li>
+        </ul>
 
-        <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
-
-          <!-- slider begin -->
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <!-- summary shown only when not active -->
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
-                    <p>{{activePhoto.place}}</p>
-                  </div>
-                  <!-- form shown only when active -->
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
-                    <textarea v-model="activePhoto.place" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
+      <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
+        <div class="card">
+          <div class="content">
+            <div class="grid">
+              <div class="grid-item">
+                <div class="tile" v-on:click="toggleControls">
+                  <a class="slide-close"><span class="icon icon-search"></span></a>
+                  <img v-bind:src="activePhoto.images.thumbnail">
                 </div>
               </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
-                    <p>{{activePhoto.date}}</p>
+              <div class="grid-item grid-form">
+                <div class="swiper-container gallery-top">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
+                        <textarea v-model="activePhoto.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
+                        <textarea v-model="activePhoto.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
+                        <textarea v-model="activePhoto.people" rows="4" placeholder="Inserisci i nomi separati da virgola, ad es. Mario Crispi, Lucia"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
                   </div>
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
-                    <textarea v-model="activePhoto.date" rows="5" placeholder="Insert exact or approximate date"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
-                    <p>{{activePhoto.people}}</p>
+                <div class="swiper-container gallery-thumbs">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHERE"></lang>
+                    </div>
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHEN"></lang>
+                    </div>
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHO"></lang>
+                    </div>
                   </div>
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
-                    <textarea v-model="activePhoto.people" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
           </div>
-          <!-- slider end -->
         </div>
+      </div>
 
-        <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+      <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+        <div class="card">
+          <div class="content">
+            <div class="grid">
+              <div class="grid-item">
+                <div class="tile" v-on:click="toggleControls">
+                  <a class="slide-close"><span class="icon icon-search"></span></a>
+                  <img v-bind:src="activePhoto.images.thumbnail">
+                </div>
+              </div>
+              <div class="grid-item grid-form">
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide">
+                    <form>
+                      <h2><lang msg="PHOTO_TAG_STORY"></lang></h2>
+                      <textarea v-model="activePhoto.story" rows="6"></textarea>
+                      <div class="form-buttons">
+                        <ul>
+                          <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-          <!-- slider begin -->
+      <!--div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
+
           <div class="swiper-wrapper">
             <div class="swiper-slide swiper-slide-active">
               <div class="card">
                 <div class="content-padded">
-                  <!-- summary shown only when not active -->
+
                   <div class="summary">
                     <h2><lang msg="PHOTO_TAG_STORY"></lang></h2>
                   </div>
-                  <!-- form shown only when active -->
+
                   <form>
-                    <h2>Tell us a story about this picture</h2>
+                    <h2><lang msg="PHOTO_TAG_STORY"></h2>
                     <textarea v-model="activePhoto.story" rows="5" placeholder=""></textarea>
                     <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
           </div>
-          <!-- slider end -->
-        </div>                                                                
 
+        </div-->
+    </div>
     </div>                
    
   </script>
 
-  <script id="photo-form" type="text/x-template">
-    <div class="content">
-      <div class="grid">
-        <div class="grid-item">
-          <div class="tile" v-on:click="backToSlideshow">
-            <img v-bind:src="photo.images.thumbnail">
-          </div>
-        </div>
-        <div class="grid-item grid-form">
-          <div class="swiper-container gallery-top">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <form>
-                  <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
-                  <textarea v-model="photo.tags.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
-                  <div class="form-buttons">
-                    <ul>
-                      <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                      <li class="separator"></li>
-                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                    </ul>
-                  </div>
-                </form>
-              </div>
-              <div class="swiper-slide">
-                <form>
-                  <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
-                  <textarea v-model="photo.tags.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
-                  <div class="form-buttons">
-                    <ul>
-                      <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                      <li class="separator"></li>
-                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                    </ul>
-                  </div>
-                </form>
-              </div>
-              <div class="swiper-slide">
-                <form>
-                  <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
-                  <textarea v-model="photo.tags.people" rows="4" placeholder="Inserisci i nomi separati da virgola, ad es. Mario Crispi, Lucia"></textarea>
-                  <div class="form-buttons">
-                    <ul>
-                      <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                      <li class="separator"></li>
-                      <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
-                      <li class="separator"></li>
-                      <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                    </ul>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="swiper-container gallery-thumbs">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">
-                <lang msg="TAG_WHERE"></lang>
-              </div>
-              <div class="swiper-slide">
-                <lang msg="TAG_WHEN"></lang>
-              </div>
-              <div class="swiper-slide">
-                <lang msg="TAG_WHO"></lang>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </script>
   
   <script id="photo-grid" type="text/x-template">
     <div class="content"> 
@@ -306,7 +283,7 @@
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           <lang msg="NAV_HOME"></lang>
-        </router-link>  
+        </router-link>
         <button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
           <lang msg="OPT_ADD_PHOTO"></lang>
@@ -366,7 +343,7 @@
             </div>
 
             <div class="grid-item grid-item-center">
-              <div v-on:click="goTo('stories','choice','0')" class="img-circle"><img src="img/stories.png">
+              <div v-on:click="goTo('stories','choice','1')" class="img-circle"><img src="img/stories.png">
               </div>
               <span class="grid-item-text">
                 <div is="lang" msg="MENU_REVISIT" class="grid-item-title"></div>
@@ -396,6 +373,11 @@
         <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           <lang msg="NAV_HOME"></lang>
+        </router-link>
+        </router-link>
+        <router-link v-bind:to="{name : 'stories'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          <lang msg="STORIES"></lang>
         </router-link>
         <router-link :to="{name: 'stories', query: {create : 'select'}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
@@ -436,11 +418,39 @@
                   </div>
               </div>  
             </div>
+          </div>
       </div>      
       
       
     </div>
-  </script>  
+  </script>
+
+  <script id="no-story-grid" type="text/x-template">
+    <div class="content">
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          <lang msg="NAV_HOME"></lang>
+        </router-link>
+        <router-link v-bind:to="{name : 'stories'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          <lang msg="STORIES"></lang>
+        </router-link>
+        <h1 class="title"><lang msg="MENU_REMINISCE"></lang></h1>
+      </header>
+
+      <div class="content">
+        <div class="grid">
+          <div class="grid-item" v-for="(photo, index) in photos">
+            <div class="tile" v-on:click="openSlideShow(index)">
+              <img v-bind:src="photo.images.thumbnail">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </script>
   
   <script id="story-photo-select" type="text/x-template">
     <div class="content"> 
@@ -501,85 +511,113 @@
         </a>
 
         <ul class="photo-controls">
-          <li v-on:click="toggleCurrentControl('tag')">
-           <a><span class="icon icon-person"></span></a> 
-           </li>
           <li v-if="showStory" v-on:click="toggleCurrentControl('story')">
-           <a><span class="icon icon-edit"></span></a>
-           </li>           
-        </ul>   
+            <a><span class="icon icon-edit"></span></a>
+          </li>
+          <li v-else v-on:click="toggleCurrentControl('tag')">
+           <a><span class="icon icon-person"></span></a> 
+         </li>
+        </ul>
 
-        <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
-
-          <!-- slider begin -->
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <!-- summary shown only when not active -->
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
-                    <p>{{activePhoto.place}}</p>
-                  </div>
-                  <!-- form shown only when active -->
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
-                    <textarea v-model="activePhoto.place" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
+      <div class="tagControls photo-cards modal" v-bind:class="{active : tagControlOn}">
+        <div class="card">
+          <div class="content">
+            <div class="grid">
+              <div class="grid-item">
+                <div class="tile" v-on:click="toggleControls">
+                  <a class="slide-close"><span class="icon icon-search"></span></a>
+                  <img v-bind:src="activePhoto.images.thumbnail">
                 </div>
               </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
-                    <p>{{activePhoto.date}}</p>
+              <div class="grid-item grid-form">
+                <div class="swiper-container gallery-top">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
+                        <textarea v-model="activePhoto.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
+                        <textarea v-model="activePhoto.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="swiper-slide">
+                      <form>
+                        <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
+                        <textarea v-model="activePhoto.people" rows="4" placeholder="Inserisci i nomi separati da virgola, ad es. Mario Crispi, Lucia"></textarea>
+                        <div class="form-buttons">
+                          <ul>
+                            <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
+                            <li class="separator"></li>
+                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                          </ul>
+                        </div>
+                      </form>
+                    </div>
                   </div>
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
-                    <textarea v-model="activePhoto.date" rows="5" placeholder="Insert exact or approximate date"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="card" v-on:click="activateCard">
-                <div class="content-padded">
-                  <div class="summary">
-                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
-                    <p>{{activePhoto.people}}</p>
+                <div class="swiper-container gallery-thumbs">
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHERE"></lang>
+                    </div>
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHEN"></lang>
+                    </div>
+                    <div class="swiper-slide">
+                      <lang msg="TAG_WHO"></lang>
+                    </div>
                   </div>
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_WHO"></lang></h2>
-                    <textarea v-model="activePhoto.people" rows="5" placeholder="e.g., Trento, Italy"></textarea>
-                    <button v-on:click.stop="nextCard" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
-                    <button v-on:click.stop="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
                 </div>
               </div>
             </div>
           </div>
-          <!-- slider end -->
         </div>
+      </div>
 
         <div class="photo-cards modal" v-bind:class="{active : storyControlOn}">
-
-          <!-- slider begin -->
-          <div class="swiper-wrapper">
-            <div class="swiper-slide swiper-slide-active">
-              <div class="card">
-                <div class="content-padded">
-                  <!-- summary shown only when not active -->
-                  <div class="summary">
-                    <h2>Tell us a story about this picture</h2>
+          <div class="card">
+            <div class="content">
+              <div class="grid">
+                <div class="grid-item">
+                  <div class="tile" v-on:click="toggleControls">
+                    <a class="slide-close"><span class="icon icon-search"></span></a>
+                    <img v-bind:src="activePhoto.images.thumbnail">
                   </div>
-                  <!-- form shown only when active -->
-                  <form>
-                    <h2><lang msg="PHOTO_TAG_STORY"></h2>
-                    <textarea v-model="activePhoto.story" rows="5" placeholder=""></textarea>
-                    <button v-on:click.stop="onStorySave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button </form>
+                </div>
+                <div class="grid-item grid-form">
+                    <div class="swiper-wrapper">
+                      <div class="swiper-slide">
+                        <form>
+                          <h2><lang msg="PHOTO_TAG_STORY"></lang></h2>
+                          <textarea v-model="activePhoto.story" rows="6"></textarea>
+                          <div class="form-buttons">
+                            <ul>
+                              <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                            </ul>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -589,7 +627,7 @@
 
     </div>                
    
-  </script>   
+  </script>
    
  
   <script id="social-grid" type="text/x-template">

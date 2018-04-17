@@ -24,31 +24,40 @@ exports.slider.mixin = {
         var self = this;
         
         this.slides = new Swiper('.slideshow',{
-          paginationClickable: true,
-          pagination: '.swiper-pagination',
+          //paginationClickable: true,
+          //pagination: '.swiper-pagination',
           //initialSlide : self.initialPhoto,
           onSlideChangeEnd : function(){            
             self.onPhotoChange(self.slides.activeIndex);
           }
         });
-        
-        
+
         if (this.initialPhoto > 0) {
           this.slides.slideTo(this.initialPhoto,0);
         } else {
           this.onPhotoChange(this.slides.activeIndex);
         }
-        
       },   
       
       goBack : function(){
         console.log(this.$route);
+        var path = this.$route.name;
+        var query = this.$route.query;
+        //by default choice is 0, goes to photoGrid
+        var choice = { choice:0};
+        if (path === 'stories') {
+            if(query.useStory == '1'){
+                choice.choice=1;
+            }
+            this.$router.push({name : this.$route.name, query: choice});
+            return;
+        }
         this.$router.push({name : this.$route.name});        
       },
       
       setupSlider : function(q){
-        this.showStory = q.showStory == '1';        
-        this.initialPhoto = q.slideshow;
+        //this.showStory = q.showStory == '1';
+        this.initialPhoto = q.initialPhoto;
       }
     }
 
@@ -62,7 +71,6 @@ exports.cards.mixin = {
       return {  
         showControls : false,
         showStory : false,
-        
         tagControlEnabled : false,
         storyControlEnabled : false,        
         
@@ -70,7 +78,11 @@ exports.cards.mixin = {
           date : '',
           people : '',
           place : '',
-          story : ''
+          story : '',
+          images: {
+              standard: '',
+              thumbnail: '',
+          }
         },
         accountId : null
       };
@@ -90,17 +102,32 @@ exports.cards.mixin = {
       initCards : function(){
         if (this.isCardOn) return;
         this.isCardOn = true;
-        
+
         this.cards = new Swiper('.tagControls', {
-          slidesPerView: 3,
-          centeredSlides: true,
-          paginationClickable: true
-        });                 
+            slidesPerView: 1,
+            onlyExternal: true
+        });
+
+        this.galleryTop = new Swiper('.gallery-top', {
+            spaceBetween: 10,
+        });
+
+        this.galleryThumbs = new Swiper('.gallery-thumbs', {
+            spaceBetween: 10,
+            centeredSlides: true,
+            slidesPerView: 6,
+            touchRatio: 0.2,
+            slideToClickedSlide: true,
+        });
+
+        this.galleryTop.params.control = this.galleryThumbs;
+        this.galleryThumbs.params.control = this.galleryTop;
       },
       
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
+        this.galleryTop.slideTo(0);
       },      
       
       
@@ -114,22 +141,14 @@ exports.cards.mixin = {
           this.tagControlEnabled = true;
         }                              
       },
-      
+
       nextCard : function(){
-        if (this.cards.isEnd){
-          this.toggleControls();
-          return;
-        }        
-        console.log('next card');
-        this.cards.slideNext();
-      },
-      
-      activateCard : function(){        
-        if (this.cards.activeIndex == this.cards.clickedIndex)
-          return;
-        
-        console.log('activate card : ' + this.cards.clickedIndex);
-        this.cards.slideTo(this.cards.clickedIndex);
+        //check if there are no more form elements
+        if (this.galleryTop.isEnd){
+         return;
+        }
+        //there are more, go to the next
+        this.galleryTop.slideNext();
       },
       
       prepareCardSet : function(photo){
@@ -143,24 +162,43 @@ exports.cards.mixin = {
         
         // this is only cached during the session.
         this.activePhoto.story = photo.tags.story;
-      },    
-      
+        this.activePhoto.images = photo.images;
+
+      },
+
+      //item indicates which of the forms fields was not remembered, set as a param in the html
+      onDontKnow : function(item){
+        this.activePhoto[item] = 'Non mi ricordo';
+          this.saveTag();
+      },
+
+      onNoOne : function(){
+          this.activePhoto.people = 'Nessuno';
+          this.saveTag();
+      },
+
       onTagSave : function(){
-        var tags = {
-          place : this.activePhoto.place,
-          date  : this.activePhoto.date,
-          people : this.activePhoto.people
-        };
-        
-        Models.Photo.tag(this.activePhoto.id, tags, {
-          success : function(){
-            console.log("tagsave: saved tag");
-          },
-          error : function(){
-            console.log("tagsave: error tagging");
-          }
-        });
-        this.nextCard();        
+          alert('Dati salvati con successo');
+          this.saveTag();
+      },
+
+      saveTag : function(){
+          var photo = this.photos[this.slides.activeIndex];
+          photo.tags = {
+              place : this.activePhoto.place,
+              date  : this.activePhoto.date,
+              people : this.activePhoto.people,
+              story: this.activePhoto.story,
+          };
+          Models.Photo.tag(photo.id, photo.tags, {
+              success : function(){
+                  console.log("tagsave: saved tag");
+              },
+              error : function(){
+                  console.log("tagsave: error tagging");
+              }
+          });
+          this.nextCard();
       },
       
       onStorySave: function () {
@@ -190,7 +228,8 @@ exports.cards.mixin = {
       },
       
       setupCards : function(q){
-        this.accountId = q.accountId
+        this.accountId = q.accountId;
+        this.showStory = !q.useStory;
       }
     }
 };

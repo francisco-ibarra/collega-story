@@ -21,10 +21,15 @@ exports.Component = {
         storyControlEnabled : false,        
         
         activePhoto : {
+
           date : '',
           people : '',
           place : '',
-          story : ''
+          story : '',
+          images: {
+            standard: '',
+            thumbnail: '',
+          }
         }
       };
     },
@@ -48,8 +53,8 @@ exports.Component = {
         var self = this;
         
         this.slides = new Swiper('.slideshow',{
-          paginationClickable: true,
-          pagination: '.swiper-pagination',
+          //paginationClickable: true,
+          //pagination: '.swiper-pagination',
           //initialSlide : self.initialPhoto,
           onSlideChangeEnd : function(){
             self.onPhotoChange();
@@ -57,13 +62,24 @@ exports.Component = {
         });
         
         this.cards = new Swiper('.tagControls', {
-          slidesPerView: 3,
-          //slidesPerView: 2,
-          //spaceBetween: 30,
-          //loop: true,
-          centeredSlides: true,
-          paginationClickable: true
-        }); 
+          slidesPerView: 1,
+          onlyExternal: true
+        });
+
+          this.galleryTop = new Swiper('.gallery-top', {
+              spaceBetween: 10,
+          });
+
+          this.galleryThumbs = new Swiper('.gallery-thumbs', {
+              spaceBetween: 10,
+              centeredSlides: true,
+              slidesPerView: 6,
+              touchRatio: 0.2,
+              slideToClickedSlide: true,
+          });
+
+          this.galleryTop.params.control = this.galleryThumbs;
+          this.galleryThumbs.params.control = this.galleryTop;
         
         if (this.initialPhoto > 0) {
           this.slides.slideTo(this.initialPhoto,0);
@@ -76,6 +92,7 @@ exports.Component = {
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
+        this.galleryTop.slideTo(0);
       },
       
       toggleCurrentControl : function(current){
@@ -89,29 +106,9 @@ exports.Component = {
         }                              
       },
       
-      nextCard : function(){
-        if (this.cards.isEnd){
-          this.toggleControls();
-          return;
-        }
-        
-        console.log('next card');
-        this.cards.slideNext();
-      },
-      
-      activateCard : function(){        
-        if (this.cards.activeIndex == this.cards.clickedIndex)
-          return;
-        
-        console.log('activate card : ' + this.cards.clickedIndex);
-        this.cards.slideTo(this.cards.clickedIndex);
-      },
-      
       onPhotoChange : function(){
         var photo = this.photos[this.slides.activeIndex];
         console.log("slide changed to : " + this.slides.activeIndex);
-        
-        this.cards.slideTo(0);
  
         this.activePhoto.place = photo.tags.place;
         this.activePhoto.date = photo.tags.date;
@@ -119,7 +116,8 @@ exports.Component = {
         
         // this is only cached during the session.
         this.activePhoto.story = photo.tags.story;
-      },    
+        this.activePhoto.images = photo.images;
+      },
       
       goBack : function(){
         console.log(this.$route);
@@ -127,58 +125,55 @@ exports.Component = {
       },
       
       setupView : function(q){
-        this.showStory = q.showStory == '1';        
+        this.showStory = q.showStory;
         this.initialPhoto = q.slideshow;
       },
-      
-      onTagSave : function(){
-        var photo = this.photos[this.slides.activeIndex];
-        photo.tags = {
-          place : this.activePhoto.place,
-          date  : this.activePhoto.date,
-          people : this.activePhoto.people
-        };
-        
-        Models.Photo.tag(photo.id, photo.tags, {
-          success : function(){
-            console.log("tagsave: saved tag");
-          },
-          error : function(){
-            console.log("tagsave: error tagging");
-          }
-        });
-        this.nextCard();        
-      },
-      
-      onStorySave: function () {
-        var photo = this.photos[this.slides.activeIndex];
-        var story = {
-          photo: { 
-            id : photo.id
-          },
-          story: this.activePhoto.story,
-          from: {
-            id : this.account.id
-          }
-        };
-        
-        Models.Photo.createStory(story, {
-          success : function(){
-            console.log("storysave: saved story");
-          },
-          error : function(){
-            console.log("storysave: error saving");
-          }
-        });
-        
-        // TODO: add story to photo?>>>
-        photo.tags.story = story.story;
-        this.toggleControls();        
-      },
 
-      onShowForm: function () {
-          this.$router.push({name:'photos', query : {slideshow : this.slides.activeIndex, showForm : true}});
-      }
+        nextCard : function(){
+            //check if there are no more form elements
+            if (this.galleryTop.isEnd){
+                return;
+            }
+            //there are more, go to the next
+            this.galleryTop.slideNext();
+        },
+
+        //item indicates which of the forms fields was not remembered, set as a param in the html
+        onDontKnow : function(item){
+            this.activePhoto[item] = 'Non mi ricordo';
+            this.saveTag();
+        },
+
+        onNoOne : function(){
+            this.activePhoto.people = 'Nessuno';
+            this.saveTag();
+        },
+
+        onTagSave : function(){
+            alert('Dati salvati con successo');
+            this.saveTag();
+        },
+
+        saveTag : function(){
+            var photo = this.photos[this.slides.activeIndex];
+            photo.tags = {
+                place : this.activePhoto.place,
+                date  : this.activePhoto.date,
+                people : this.activePhoto.people,
+                story: this.activePhoto.story
+            };
+            console.log('photo in slider');
+            console.log(photo);
+            Models.Photo.tag(photo.id, photo.tags, {
+                success : function(){
+                    console.log("tagsave: saved tag");
+                },
+                error : function(){
+                    console.log("tagsave: error tagging");
+                }
+            });
+            this.nextCard();
+        },
     },
 
     // events of the component lifecycle
