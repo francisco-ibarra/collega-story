@@ -72,7 +72,8 @@ exports.cards.mixin = {
         showControls : false,
         showStory : false,
         tagControlEnabled : false,
-        storyControlEnabled : false,        
+        storyControlEnabled : false,
+        activateStory: true,
         
         activePhoto : {
           date : '',
@@ -141,6 +142,10 @@ exports.cards.mixin = {
           this.tagControlEnabled = true;
         }                              
       },
+
+        toggleStory : function(){
+            this.activateStory = !this.activateStory;
+        },
 
       nextCard : function(){
         //check if there are no more form elements

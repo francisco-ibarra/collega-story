@@ -45,14 +45,53 @@ body {
 }
 
 .swiper-slide > p {
-  bottom: 2em;
+  bottom: 1.5em;
   position: absolute;
   background: black;
   font-size: 1.5em;
   color: white;
   line-height: normal;
-  right: 2em;
+  padding-right: 2em;
+  padding-left: 0.5em;
   left: 1em;
+}
+
+.icon-tags{
+  background: #000;
+  border-radius: 50px;
+  padding: 8px;
+  position: absolute;
+  top: 100px;
+  right: 1em;
+  z-index: 11;
+}
+
+.icon-story{
+  background: #000;
+  border-radius: 50px;
+  padding: 8px;
+  position: absolute;
+  bottom: 3.2em;
+  right: 1em;
+  z-index: 11;
+}
+
+.slide-tags{
+  position: absolute;
+  right: 0em;
+  top: 100px;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  padding-right: 3em;
+}
+
+.slide-tag{
+  padding: 10px;
+  font-size: 1.5em;
+  color: white;
+  line-height: normal;
 }
 
 /* slideshow option controls */

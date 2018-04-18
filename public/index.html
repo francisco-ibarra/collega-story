@@ -136,6 +136,17 @@
           <span class="icon icon-close"></span>
         </a>
 
+        <a v-on:click.stop="toggleTags" v-if="tagsAvailable" class="icon-tags">
+          <i class="fa fa-tags" aria-hidden="true"></i>
+        </a>
+
+        <div v-if="showTags" class="slide-tags">
+          <div v-if="activePhoto.date" class="slide-tag">{{activePhoto.date}}</div>
+          <div v-if="activePhoto.place" class="slide-tag">{{activePhoto.place}}</div>
+          <div v-if="activePhoto.people" class="slide-tag">{{activePhoto.people}}</div>
+        </div>
+
+
         <ul class="photo-controls">
           <li v-on:click="toggleCurrentControl('tag')">
            <a><span class="icon icon-person"></span></a> 
@@ -498,7 +509,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="photo in photos" v-on:click="toggleControls">
           <img v-bind:src="photo.images.standard">
-          <p>{{photo.tags.story}}</p>
+          <p v-if="activateStory">{{photo.tags.story}}</p>
           </div>            
         </div>
         <!-- Add Pagination -->
@@ -509,6 +520,10 @@
         <a v-on:click.stop="goBack" class="slide-close">
           <span class="icon icon-close"></span>
         </a>
+
+      <a v-on:click.stop="toggleStory" v-if="activePhoto.story" class="icon-story">
+        <i class="fa fa-book" aria-hidden="true"></i>
+      </a>
 
         <ul class="photo-controls">
           <li v-if="showStory" v-on:click="toggleCurrentControl('story')">

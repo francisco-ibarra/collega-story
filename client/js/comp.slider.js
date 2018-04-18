@@ -16,6 +16,7 @@ exports.Component = {
         initialPhoto : 0,
         showControls : false,
         showStory : false,
+        showTags : false,
         
         tagControlEnabled : false,
         storyControlEnabled : false,        
@@ -40,6 +41,9 @@ exports.Component = {
       },
       storyControlOn : function(){
         return this.showControls && this.storyControlEnabled;
+      },
+      tagsAvailable : function(){
+        return this.activePhoto.date || this.activePhoto.people || this.activePhoto.place;
       }
     },
 
@@ -105,7 +109,11 @@ exports.Component = {
           this.tagControlEnabled = true;
         }                              
       },
-      
+
+        toggleTags : function(){
+          this.showTags = !this.showTags;
+        },
+
       onPhotoChange : function(){
         var photo = this.photos[this.slides.activeIndex];
         console.log("slide changed to : " + this.slides.activeIndex);
