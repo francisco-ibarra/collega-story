@@ -4,9 +4,11 @@ var Messages = {
 
     NAV_HOME:  "Home",
     NAV_LOGOUT:  "Esci",
+    SESSION_INFO: "Ultima sessione: Ieri alle 17",
 
+    PHOTOS: "Foto",
     MENU_PHOTOS: "Organizzare foto",
-    MENU_PHOTOS_DESC: "Aggiungi foto o metti dell'informazioni che ricordi sulle foto",
+    MENU_PHOTOS_DESC: "Aggiungi foto o aggiungi le informazioni che ricordi",
     /*form*/
       PHOTO_TAG_WHERE: "Dove è stata scattata la foto?",
       TAG_WHERE: "DOVE",
@@ -22,22 +24,22 @@ var Messages = {
 
     STORIES: "Storie",
     MENU_STORIES: "Ricordare insieme",
-    MENU_STORIES_DESC: "Rivisita vecchie foto, raccogli delle storie e condividi i racconti",
+    MENU_STORIES_DESC: "Rivedi le tue vecchie foto, raccogli delle storie e condividi i tuoi racconti",
     /*stories sub menu*/
       MENU_REMINISCE: "Raccogliere storie",
-      MENU_REMINISCE_DESC: "Raccogli storie sulle foto che non hanno ancora una storia",
+      MENU_REMINISCE_DESC: "Raccogli le storie delle foto che ancora non ce l’hanno",
 
-      MENU_REVISIT: "Rivisitare storie",
-      MENU_REVISIT_DESC: "Rivive i vecchi ricordi guardando le storie",
+      MENU_REVISIT: "Rivedere storie",
+      MENU_REVISIT_DESC: "Rivivi i vecchi ricordi guardando le tue storie",
 
       MENU_CHOOSE: "Scegliere storie",
-      MENU_CHOOSE_DESC: "Scegli delle foto per raccogliere o rivisitare storie al tuo piacere",
+      MENU_CHOOSE_DESC: "Scegli delle foto per raccogliere o rivedere storie a tuo piacere",
 
     MENU_SOCIAL:  "Messaggi e novità",
-    MENU_SOCIAL_DESC:  "Guarda cosa dicono delle tue storie ed scopri altre storie di residenti e amici",
+    MENU_SOCIAL_DESC:  "Guarda cosa dicono delle tue storie e scopri altre storie di residenti e amici",
 
     MENU_DISCOVER:  "Scoprire amici",
-    MENU_DISCOVER_DESC:  "Scopri persone interessanti e suggerimenti amici, basati su punti in comune",
+    MENU_DISCOVER_DESC:  "Scopri persone interessanti e suggerimenti di amici, basati sulle cose che avete in comune",
 
   OPT_ADD_PHOTO:  "Aggiungi Foto",
   OPT_CREATE_STORY: "Crea storia",
@@ -57,7 +59,8 @@ var Messages = {
   STORY_CREATE_BTN: "Avvia sessione",
   
   SOCIAL_TAB_YOU : "Aggiornamenti",
-  SOCIAL_TAB_FRIENDS : "Aggiornamenti da amici"
+  SOCIAL_TAB_FRIENDS : "Aggiornamenti da amici",
+  SOCIAL_TAB_RSA : "Novità in Struttura"
   
 };
 

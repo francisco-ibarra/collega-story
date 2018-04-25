@@ -170,10 +170,18 @@ var grid = {
     },
     ago: function (date) {
       return moment(date * 1000).fromNow();
+    },
+    prepareStories: function(){
+        var stories = this.stories.filter(function (item) {
+            return item.tags.story !== '';
+        });
+        this.stories = stories;
     }
   },
   created: function () {
-    this.stories = this.profile.stories;
+    //this.stories = this.profile.stories;
+    this.stories = this.profile.photos;
+    this.prepareStories();
   }
 };
 

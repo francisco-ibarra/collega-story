@@ -39,7 +39,7 @@
           <div class="profile">
             <img class="img-circle" v-bind:src="profile.profile_picture">
             <h2>{{profile.full_name}}</h2>
-            <p> Last session yesterday 4pm </p>
+            <p><lang msg="SESSION_INFO"></lang></p>
           </div>
           
           
@@ -406,17 +406,17 @@
                 <div class="flipper" v-bind:class="{hover : story.flipped}">                
                   <!--[ tile -->                                
                   <div class="tile front" v-on:click="openSlideShow(index)">
-                      <img v-bind:src="story.photo.images.standard">
+                      <img v-bind:src="story.images.standard">
                       <div class="tile-caption">
-                        <span>{{story.story}}</span>
+                        <span>{{story.tags.story}}</span>
                       </div>
                       <div class="tile-meta content-padded">
                         <span class="pull-left">
-                          <img class="tile-profile" v-bind:src="story.from.profile_picture">
+                          <img class="tile-profile" v-bind:src="story.contributor.profile_picture">
 
                         </span>
                         <span class="pull-right"> 
-                        {{story.from.full_name}}<br>
+                        {{story.contributor.full_name}}<br>
                         {{ago(story.created_time)}}
                         </span>
                       </div>  
@@ -424,7 +424,7 @@
                   <!-- tile ]-->
                   <div class="tile back" v-on:click="openSlideShow(index)">
                       <div class="tile-story">
-                       <span>{{story.story}}</span>
+                       <span>{{story.tags.story}}</span>
                       </div>  
                   </div>
               </div>  
@@ -523,6 +523,7 @@
 
       <a v-on:click.stop="toggleStory" v-if="activePhoto.story" class="icon-story">
         <i class="fa fa-book" aria-hidden="true"></i>
+        <!--i class="fa fa-file-alt" aria-hidden="true"></i-->
       </a>
 
         <ul class="photo-controls">
@@ -663,6 +664,7 @@
         <div class="segmented-control">
           <a class="control-item active"><lang msg="SOCIAL_TAB_YOU"></lang></a>
           <a class="control-item"><lang msg="SOCIAL_TAB_FRIENDS"></lang></a>
+          <a class="control-item"><lang msg="SOCIAL_TAB_RSA"></lang></a>
         </div>
       </nav>   
       
