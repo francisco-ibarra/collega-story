@@ -131,7 +131,7 @@ exports.init = function (app) {
     var query = pgp.helpers.insert(data, null, 'photos');
 
     //feed query into insert instruction
-    /*db.none(query)
+    db.none(query)
         .then(function() {
             // success;
             console.log('success');
@@ -140,7 +140,7 @@ exports.init = function (app) {
         .catch(function(error){
             // error;
             console.log('ERROR:'+error);
-        });*/
+        });
     
     res.send(photo);
 
