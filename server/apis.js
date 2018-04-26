@@ -235,7 +235,9 @@ var fnProcessUserData = function (user, data) {
     };
     person.photos.push(photo);
 
-    var storyText = item.node.edge_media_to_caption.edges[0].node.text;
+    var tempText = item.node.edge_media_to_caption.edges[0];
+
+    var storyText = tempText ? tempText.node.text : '';
 
     if (Math.random() > 0.75) {
       photo.tags.story = storyText;
