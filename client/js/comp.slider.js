@@ -19,7 +19,8 @@ exports.Component = {
         showTags : false,
         
         tagControlEnabled : false,
-        storyControlEnabled : false,        
+        storyControlEnabled : false,
+        activateStory: true,
         
         activePhoto : {
 
@@ -70,20 +71,16 @@ exports.Component = {
           onlyExternal: true
         });
 
-          this.galleryTop = new Swiper('.gallery-top', {
-              spaceBetween: 10,
-          });
+        var titles = ['DOVE', 'QUANDO', 'CHI'];
 
-          this.galleryThumbs = new Swiper('.gallery-thumbs', {
-              spaceBetween: 10,
-              centeredSlides: true,
-              slidesPerView: 6,
-              touchRatio: 0.2,
-              slideToClickedSlide: true,
-          });
-
-          this.galleryTop.params.control = this.galleryThumbs;
-          this.galleryThumbs.params.control = this.galleryTop;
+        this.swiperForm = new Swiper('.swiper-form', {
+            spaceBetween: 10,
+            pagination: '.grid-form .swiper-pagination',
+            paginationClickable: true,
+            paginationBulletRender: function (swiper, index, className) {
+                return '<span class="' + className + '">' + titles[index] + '</span>';
+            }
+        });
         
         if (this.initialPhoto > 0) {
           this.slides.slideTo(this.initialPhoto,0);
@@ -96,7 +93,7 @@ exports.Component = {
       toggleControls : function(event){
         console.log('toggle event');
         this.showControls = !this.showControls;
-        this.galleryTop.slideTo(0);
+        this.swiperForm.slideTo(0);
       },
       
       toggleCurrentControl : function(current){
@@ -109,6 +106,10 @@ exports.Component = {
           this.tagControlEnabled = true;
         }                              
       },
+
+        toggleStory : function(){
+            this.activateStory = !this.activateStory;
+        },
 
         toggleTags : function(){
           this.showTags = !this.showTags;
@@ -138,31 +139,47 @@ exports.Component = {
       },
 
         nextCard : function(){
-            //check if there are no more form elements
-            if (this.galleryTop.isEnd){
+            if (this.swiperForm.isEnd){
                 return;
             }
-            //there are more, go to the next
-            this.galleryTop.slideNext();
+            this.swiperForm.slideNext();
         },
 
         //item indicates which of the forms fields was not remembered, set as a param in the html
         onDontKnow : function(item){
             this.activePhoto[item] = 'Non mi ricordo';
-            this.saveTag();
         },
 
         onNoOne : function(){
             this.activePhoto.people = 'Nessuno';
-            this.saveTag();
         },
 
-        onTagSave : function(){
-            alert('Dati salvati con successo');
-            this.saveTag();
+        onTagSave : function(object){
+          //If any tag field is left empty
+          if (object === 'tags'){
+              if(!this.activePhoto.place || !this.activePhoto.date || !this.activePhoto.people){
+                  if(!this.activePhoto.place && !this.activePhoto.date && !this.activePhoto.people){
+                      alert('Riprova. Non sono stati inseriti dati');
+                  } else{
+                      if (confirm("Ci sono campi vuoti. Vuoi salvare i dati lo stesso?")) {
+                          this.saveTag('tags');
+                      }
+                  }
+              } else {
+                  this.saveTag('tags');
+              }
+          } else if (object === 'story'){
+              if(!this.activePhoto.story){
+                  alert('Riprova. Non sono stati inseriti dati');
+              } else {
+                  this.saveTag('story');
+              }
+          }
+
         },
 
-        saveTag : function(){
+        saveTag : function(object){
+          var self= this;
             var photo = this.photos[this.slides.activeIndex];
             photo.tags = {
                 place : this.activePhoto.place,
@@ -175,12 +192,31 @@ exports.Component = {
             Models.Photo.tag(photo.id, photo.tags, {
                 success : function(){
                     console.log("tagsave: saved tag");
+                    alert("Dati salvati con successo");
+                    self.toggleControls();
+                    if(object === 'tags'){
+                        if(!self.showTags){
+                            self.toggleTags();
+                        }
+                        //hide stories
+                        if(self.activateStory){
+                            self.toggleStory();
+                        }
+                    } else if(object === 'story'){
+                        if(!self.activateStory){
+                            self.toggleStory();
+                        }
+                        //hide tags
+                        if(self.showTags){
+                            self.toggleTags();
+                        }
+                    }
                 },
                 error : function(){
                     console.log("tagsave: error tagging");
                 }
             });
-            this.nextCard();
+            //this.nextCard();
         },
     },
 

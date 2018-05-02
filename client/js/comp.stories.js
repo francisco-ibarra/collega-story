@@ -19,6 +19,23 @@ var photoSelect = {
   props: ['photos'],
 
   methods: {
+    select: function(choice){
+      var photos = this.photos;
+      photos.forEach(function(element,index){
+        if(choice === 'all'){
+          element.selected = true;
+        } else if (choice === 'empty'){
+          if(!element.tags.story){
+            element.selected = true;
+          } else {
+            element.selected = false;
+          }
+        } else if (choice === 'clear'){
+            element.selected = false;
+        }
+        Vue.set(photos, index, element);
+      });
+    },
     selectCurrent: function (index) {
       var photo = this.photos[index];
       photo.selected = !photo.selected;
@@ -29,6 +46,17 @@ var photoSelect = {
       this.photos.forEach(function (item) {
         item.selected = false;
       });
+    },
+    startSession: function () {
+      var selected = false;
+      selected = this.photos.some(function(element){
+        return element.selected;
+      });
+      if(selected){
+        this.$router.push({name: 'stories', query : {create : 'start', showStory : true}});
+      } else {
+        alert('Riprova. Devi scegliere le foto da utilizzare');
+      }
     }
   },
   created: function () {

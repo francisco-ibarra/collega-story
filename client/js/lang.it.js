@@ -21,6 +21,13 @@ var Messages = {
       PHOTO_BTN_DONTKNOW: "Non mi ricordo",
       PHOTO_BTN_NOONE: "Nessuno",
       PHOTO_BTN_SAVE: "Salva",
+      PHOTO_BTN_DONE: "Fatto",
+  /*digitize*/
+    MENU_SNAP: "Scattare foto",
+    MENU_SNAP_DESC: "Utilizi la fotocamera del tuo dispositivo per aggiungere una nuova foto",
+
+    MENU_UPLOAD: "Selezzionare foto",
+    MENU_UPLOAD_DESC: "Scegli delle foto su quelle presenti nella galleria del tuo dispositivo",
 
     STORIES: "Storie",
     MENU_STORIES: "Ricordare insieme",
@@ -34,6 +41,10 @@ var Messages = {
 
       MENU_CHOOSE: "Scegliere storie",
       MENU_CHOOSE_DESC: "Scegli delle foto per raccogliere o rivedere storie a tuo piacere",
+      /*select options*/
+        SELECT_ALL: "Tutte",
+        SELECT_EMPTY: "Senza storia",
+        SELECT_CLEAR: "Cancella",
 
     MENU_SOCIAL:  "Messaggi e novità",
     MENU_SOCIAL_DESC:  "Guarda cosa dicono delle tue storie e scopri altre storie di residenti e amici",
@@ -60,8 +71,15 @@ var Messages = {
   
   SOCIAL_TAB_YOU : "Aggiornamenti",
   SOCIAL_TAB_FRIENDS : "Aggiornamenti da amici",
-  SOCIAL_TAB_RSA : "Novità in Struttura"
-  
+  SOCIAL_TAB_RSA : "Novità in Struttura",
+    /*Post info*/
+    /*POST_COMMENTS : " commenti nella tua foto",
+    POST_LIKES : " persone è piaciuta la tua foto"*/
+    POST_COMMENTS : " commenti",
+    POST_LIKES : " persone piace"
+
+
+
 };
 
 exports.Messages = Messages;

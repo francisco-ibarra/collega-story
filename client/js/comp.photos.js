@@ -17,6 +17,22 @@ var grid = {
   },  
 };
 
+var choices = {
+    template: "#photo-menu",
+    props: ['profile'],
+
+    methods: {
+        goTo : function(page,option,param){
+            var query = {};
+            query[option] = param;
+            this.$router.push({name:page, query: query});
+        },
+        toDo : function(){
+            alert('Spiacente. La funzionalità non è attiva in questo momento');
+        }
+    }
+};
+
 
 exports.Component = {
   template: '<component v-bind:photos="photos" v-bind:is="currentView"></component>',
@@ -29,6 +45,7 @@ exports.Component = {
   },
   components: {
     grid: grid,
+    choices: choices,
     slide: SlideShow.Component
   },
   
@@ -36,9 +53,17 @@ exports.Component = {
     resolveView : function(query){
       if (query.slideshow != undefined) {
         this.currentView = 'slide';
+      } else if (query.add != undefined){
+          this.currentView = 'choices';
+      } else if (query.choice != undefined){
+          if(query.choice == 0)
+              this.currentView = 'photoGrid';
+          else if(query.choice == 1){
+              this.currentView = 'grid';
+          }
       } else {
         this.currentView = 'grid';
-      }      
+      }
     }
   },
   

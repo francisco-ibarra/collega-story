@@ -26,21 +26,26 @@ var slide = {
 /* Social grid component */
 var grid = {
   template: "#social-grid",
-  props: ['feedback'],
+  props: ['feedback','comments','likes'],
   methods: {
     openSlideShow: function (index) {
       this.$router.push({ path : "/social", query : { slideshow : index}});
+    },
+    toDo : function(){
+        alert('Spiacente. La funzionalità non è attiva in questo momento');
     }
-  },  
+  },
 };
 
 exports.Component = {
-  template: '<component v-bind:feedback="feedback" v-bind:is="currentView"></component>',
+  template: '<component v-bind:feedback="feedback" v-bind:is="currentView" v-bind:comments="comments" v-bind:likes="likes"></component>',
   props: ['session', 'options'],
   data: function () {
     return {
       currentView: 'grid',
-      feedback: []
+      feedback: [],
+      comments: [],
+      likes: []
     };
   },
   components: {
@@ -55,6 +60,13 @@ exports.Component = {
       } else {
         this.currentView = 'grid';
       }      
+    },
+    generateCounts : function(){
+        var self = this;
+        this.feedback.forEach(function(element){
+          self.comments.push(Math.floor(Math.random() * Math.floor(5))+2);
+          self.likes.push(Math.floor(Math.random() * Math.floor(4))+2);
+        });
     }
   },
   
@@ -65,7 +77,9 @@ exports.Component = {
   },  
   
   created: function () {
-    this.feedback = this.session.getProfile().feedback;
+    //this.feedback = this.session.getProfile().feedback;
+    this.feedback = this.session.getProfile().stories;
     this.resolveView(this.options);
+    this.generateCounts();
   }
 };

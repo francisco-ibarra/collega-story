@@ -48,7 +48,8 @@
             <!--form class="home"-->              
               
               <div class="grid-item grid-item-center">
-                <div v-on:click="goTo('photos')" class="img-circle"><img src="img/photos.png">
+                <div v-on:click="goTo('photos')" class="img-circle">
+                  <img src="img/photos.png">
                 </div>
                 <span class="grid-item-text">
                   <div is="lang" msg="MENU_PHOTOS" class="grid-item-title"></div>
@@ -57,7 +58,9 @@
               </div>
               
               <div class="grid-item grid-item-center">
-                <div v-on:click="goTo('stories')" class="img-circle"><img src="img/stories.png">
+                <div v-on:click="goTo('stories')" class="img-circle">
+                  <!--img src="img/stories.png"-->
+                  <img src="img/social.png">
                 </div>
                 <span class="grid-item-text">
                   <div is="lang" msg="MENU_STORIES" class="grid-item-title"></div>
@@ -66,7 +69,8 @@
               </div>      
               
               <div class="grid-item grid-item-center">
-                <div v-on:click="goTo('social')" class="img-circle"><img src="img/social.png">
+                <div v-on:click="goTo('social')" class="img-circle">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
                 </div>
                 <span class="grid-item-text">
                   <div is="lang" msg="MENU_SOCIAL" class="grid-item-title"></div>
@@ -75,7 +79,10 @@
               </div>    
                                         
               <div class="grid-item grid-item-center">
-                <div class="img-circle"><img src="img/discover.png">
+                <div v-on:click="toDo" class="img-circle">
+                  <!--img src="img/discover.png"-->
+                  <i class="fa fa-users" aria-hidden="true"></i>
+                  <!--i class="fa fa-street-view" aria-hidden="true"></i-->
                 </div>
                 <span class="grid-item-text">
                   <div is="lang" msg="MENU_DISCOVER" class="grid-item-title"></div>
@@ -127,6 +134,7 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" v-for="photo in photos" v-on:click="toggleControls">
           <img v-bind:src="photo.images.standard">
+          <p v-if="activateStory">{{photo.tags.story}}</p>
           </div>            
         </div>
         <!-- Add Pagination -->
@@ -145,6 +153,10 @@
           <div v-if="activePhoto.place" class="slide-tag">{{activePhoto.place}}</div>
           <div v-if="activePhoto.people" class="slide-tag">{{activePhoto.people}}</div>
         </div>
+
+        <a v-on:click.stop="toggleStory" v-if="activePhoto.story" class="icon-story">
+          <i class="fa fa-book" aria-hidden="true"></i>
+        </a>
 
 
         <ul class="photo-controls">
@@ -167,18 +179,16 @@
                 </div>
               </div>
               <div class="grid-item grid-form">
-                <div class="swiper-container gallery-top">
+                <div class="swiper-container swiper-form">
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
                       <form>
                         <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                         <textarea v-model="activePhoto.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
                         <div class="form-buttons">
-                          <ul>
-                            <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                          </ul>
+                          <ul><li>
+                            <button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                          </li></ul>
                         </div>
                       </form>
                     </div>
@@ -187,11 +197,9 @@
                         <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                         <textarea v-model="activePhoto.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
                         <div class="form-buttons">
-                          <ul>
-                            <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                          </ul>
+                          <ul><li>
+                            <button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                          </li></ul>
                         </div>
                       </form>
                     </div>
@@ -204,25 +212,16 @@
                             <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
                             <li class="separator"></li>
                             <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
                           </ul>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
-                <div class="swiper-container gallery-thumbs">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHERE"></lang>
-                    </div>
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHEN"></lang>
-                    </div>
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHO"></lang>
-                    </div>
+                <div>
+                  <div class="swiper-pagination" ></div>
+                  <div class="form-done">
+                    <button v-on:click.prevent="onTagSave('tags')" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_DONE"></lang></button>
                   </div>
                 </div>
               </div>
@@ -248,9 +247,9 @@
                       <h2><lang msg="PHOTO_TAG_STORY"></lang></h2>
                       <textarea v-model="activePhoto.story" rows="6"></textarea>
                       <div class="form-buttons">
-                        <ul>
-                          <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                        </ul>
+                        <ul><li>
+                          <button v-on:click.prevent="onTagSave('story')" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button>
+                        </li></ul>
                       </div>
                     </form>
                   </div>
@@ -295,10 +294,10 @@
           <span class="icon icon-left-nav"></span>
           <lang msg="NAV_HOME"></lang>
         </router-link>
-        <button class="btn btn-link btn-nav pull-right">
+        <router-link :to="{name: 'photos', query : {'add': 'photo'}}" class="btn btn-link btn-nav pull-right">
           <span class="icon icon-plus"></span>
           <lang msg="OPT_ADD_PHOTO"></lang>
-        </button>
+        </router-link>
         <!--button class="btn btn-link btn-nav pull-right">
           <span class="icon icon-play"></span>
           Tag photos
@@ -306,13 +305,13 @@
         <h1 class="title"><lang msg="MENU_PHOTOS"></lang></h1>                        
       </header>
       
-      <nav class="bar bar-standard bar-header-secondary">
+      <!--nav class="bar bar-standard bar-header-secondary">
         <div class="segmented-control">
           <a class="control-item active"><lang msg="PHOTO_TAB_IMPORTED"></lang></a>
           <a class="control-item"><lang msg="PHOTO_TAB_TIMELINE"></lang></a>
           <a class="control-item"><lang msg="PHOTO_TAB_COLLABORATOR"></lang></a>
         </div>
-      </nav>      
+      </nav-->
       
       <div class="content">
           <div class="grid">
@@ -325,6 +324,44 @@
       </div>
       
     </div>   
+  </script>
+
+  <script id="photo-menu" type="text/x-template">
+    <div class="content">
+      <header class="bar bar-nav">
+        <router-link v-bind:to="{name : 'photos'}" class="btn btn-link btn-nav pull-left">
+          <span class="icon icon-left-nav"></span>
+          <lang msg="PHOTOS"></lang>
+        </router-link>
+        <h1 class="title"><lang msg="OPT_ADD_PHOTO"></lang></h1>
+      </header>
+      <div class="content home">
+        <div class="spring">
+          <div class="grid grid-big">
+            <div class="grid-item grid-item-center">
+              <div v-on:click="toDo" class="img-circle">
+                <!--img src="img/photos.png"-->
+                <i class="fa fa-camera" aria-hidden="true"></i>
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_SNAP" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_SNAP_DESC"></div>
+              </span>
+            </div>
+            <div class="grid-item grid-item-center">
+              <div v-on:click="toDo" class="img-circle">
+                <!--img src="img/stories.png"-->
+                <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_UPLOAD" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_UPLOAD_DESC"></div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </script>
 
 
@@ -345,29 +382,33 @@
           <div class="grid grid-big">
 
             <div class="grid-item grid-item-center">
+              <div v-on:click="goTo('stories','create','select')" class="img-circle">
+                <!--img src="img/social.png"-->
+                <i class="fa fa-th-large" aria-hidden="true"></i>
+              </div>
+              <span class="grid-item-text">
+                <div is="lang" msg="MENU_CHOOSE" class="grid-item-title"></div>
+                <div is="lang" msg="MENU_CHOOSE_DESC"></div>
+              </span>
+            </div>
+
+            <!--div class="grid-item grid-item-center">
               <div v-on:click="goTo('stories','choice','0')" class="img-circle"><img src="img/photos.png">
               </div>
               <span class="grid-item-text">
                 <div is="lang" msg="MENU_REMINISCE" class="grid-item-title"></div>
                 <div is="lang" msg="MENU_REMINISCE_DESC"></div>
               </span>
-            </div>
+            </div-->
 
             <div class="grid-item grid-item-center">
-              <div v-on:click="goTo('stories','choice','1')" class="img-circle"><img src="img/stories.png">
+              <div v-on:click="goTo('stories','choice','1')" class="img-circle">
+                <!--img src="img/stories.png"-->
+                <i class="fa fa-picture-o" aria-hidden="true"></i>
               </div>
               <span class="grid-item-text">
                 <div is="lang" msg="MENU_REVISIT" class="grid-item-title"></div>
                 <div is="lang" msg="MENU_REVISIT_DESC"></div>
-              </span>
-            </div>
-
-            <div class="grid-item grid-item-center">
-              <div v-on:click="goTo('stories','create','select')" class="img-circle"><img src="img/social.png">
-              </div>
-              <span class="grid-item-text">
-                <div is="lang" msg="MENU_CHOOSE" class="grid-item-title"></div>
-                <div is="lang" msg="MENU_CHOOSE_DESC"></div>
               </span>
             </div>
 
@@ -381,11 +422,6 @@
   <script id="story-grid" type="text/x-template">
     <div class="content"> 
       <header class="bar bar-nav">
-        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
-          <span class="icon icon-left-nav"></span>
-          <lang msg="NAV_HOME"></lang>
-        </router-link>
-        </router-link>
         <router-link v-bind:to="{name : 'stories'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           <lang msg="STORIES"></lang>
@@ -439,10 +475,6 @@
   <script id="no-story-grid" type="text/x-template">
     <div class="content">
       <header class="bar bar-nav">
-        <router-link v-bind:to="{name : 'home'}" class="btn btn-link btn-nav pull-left">
-          <span class="icon icon-left-nav"></span>
-          <lang msg="NAV_HOME"></lang>
-        </router-link>
         <router-link v-bind:to="{name : 'stories'}" class="btn btn-link btn-nav pull-left">
           <span class="icon icon-left-nav"></span>
           <lang msg="STORIES"></lang>
@@ -477,6 +509,15 @@
         <div class="content-padded">
           <h4><lang msg="STORY_CREATE_SUBTITLE"></lang>
            </h4>
+          <button v-on:click="select('clear')" class="btn btn-link btn-nav pull-right">
+            <lang msg="SELECT_CLEAR"></lang>
+          </button>
+          <button v-on:click="select('empty')" class="btn btn-link btn-nav pull-right">
+            <lang msg="SELECT_EMPTY"></lang>
+          </button>
+          <button v-on:click="select('all')" class="btn btn-link btn-nav pull-right">
+            <lang msg="SELECT_ALL"></lang>
+          </button>
         </div>
       </div>
       
@@ -493,10 +534,11 @@
       </div>      
       
       <div class="bar bar-standard bar-footer">
-        <router-link :to="{name: 'stories', query : {create : 'start', showStory : true}}"
-        class="btn btn-block btn-primary btn-outlined">
+        <!--router-link :to="{name: 'stories', query : {create : 'start', showStory : true}}"
+                     class="btn btn-block btn-primary">
         <lang msg="STORY_CREATE_BTN"></lang>
-        </router-link>
+        </router-link-->
+        <button v-on:click.prevent="startSession" class="btn btn-primary btn-block"><lang msg="STORY_CREATE_BTN""></lang></button>
       </div>      
       
     </div>  
@@ -520,6 +562,16 @@
         <a v-on:click.stop="goBack" class="slide-close">
           <span class="icon icon-close"></span>
         </a>
+
+      <a v-on:click.stop="toggleTags" v-if="tagsAvailable" class="icon-tags">
+        <i class="fa fa-tags" aria-hidden="true"></i>
+      </a>
+
+      <div v-if="showTags" class="slide-tags">
+        <div v-if="activePhoto.date" class="slide-tag">{{activePhoto.date}}</div>
+        <div v-if="activePhoto.place" class="slide-tag">{{activePhoto.place}}</div>
+        <div v-if="activePhoto.people" class="slide-tag">{{activePhoto.people}}</div>
+      </div>
 
       <a v-on:click.stop="toggleStory" v-if="activePhoto.story" class="icon-story">
         <i class="fa fa-book" aria-hidden="true"></i>
@@ -546,18 +598,16 @@
                 </div>
               </div>
               <div class="grid-item grid-form">
-                <div class="swiper-container gallery-top">
+                <div class="swiper-container swiper-form">
                   <div class="swiper-wrapper">
                     <div class="swiper-slide">
                       <form>
                         <h2><lang msg="PHOTO_TAG_WHERE"></lang></h2>
                         <textarea v-model="activePhoto.place" rows="4" placeholder= "Ad es. Roma, Italia"></textarea>
                         <div class="form-buttons">
-                          <ul>
-                            <li><button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                          </ul>
+                          <ul><li>
+                            <button v-on:click.prevent="onDontKnow('place')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                          </li></ul>
                         </div>
                       </form>
                     </div>
@@ -566,11 +616,9 @@
                         <h2><lang msg="PHOTO_TAG_WHEN"></lang></h2>
                         <textarea v-model="activePhoto.date" rows="4" placeholder="Puoi inserire anche una data approssimativa, ad es. Marzo 1991 o Anni '90"></textarea>
                         <div class="form-buttons">
-                          <ul>
-                            <li><button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
-                          </ul>
+                          <ul><li>
+                            <button v-on:click.prevent="onDontKnow('date')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button>
+                          </li></ul>
                         </div>
                       </form>
                     </div>
@@ -583,25 +631,16 @@
                             <li><button v-on:click.prevent="onDontKnow('people')" class="btn btn-block"><lang msg="PHOTO_BTN_DONTKNOW"></lang></button></li>
                             <li class="separator"></li>
                             <li><button v-on:click.prevent="onNoOne" class="btn btn-block"><lang msg="PHOTO_BTN_NOONE"></lang></button></li>
-                            <li class="separator"></li>
-                            <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
                           </ul>
                         </div>
                       </form>
                     </div>
                   </div>
                 </div>
-                <div class="swiper-container gallery-thumbs">
-                  <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHERE"></lang>
-                    </div>
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHEN"></lang>
-                    </div>
-                    <div class="swiper-slide">
-                      <lang msg="TAG_WHO"></lang>
-                    </div>
+                <div>
+                  <div class="swiper-pagination" ></div>
+                  <div class="form-done">
+                    <button v-on:click.prevent="onTagSave('tags')" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_DONE"></lang></button>
                   </div>
                 </div>
               </div>
@@ -628,7 +667,7 @@
                           <textarea v-model="activePhoto.story" rows="6"></textarea>
                           <div class="form-buttons">
                             <ul>
-                              <li><button v-on:click.prevent="onTagSave" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
+                              <li><button v-on:click.prevent="onTagSave('story')" class="btn btn-primary btn-block"><lang msg="PHOTO_BTN_SAVE"></lang></button></li>
                             </ul>
                           </div>
                         </form>
@@ -660,41 +699,54 @@
         <h1 class="title"><lang msg="MENU_SOCIAL"></lang></h1>                        
       </header>
       
-      <nav class="bar bar-standard bar-header-secondary">
+      <!--nav class="bar bar-standard bar-header-secondary">
         <div class="segmented-control">
           <a class="control-item active"><lang msg="SOCIAL_TAB_YOU"></lang></a>
           <a class="control-item"><lang msg="SOCIAL_TAB_FRIENDS"></lang></a>
           <a class="control-item"><lang msg="SOCIAL_TAB_RSA"></lang></a>
         </div>
-      </nav>   
+      </nav-->
       
       <div class="content">
           <div class="grid grid-big">
             <div class="grid-item" v-for="(item, index) in feedback">
-              <div class="tile tile-telegram tile-horizontal" v-on:click="openSlideShow(index)">
+              <div class="tile tile-telegram tile-horizontal" v-on:click="toDo">
  
                    
                     <div class="tile-item tile-photo-wrapper">
-                      <img class="tile-photo" v-bind:src="item.story.photo.images.standard">  
+                      <!--img class="tile-photo" v-bind:src="item.story.photo.images.standard"-->
+                      <img v-bind:src="item.photo.images.thumbnail">
                     </div>
 
                     <div class="tile-item tile-center">                    
-                      <div class="tile-message" v-if="item.type == 'comment'">
-                        <div><h2>Message</h2></div>
+                      <!--div class="tile-message" v-if="item.type == 'comment'"-->
+                      <div class="tile-message">
+                        <!--div><h2>Message</h2></div-->
                         <div class="msg">
                           <span>
-                          {{ item.data.text.length > 200? 
-                            item.data.text.substring(0,200) + "...":
-                            item.data.text }}
+                          {{ item.story.length > 125?
+                             item.story.substring(0,125) + "...":
+                             item.story
+                          }}
                           </span>
                         </div>                      
-                        <div>
+                        <!--div>
                           <img class="img-circle tile-profile" v-bind:src="item.data.from.profile_picture">
                           <span>{{item.data.from.full_name}}</span>
+                        </div-->
+                        <div class="counts">
+                          <span>
+                            <i class="fa fa-heart" aria-hidden="true"></i>
+                            A {{ likes[index] }}<lang msg="POST_LIKES"></lang>
+                          </span>
+                          <span>
+                            <i class="fa fa-commenting" aria-hidden="true"></i>
+                            Hai {{ comments[index] }}<lang msg="POST_COMMENTS"></lang>
+                          </span>
                         </div>
                       </div>
 
-                      <div class="tile-message" v-if="item.type == 'like'">         <div><h2>Message</h2></div>            
+                      <div class="tile-message" v-if="item.type == 'like'">         <div><h2>Message</h2></div>
                         <div class="msg">
                           <span class="icon icon-star"></span>
                           <span>I Liked your story! </span>                        
@@ -728,7 +780,7 @@
         <p class="msg" v-if="item.type == 'comment'">
           From {{item.data.from.full_name}}: 
                 <span>
-                {{ item.data.text.length > 200? 
+                {{ item.data.text.length > 200?
                   item.data.text.substring(0,200) + "...":
                   item.data.text }}
                 </span>

@@ -32,6 +32,10 @@ exports.Component = {
     
     goTo : function(page){
       this.$router.push({ name: page});
+    },
+
+    toDo : function(){
+      alert('Spiacente. Al momento non abbiamo trovato persone con interessi comuni');
     }
   },
   watch : {
