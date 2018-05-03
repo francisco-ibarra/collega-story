@@ -198,7 +198,7 @@ var fnGetUserData = function (id, cb) {
 
     var options = {
         host: 'http://happy.mateine.org',
-        path: "design4all/storygram/{0}.json".replace("{0}", 'user1')
+        path: "design4all/storygram/{0}.json".replace("{0}", id)
     };
 
     var url = options.host + "/" + options.path;
