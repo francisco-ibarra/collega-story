@@ -3,12 +3,13 @@
  * @author Marcos Baez <baez@disi.unitn.it>
  */
 var https = require("https");
+var http = require("http");
 
 exports.init = function (app) {
 
   //Postgres
   var pgp = require('pg-promise')();
-  var connectionString = process.env.DATABASE_URL || '<username>://localhost:5432/<database>';
+  var connectionString = process.env.DATABASE_URL || 'francisco://localhost:5432/storytest';
   var db = pgp(connectionString);
 
   app.post('/api/login', function (req, res) {
@@ -21,7 +22,7 @@ exports.init = function (app) {
 
     fnGetUserData(cred.username, {
       success: function (user) {
-          if (user.edge_owner_to_timeline_media.edges.length === 0) {
+        if (user.edge_owner_to_timeline_media.edges.length === 0) {
           res.status(404).send();
           return;
         }
@@ -131,7 +132,7 @@ exports.init = function (app) {
     var query = pgp.helpers.insert(data, null, 'photos');
 
     //feed query into insert instruction
-    db.none(query)
+    /*db.none(query)
         .then(function() {
             // success;
             console.log('success');
@@ -140,7 +141,7 @@ exports.init = function (app) {
         .catch(function(error){
             // error;
             console.log('ERROR:'+error);
-        });
+        });*/
     
     res.send(photo);
 
@@ -169,7 +170,7 @@ exports.init = function (app) {
  */
 var fnGetUserData = function (id, cb) {
 
-  var options = {
+  /*var options = {
     hostname: "www.instagram.com",
     path: "/{0}/".replace("{0}", id)
   };
@@ -192,7 +193,33 @@ var fnGetUserData = function (id, cb) {
 
   }).on('error', function (e) {
     if (cb.error) cb.error(e);
-  });
+  });*/
+
+
+    var options = {
+        hostname: 'http://happy.mateine.org',
+        path: "design4all/storygram/{0}.json".replace("{0}", id)
+    };
+
+    http.get(options, function (response) {
+        var body = '';
+        //body comes in chunks of data
+        response.on('data', function (d) {
+            body += d;
+        });
+        //when end event is fired, no more parts are missing
+        response.on('end', function () {
+            //body will be user data directly
+            var parsed = JSON.parse(body);
+            cb.success(parsed);
+        });
+
+    }).on('error', function (e) {
+      console.log('error here!!!');
+        console.log(e);
+        if (cb.error) cb.error(e);
+    });
+
 };
 
 
